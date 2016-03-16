@@ -17,9 +17,10 @@
 #include <cmath>
 #include <stdio.h>
 #include <random>
-
+#include <unistd.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
+
 
 #include <ResourcePath.hpp>
 #include "Layer.hpp"

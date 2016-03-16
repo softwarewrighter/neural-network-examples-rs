@@ -23,7 +23,7 @@ public:
     
     void initFFN(int nb_inputs, int nb_hidden_neurons, int nb_outputs);
     void sim(vector<float> inputs);
-    void train(vector<float> inputs, vector<float> targets);
+    void train(vector<vector<float>> inputs, vector<vector<float>> targets, float target_error);
     
     void about();
     

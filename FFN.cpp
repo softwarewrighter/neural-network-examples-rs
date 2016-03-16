@@ -26,21 +26,27 @@ void FFN::sim(vector<float> inputs){
     for(int indice = 0; indice < this->get_nb_layers(); indice++){
         this->get_layer_at(indice)->forward_propagate();
     }
-    
 }
 
-void FFN::train(vector<float> inputs, vector<float> targets){
-    layers[0]->set_inputs(inputs);
-    this->set_targets(targets);
-    for(int indice = 0; indice < this->get_nb_layers(); indice++){
-        this->get_layer_at(indice)->forward_propagate();
-        
-    }
-    for(int indice = this->get_nb_layers()-1; indice >=0; indice--){
-        this->get_layer_at(indice)->calc_deltas();
-        this->get_layer_at(indice)->calc_new_weights();
-        
-    }
+void FFN::train(vector<vector<float>> inputs, vector<vector<float>> targets, float target_error){
+    float error;
+    do{
+        error = 0;
+        for(int i=0; i<inputs.size(); i++){
+            layers[0]->set_inputs(inputs[i]);
+            this->set_targets(targets[i]);
+            for(int indice = 0; indice < this->get_nb_layers(); indice++){
+                this->get_layer_at(indice)->forward_propagate();
+                
+            }
+            error += (targets[i][0]-this->get_ffn_outputs()[0])*(targets[i][0]-this->get_ffn_outputs()[0]);
+            cout << error << endl;
+            for(int indice = this->get_nb_layers()-1; indice >=0; indice--){
+                this->get_layer_at(indice)->calc_deltas();
+                this->get_layer_at(indice)->calc_new_weights();
+            }
+        }
+    }while(error>target_error);
 }
 
 void FFN::about(){
