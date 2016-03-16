@@ -11,5 +11,5 @@ int main()
     vector<vector<float>> XOR_TAR = {{0},{1},{1},{0}};
     network->train(XOR_APP,XOR_TAR,0.0001);
     cout << "Calculation done ... Drawing graph" << endl;
-    drawFront(network, 1000);
+    drawFront(network, 1000); // requires SFML lib
 }
