@@ -1,6 +1,10 @@
 # Feed-Forward-Neural-Network
+
+
 c++ implementation of multi-layer feed forward neural networks with back propagation algorithm.
-main.cpp contains an example of XOR function learning
+main.cpp contains an example of XOR function learning.
+
+Optimization + features to be added soon.
 
 Console output for main.cpp :
 ```
@@ -15,3 +19,11 @@ XOR(0,1) = 1
 XOR(1,0) = 1
 XOR(1,1) = 0
 ```
+Visualization of non-linear discrimination for XOR :
+![alt tag](http://i.imgur.com/FcnprGb.png)
+
+
+references used :
+- http://www.cs.bham.ac.uk/~jxb/NN/l7.pdf
+- http://www.di.unito.it/~cancelli/retineu06_07/FNN.pdf
+- ESEO Data Mining Course - M. Feuilloy
