@@ -25,5 +25,6 @@
 #include <ResourcePath.hpp>
 #include "Layer.hpp"
 #include "FFN.hpp"
+#include "graphic_f.hpp"
 
 #endif /* Header_h */

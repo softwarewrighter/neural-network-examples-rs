@@ -40,7 +40,6 @@ void FFN::train(vector<vector<float>> inputs, vector<vector<float>> targets, flo
                 
             }
             error += (targets[i][0]-this->get_ffn_outputs()[0])*(targets[i][0]-this->get_ffn_outputs()[0]);
-            cout << error << endl;
             for(int indice = this->get_nb_layers()-1; indice >=0; indice--){
                 this->get_layer_at(indice)->calc_deltas();
                 this->get_layer_at(indice)->calc_new_weights();
