@@ -19,3 +19,9 @@ XOR(0,1) = 1
 XOR(1,0) = 1
 XOR(1,1) = 0
 ```
+
+
+references used :
+http://www.cs.bham.ac.uk/~jxb/NN/l7.pdf
+http://www.di.unito.it/~cancelli/retineu06_07/FNN.pdf
+ESEO Data Mining Course - M. Feuilloy
