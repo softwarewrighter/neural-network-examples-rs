@@ -1,6 +1,10 @@
 # Feed-Forward-Neural-Network
+
+
 c++ implementation of multi-layer feed forward neural networks with back propagation algorithm.
 main.cpp contains an example of XOR function learning
+
+Optimization + features to be added soon.
 
 Console output for main.cpp :
 ```
