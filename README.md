@@ -19,6 +19,8 @@ XOR(0,1) = 1
 XOR(1,0) = 1
 XOR(1,1) = 0
 ```
+Visualisation of non-linear discrimination for XOR :
+![alt tag](http://i.imgur.com/FcnprGb.png)
 
 
 references used :
