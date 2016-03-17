@@ -23,10 +23,10 @@ int main()
     DIGITnetwork->initFFN(55, 20, 10);
     //DIGITnetwork->about();
     
-    vector<vector<float>> Xapp = readMatFromFile("/Users/Alexis/Documents/SFML/Neural Networks/sfmlMac/Xapp.txt");
-    vector<vector<float>> Ta = readMatFromFile("/Users/Alexis/Documents/SFML/Neural Networks/sfmlMac/TA.txt");
-    vector<vector<float>> Xtest = readMatFromFile("/Users/Alexis/Documents/SFML/Neural Networks/sfmlMac/Xtest.txt");
-    vector<vector<float>> Tt = readMatFromFile("/Users/Alexis/Documents/SFML/Neural Networks/sfmlMac/TT.txt");
+    vector<vector<float>> Xapp = readMatFromFile("/Users/Alexis/Documents/SFML/Neural Networks/sfmlMac/samples/Xapp.txt");
+    vector<vector<float>> Ta = readMatFromFile("/Users/Alexis/Documents/SFML/Neural Networks/sfmlMac/samples/TA.txt");
+    vector<vector<float>> Xtest = readMatFromFile("/Users/Alexis/Documents/SFML/Neural Networks/sfmlMac/samples/Xtest.txt");
+    vector<vector<float>> Tt = readMatFromFile("/Users/Alexis/Documents/SFML/Neural Networks/sfmlMac/samples/TT.txt");
     
     DIGITnetwork->train_by_iteration(Xapp,Ta,1000);
     DIGITnetwork->test(Xtest,Tt);
