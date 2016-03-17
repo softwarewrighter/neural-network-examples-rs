@@ -56,3 +56,9 @@ int main()
     DIGITnetwork->test(Xtest,Tt);
     
 }
+=======
+    network->train(XOR_APP,XOR_TAR,0.0001);
+    cout << "Calculation done ... Drawing graph" << endl;
+    drawFront(network, 1000); // requires SFML lib
+}
+>>>>>>> 5f9fba6ee222a27b64a559585aaf5303324a4293
