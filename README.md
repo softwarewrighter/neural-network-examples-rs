@@ -22,7 +22,7 @@ XOR(1,0) = 1
 XOR(1,1) = 0
 ```
 Visualization of non-linear discrimination for XOR :
-![alt tag](http://i.imgur.com/FcnprGb.png)
+![alt tag](http://i.imgur.com/UkW1Qsc.png)
 
 #### Digit recognition
 Samples used can be found in _samples/*.txt_.
