@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <fstream>
 #include <string>
 #include <sstream>
 #include <deque>
@@ -18,6 +19,8 @@
 #include <stdio.h>
 #include <random>
 #include <unistd.h>
+#include <algorithm>
+#include <vector>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
@@ -26,5 +29,6 @@
 #include "Layer.hpp"
 #include "FFN.hpp"
 #include "graphic_f.hpp"
+#include "Utility.hpp"
 
 #endif /* Header_h */

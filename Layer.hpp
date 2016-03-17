@@ -23,7 +23,7 @@ public:
 
     vector<float> get_outputs(){return outputs;};
     vector<float> get_inputs(){return inputs;};
-    vector<float> get_deltas(){return deltas;}; //mdr
+    vector<float> get_deltas(){return deltas;};
     vector<vector<float>> get_weights(){return weights;};
     int get_nb_neurons(){return nb_neurons;};
     int get_indice(){return indice;};
