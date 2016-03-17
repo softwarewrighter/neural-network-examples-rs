@@ -31,13 +31,15 @@ Learning and test variables are already processed from original histogram pool t
 X* : experiences * variables
 T* : targets
 ```
-Performances of a neural network trained with 967 experiences in 55 dimensions tested with 967 unlearned inputs :
+Dicrimination result of a neural network trained with 967 experiences in 55 dimensions tested with 967 unlearned inputs :
 ```
 Stopping learning at iteration : 1000
 Correct : 902
 Incorrect : 65
 Ratio : 93.2782
 ```
+Note that performances are strongly dependent of representation choices in variable space. 
+
 
 references used :
 - http://www.cs.bham.ac.uk/~jxb/NN/l7.pdf
