@@ -25,7 +25,7 @@ Visualization of non-linear discrimination for XOR :
 ![alt tag](http://i.imgur.com/FcnprGb.png)
 
 #### Digit recognition
-Samples used can be found in samples/*.txt;
+Samples used can be found in _samples/*.txt_.
 Learning and test variables are already processed from original histogram pool through normalization and PCA projection.
 ```
 X* : experiences * variables
