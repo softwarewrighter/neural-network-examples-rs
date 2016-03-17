@@ -1,30 +1,6 @@
 
 #include "Header.h"
 
-vector<vector<float>> readMatFromFile(string str){
-    vector<vector<float>> matAPP;
-    vector<float> lineAPP;
-    float x;
-    string line;;
-    ifstream APP;
-    APP.open(str, ios::in);
-    std::vector<int> v;
-    
-    while (std::getline(APP, line))
-    {
-        std::istringstream iss(line);
-        float n;
-        while (iss >> n)
-        {
-            lineAPP.push_back(n);
-        }
-        matAPP.push_back(lineAPP);
-        lineAPP.clear();
-    }
-    
-    return matAPP;
-}
-
 int main()
 {
 
@@ -56,9 +32,3 @@ int main()
     DIGITnetwork->test(Xtest,Tt);
     
 }
-=======
-    network->train(XOR_APP,XOR_TAR,0.0001);
-    cout << "Calculation done ... Drawing graph" << endl;
-    drawFront(network, 1000); // requires SFML lib
-}
->>>>>>> 5f9fba6ee222a27b64a559585aaf5303324a4293

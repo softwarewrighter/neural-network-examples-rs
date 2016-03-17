@@ -29,6 +29,6 @@
 #include "Layer.hpp"
 #include "FFN.hpp"
 #include "graphic_f.hpp"
-#include "Utility.hpp"
+#include "utility_f.hpp"
 
 #endif /* Header_h */
