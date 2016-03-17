@@ -41,7 +41,7 @@ Ratio : 93.2782
 Note that performances are strongly dependent of representation choices in variable space. 
 
 
-references used :
+#### References
 - http://www.cs.bham.ac.uk/~jxb/NN/l7.pdf
 - http://www.di.unito.it/~cancelli/retineu06_07/FNN.pdf
 - ESEO Data Mining Course - M. Feuilloy
