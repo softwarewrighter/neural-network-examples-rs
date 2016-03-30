@@ -14,7 +14,7 @@ int main()
     
     XORnetwork->train_by_error(XOR_APP,XOR_TAR,0.0001);
     //cout << "Calculation done ... Drawing graph" << endl;
-    //drawFront(XORnetwork, 1000); // requires SFML lib
+    drawFront(XORnetwork, 1000); // requires SFML lib
     
     
     

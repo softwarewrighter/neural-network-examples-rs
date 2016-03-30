@@ -97,10 +97,9 @@ void Layer::calc_deltas(){
     }
 }
 
-
 void Layer::calc_new_weights(){
     if(indice>0){
-        float eta = 0.001;
+        float eta = 0.01;
         vector<float> prev_outputs = network->get_layer_at(indice-1)->get_outputs();
         for(int i=0;i<weights.size();i++){
             for(int j=0;j<weights[i].size();j++){
