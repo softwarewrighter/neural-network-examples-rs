@@ -43,9 +43,11 @@ mod activation;
 mod error;
 mod layer;
 mod network;
+mod persistence;
 pub mod utils;
 
 pub use activation::{Activation, Linear, Sigmoid};
 pub use error::{NeuralNetError, Result};
 pub use layer::Layer;
 pub use network::{FeedForwardNetwork, TestResults};
+pub use persistence::{NetworkCheckpoint, NetworkMetadata};

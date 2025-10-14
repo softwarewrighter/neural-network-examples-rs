@@ -1,0 +1,16 @@
+[package]
+name = "neural-net-viz"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Visualization library for neural networks - SVG rendering, training curves, and educational diagrams"
+keywords = ["neural-network", "visualization", "svg", "educational"]
+categories = ["visualization", "science"]
+
+[dependencies]
+neural-net-core = { path = "../neural-net-core" }
+
+[dev-dependencies]
+approx.workspace = true

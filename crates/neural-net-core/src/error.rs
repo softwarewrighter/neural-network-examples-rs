@@ -22,6 +22,10 @@ pub enum NeuralNetError {
     #[error("IO error: {0}")]
     IoError(#[from] std::io::Error),
 
+    /// Serialization/deserialization error
+    #[error("Serialization error: {0}")]
+    SerializationError(#[from] serde_json::Error),
+
     /// Training failed
     #[error("Training failed: {0}")]
     TrainingError(String),

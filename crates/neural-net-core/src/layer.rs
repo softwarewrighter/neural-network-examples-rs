@@ -3,12 +3,13 @@
 use crate::{NeuralNetError, Result};
 use ndarray::Array2;
 use rand::Rng;
+use serde::{Deserialize, Serialize};
 
 /// A single layer in the neural network
 ///
 /// Each layer (except the input layer) has weights connecting it to the previous layer,
 /// and maintains its inputs, outputs, and deltas for backpropagation.
-#[derive(Debug)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Layer {
     /// Layer index (0 = input, 1 = hidden, 2 = output for 3-layer network)
     pub(crate) index: usize,
@@ -62,6 +63,11 @@ impl Layer {
     /// Get the layer's deltas
     pub fn deltas(&self) -> &[f32] {
         &self.deltas
+    }
+
+    /// Get the number of neurons in this layer
+    pub fn num_neurons(&self) -> usize {
+        self.num_neurons
     }
 
     /// Get the layer's weights

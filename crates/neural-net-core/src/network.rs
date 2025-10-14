@@ -2,11 +2,12 @@
 
 use crate::layer::Layer;
 use crate::{NeuralNetError, Result};
+use serde::{Deserialize, Serialize};
 
 /// A feed-forward neural network with backpropagation
 ///
 /// This network supports a 3-layer architecture (input, hidden, output).
-#[derive(Debug)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct FeedForwardNetwork {
     /// Network layers
     layers: Vec<Layer>,
