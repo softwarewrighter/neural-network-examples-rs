@@ -15,6 +15,7 @@ This project aims to create an **educational ML platform** with:
 
 **Phase 0 Complete:** Project structure, core data types, and error handling ✓
 **Phase 2 Complete:** Forward propagation implementation ✓
+**Serialization & Visualization Complete:** Checkpointing and SVG generation ✓
 
 **Next:** Implementing backpropagation and training (Phase 3)
 
@@ -24,17 +25,18 @@ This project aims to create an **educational ML platform** with:
 - ✓ Activation functions (Sigmoid, Linear) with trait-based design
 - ✓ Layer structure with weight initialization
 - ✓ **Forward propagation** - Matrix multiplication and activation
-- ✓ Network structure (3-layer FFN skeleton)
+- ✓ Network structure (3-layer FFN)
+- ✓ **JSON Serialization** - Save/load network checkpoints with metadata
+- ✓ **SVG Visualization** - Generate network diagrams with weight visualization
 - ✓ File I/O utilities for matrix data
 - ✓ Workspace structure with `crates/` and `examples/`
-- ✓ Comprehensive test suite (20 unit tests passing)
-- ✓ Example: `examples/forward-propagation/`
+- ✓ Comprehensive test suite (28 unit tests + 4 doctests passing)
+- ✓ Example: `examples/forward-propagation/` - XOR problem with visualizations
 
 ### In Progress
 
 - Backpropagation and weight updates (Phase 3)
 - Training algorithms (by iteration, by error threshold)
-- XOR learning example
 - Digit recognition example
 
 ## Quick Start
@@ -64,29 +66,46 @@ cargo clippy -- -D warnings
 cargo doc --open
 ```
 
-### Usage (When Complete)
+### Try the XOR Example
+
+```bash
+cd examples/forward-propagation
+cargo run
+```
+
+This demonstrates forward propagation, manual weight tuning limitations, and generates visualizations!
+
+### Usage (Current Features)
 
 ```rust
-use neural_network_rs::FeedForwardNetwork;
+use neural_net_core::{FeedForwardNetwork, NetworkMetadata};
+use neural_net_viz::{NetworkVisualization, VisualizationConfig};
 
 // Create a network: 2 inputs, 4 hidden neurons, 1 output
 let mut network = FeedForwardNetwork::new(2, 4, 1);
 
-// Training data for XOR
-let inputs = vec![
-    vec![0.0, 0.0],
-    vec![0.0, 1.0],
-    vec![1.0, 0.0],
-    vec![1.0, 1.0],
-];
-let targets = vec![vec![0.0], vec![1.0], vec![1.0], vec![0.0]];
-
-// Train the network
-network.train_by_error(&inputs, &targets, 0.0001)?;
-
-// Test the network
+// Forward propagation
 let output = network.forward(&[1.0, 0.0])?;
-println!("XOR(1, 0) = {:.4}", output[0]); // Expected: ~1.0
+println!("Output: {:.4}", output[0]);
+
+// Save checkpoint with metadata
+let metadata = NetworkMetadata::initial("My XOR Network");
+network.save_checkpoint("checkpoint.json", metadata.clone())?;
+
+// Generate SVG visualization
+let config = VisualizationConfig::default();
+network.save_svg_with_metadata("network.svg", &metadata, &config)?;
+
+// Load checkpoint
+let (loaded_network, loaded_metadata) =
+    FeedForwardNetwork::load_checkpoint("checkpoint.json")?;
+```
+
+### Usage (When Backpropagation is Complete)
+
+```rust
+// Training will be available in the next phase
+network.train_by_error(&inputs, &targets, 0.0001)?;
 ```
 
 ## Project Structure
@@ -94,19 +113,33 @@ println!("XOR(1, 0) = {:.4}", output[0]); // Expected: ~1.0
 ```
 neural-network-examples-rs/
 ├── crates/
-│   └── neural-net-core/   # Core library crate (reusable components)
+│   ├── neural-net-core/   # Core library crate (algorithms & data structures)
+│   │   ├── Cargo.toml
+│   │   └── src/
+│   │       ├── lib.rs          # Public API
+│   │       ├── error.rs        # Error types
+│   │       ├── activation.rs   # Activation functions
+│   │       ├── layer.rs        # Layer implementation
+│   │       ├── network.rs      # Network implementation
+│   │       ├── persistence.rs  # Checkpointing & serialization
+│   │       └── utils/          # Utilities (file I/O, etc.)
+│   └── neural-net-viz/    # Visualization library (separate crate)
 │       ├── Cargo.toml
 │       └── src/
-│           ├── lib.rs     # Public API
-│           ├── error.rs   # Error types
-│           ├── activation.rs  # Activation functions
-│           ├── layer.rs   # Layer implementation
-│           ├── network.rs # Network implementation
-│           └── utils/     # Utilities (file I/O, etc.)
+│           └── lib.rs          # SVG generation & network visualization
 ├── examples/
-│   └── forward-propagation/   # Example: Forward propagation demonstration
+│   └── forward-propagation/   # Example: XOR with manual weight tuning
 │       ├── Cargo.toml
-│       └── src/main.rs
+│       ├── README.md          # Example documentation
+│       ├── src/main.rs
+│       ├── checkpoints/       # Generated JSON checkpoints
+│       │   ├── xor_initial.json
+│       │   ├── xor_manual_attempt1.json
+│       │   └── xor_manual_attempt2.json
+│       └── images/            # Generated SVG visualizations
+│           ├── xor_initial.svg
+│           ├── xor_manual_attempt1.svg
+│           └── xor_manual_attempt2.svg
 ├── docs/                  # Documentation (see below)
 ├── research/              # C++ reference code (gitignored artifacts)
 ├── samples/               # Training/test data
@@ -129,9 +162,12 @@ Comprehensive documentation is available in the `docs/` directory:
 ### v0.1 - Feed-Forward Network Foundation (Current)
 - ✓ Project setup and core data structures (Phase 0)
 - ✓ Forward propagation (Phase 2)
-- ⏳ Backpropagation and training (Phase 3)
+- ✓ JSON serialization and checkpointing
+- ✓ SVG visualization generation
+- ✓ XOR forward propagation example with visualizations
+- ⏳ Backpropagation and training (Phase 3) - **Next**
 - ⏳ Training algorithms (Phase 3)
-- ⏳ XOR learning example (Phase 4)
+- ⏳ XOR learning example with convergence (Phase 4)
 - ⏳ Digit recognition example (Phase 4)
 
 ### v0.2+ - Incremental ML Techniques (Future)
@@ -177,14 +213,17 @@ cargo doc --no-deps            # Documentation builds
 
 ## Dependencies
 
-Core dependencies:
+### Core Dependencies
 - `ndarray` (0.15) - Multi-dimensional arrays with BLAS integration
-- `rand` (0.8) - Random number generation
+- `rand` (0.8) - Random number generation for weight initialization
 - `thiserror` (1.0) - Ergonomic error types
+- `serde` (1.0) - Serialization framework
+- `serde_json` (1.0) - JSON serialization for checkpoints
+- `chrono` (0.4) - Timestamp generation for metadata
 
-Development dependencies:
+### Development Dependencies
 - `approx` (0.5) - Float comparison in tests
-- `criterion` (0.5) - Statistical benchmarking
+- `criterion` (0.5) - Statistical benchmarking (future use)
 
 ## Contributing
 
@@ -225,6 +264,7 @@ MIT License (see [LICENSE](LICENSE))
 
 ---
 
-**Status:** Phase 2 (Forward Propagation) complete ✓ - Phase 3 (Backpropagation) ready to begin
+**Status:** Phase 2 (Forward Propagation) + Serialization + Visualization complete ✓
+**Next:** Phase 3 (Backpropagation) ready to begin
 
 **Last Updated:** 2025-10-14
