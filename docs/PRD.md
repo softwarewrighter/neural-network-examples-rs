@@ -2,7 +2,11 @@
 
 ## Executive Summary
 
-Port the existing C++ feed-forward neural network implementation to Rust, creating a type-safe, performant, and idiomatic machine learning library. The library will maintain feature parity with the original implementation while leveraging Rust's safety guarantees and modern ecosystem.
+This project creates a comprehensive machine learning demonstration platform in Rust, starting with a port of the existing C++ feed-forward neural network. The initial release (v0.1) will establish a reusable core library with type-safe, performant implementations of fundamental ML concepts.
+
+**Long-Term Vision:** Build an educational ML platform showcasing diverse neural network architectures and techniques through incremental examples (feedforward → CNNs → RNNs → GANs → transformers, etc.). Each example includes tutorials, visualizations, and working code.
+
+**Current Focus (v0.1):** Port and enhance the C++ feedforward network implementation as the foundation for future work.
 
 **Project Name:** `neural-network-rs`
 **Version:** 0.1.0
@@ -11,13 +15,20 @@ Port the existing C++ feed-forward neural network implementation to Rust, creati
 
 ## Goals & Objectives
 
-### Primary Goals
+### Primary Goals (v0.1)
 
 1. **Feature Parity**: Replicate all functionality from the C++ implementation
 2. **Safety**: Eliminate memory safety issues through Rust's ownership system
 3. **Performance**: Match or exceed C++ performance through zero-cost abstractions
 4. **Usability**: Provide an ergonomic, well-documented API
 5. **Extensibility**: Design for future enhancements (new layers, optimizers, etc.)
+
+### Long-Term Goals (v0.2+)
+
+1. **Core Library**: Reusable data structures and algorithms for diverse ML architectures
+2. **Example Collection**: Incremental learning path from basic FFN to advanced techniques
+3. **Educational Resource**: Comprehensive tutorials, visualizations, and documentation
+4. **Community Platform**: Foster learning and contribution around ML in Rust
 
 ### Success Metrics
 
@@ -249,7 +260,45 @@ The following features are explicitly **not** included in the initial release:
 - ❌ Python bindings
 - ❌ Real-time visualization (SFML equivalent)
 
-These may be considered for future releases (v0.2+).
+These features will be added in future releases as separate example directories.
+
+## Future Roadmap (Post v0.1)
+
+### Project Structure Evolution
+
+As the project grows, it will follow this structure:
+
+```
+neural-network-rs/
+├── src/               # Core reusable library (Layer, Network, Optimizer, etc.)
+├── examples/
+│   ├── 01-feedforward/      # v0.1 - Basic FFN (XOR, digit recognition)
+│   ├── 02-optimizers/       # v0.2 - SGD, momentum, Adam
+│   ├── 03-regularization/   # v0.3 - L1/L2, dropout, early stopping
+│   ├── 04-cnn/              # v0.4 - Convolutional networks
+│   ├── 05-rnn/              # v0.5 - Recurrent networks (LSTM, GRU)
+│   ├── 06-gan/              # v0.6 - Generative adversarial networks
+│   ├── 07-transformers/     # v0.7 - Attention mechanisms
+│   └── ...                  # More as techniques evolve
+└── docs/
+    ├── tutorials/           # Step-by-step learning guides
+    └── papers/              # Reference implementations
+```
+
+Each `examples/XX-topic/` directory will contain:
+- Complete working code
+- README with theory and concepts
+- Visualizations of results
+- Performance benchmarks
+- References to papers/resources
+
+### Guiding Principles
+
+1. **Incremental Learning**: Each example builds on previous concepts
+2. **Reusable Core**: All examples use shared library components
+3. **Educational Focus**: Code is clear, well-documented, tutorial-oriented
+4. **Production Quality**: Performance and correctness remain priorities
+5. **Community Driven**: Accept contributions for new techniques/examples
 
 ## Example Usage
 

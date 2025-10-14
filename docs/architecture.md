@@ -1,8 +1,12 @@
-# Architecture - Feed-Forward Neural Network in Rust
+# Architecture - Neural Network Platform in Rust
 
 ## Overview
 
-This document describes the architecture for a Rust implementation of a multi-layer feed-forward neural network (FFN) with backpropagation. The design prioritizes type safety, zero-cost abstractions, and idiomatic Rust patterns while maintaining the mathematical clarity of the original C++ implementation.
+This document describes the architecture for a comprehensive neural network platform in Rust, beginning with a multi-layer feed-forward network (FFN) implementation. The design prioritizes type safety, zero-cost abstractions, and idiomatic Rust patterns while maintaining mathematical clarity.
+
+**Project Vision:** Create an educational ML platform with a reusable core library supporting diverse neural network architectures. Each technique/concept lives in its own example directory with tutorials and visualizations.
+
+**Current Phase (v0.1):** Implement the foundational feed-forward network as the basis for future work.
 
 ## Core Components
 
@@ -41,25 +45,87 @@ This document describes the architecture for a Rust implementation of a multi-la
 
 ### 2. Module Organization
 
+#### Current Structure (v0.1)
+
 ```
-src/
-├── lib.rs                  # Library root, re-exports public API
-├── network.rs              # FeedForwardNetwork implementation
-├── layer.rs                # Layer implementation
-├── activation.rs           # Activation functions (sigmoid, linear, etc.)
-├── trainer.rs              # Training algorithms and strategies
-├── testing.rs              # Testing and evaluation utilities
-└── utils/
-    ├── mod.rs             # Utilities module root
-    ├── file_io.rs         # Matrix file reading/writing
-    └── visualization.rs   # Optional: plotting/visualization
-examples/
-├── xor.rs                 # XOR learning example
-└── digit_recognition.rs   # Digit recognition example
-tests/
-├── integration_tests.rs   # End-to-end tests
-└── unit_tests.rs          # Component tests
+neural-network-rs/
+├── src/                    # Core reusable library
+│   ├── lib.rs             # Library root, re-exports public API
+│   ├── error.rs           # Error types (NeuralNetError, Result)
+│   ├── activation.rs      # Activation functions (trait-based)
+│   ├── layer.rs           # Layer implementation
+│   ├── network.rs         # FeedForwardNetwork implementation
+│   └── utils/
+│       ├── mod.rs         # Utilities module root
+│       └── file_io.rs     # Matrix file reading/writing
+├── examples/
+│   ├── xor.rs             # XOR learning example
+│   └── digit_recognition.rs # Digit recognition example
+├── tests/
+│   └── integration_tests.rs # End-to-end tests
+├── benches/
+│   └── training_benchmark.rs # Performance benchmarks
+├── docs/
+│   ├── architecture.md    # This document
+│   ├── PRD.md            # Product requirements
+│   ├── plan.md           # Implementation plan
+│   └── learnings.md      # Decisions and lessons learned
+└── samples/               # Training/test data
+    ├── Xapp.txt
+    ├── TA.txt
+    ├── Xtest.txt
+    └── TT.txt
 ```
+
+#### Future Structure (v0.2+)
+
+As the project evolves, examples will be organized by topic:
+
+```
+neural-network-rs/
+├── src/                    # Core library (shared by all examples)
+│   ├── lib.rs
+│   ├── layers/            # Layer types (Dense, Conv2D, LSTM, etc.)
+│   ├── optimizers/        # SGD, Adam, RMSprop, etc.
+│   ├── losses/            # MSE, CrossEntropy, etc.
+│   ├── activations/       # Sigmoid, ReLU, Tanh, etc.
+│   └── utils/
+├── examples/
+│   ├── 01-feedforward/    # Basic FFN (v0.1)
+│   │   ├── README.md      # Tutorial on FFN concepts
+│   │   ├── xor.rs
+│   │   ├── digit_recognition.rs
+│   │   └── visualize.rs   # Decision boundary plots
+│   ├── 02-optimizers/     # Advanced training (v0.2)
+│   │   ├── README.md      # Tutorial on optimizers
+│   │   ├── sgd_momentum.rs
+│   │   ├── adam.rs
+│   │   └── compare.rs     # Benchmark different optimizers
+│   ├── 03-regularization/ # Overfitting prevention (v0.3)
+│   │   ├── README.md
+│   │   ├── l1_l2.rs
+│   │   └── dropout.rs
+│   ├── 04-cnn/           # Convolutional networks (v0.4)
+│   │   ├── README.md
+│   │   ├── mnist.rs
+│   │   └── cifar10.rs
+│   └── ...               # More as project evolves
+├── docs/
+│   ├── architecture.md
+│   ├── PRD.md
+│   ├── plan.md
+│   ├── learnings.md
+│   └── tutorials/        # In-depth learning guides
+└── tests/
+    ├── integration/      # Full pipeline tests
+    └── benchmarks/       # Performance comparisons
+```
+
+**Design Principle:** Each `examples/XX-topic/` directory is self-contained with its own README, but relies on the shared `src/` library for core functionality. This allows:
+- Incremental learning (01 → 02 → 03...)
+- Code reuse across examples
+- Clear separation of concepts
+- Easy addition of new techniques
 
 ## Key Design Decisions
 
@@ -225,13 +291,92 @@ criterion = "0.5"          # Benchmarking
 - Weight updates preserve dimensions
 - Network output stability
 
+## Development Approach
+
+### Test-Driven Development (TDD)
+
+**Philosophy:** Write tests first, then implement to pass tests (Red-Green-Refactor).
+
+**Benefits:**
+- Clear behavior specification before coding
+- High test coverage by design
+- Confidence when refactoring
+- Better API design (tests expose issues early)
+
+**Example workflow for Phase 2 (Forward Propagation):**
+1. **Red:** Write test with known input/output (e.g., 2-layer network, specific weights, expected output)
+2. **Green:** Implement `Layer::calc_inputs()` and `Layer::calc_outputs()` to pass test
+3. **Refactor:** Optimize for performance (BLAS, inline functions)
+4. Repeat for edge cases (dimension mismatches, extreme values)
+
+### Continuous Integration
+
+**Local CI:** Project uses local servers for CI, not GitHub Actions.
+
+**Rationale:** Full control, no quotas, faster feedback, privacy for proprietary work.
+
+**CI Commands:**
+```bash
+cargo test              # All tests
+cargo clippy -- -D warnings  # Strict linting
+cargo fmt -- --check    # Format verification
+cargo doc --no-deps     # Documentation build
+cargo bench             # Benchmarks (Phase 5+)
+```
+
 ## Future Enhancements
 
-1. **Multiple Hidden Layers**: Generalize from 3-layer to n-layer
-2. **Activation Variants**: ReLU, Leaky ReLU, Tanh, etc.
-3. **Optimization Algorithms**: Momentum, Adam, RMSprop
-4. **Regularization**: L1/L2, dropout
-5. **Mini-batch Training**: Stochastic gradient descent
-6. **Serialization**: Save/load trained models (serde)
-7. **CLI Tool**: Command-line interface for training
-8. **GPU Support**: CUDA/OpenCL via compute shaders
+### v0.2+ Roadmap
+
+Each future release adds new techniques as example directories:
+
+1. **examples/02-optimizers/** (v0.2)
+   - SGD with momentum
+   - Adam optimizer
+   - Learning rate schedules
+   - Comparative benchmarks
+
+2. **examples/03-regularization/** (v0.3)
+   - L1/L2 regularization
+   - Dropout
+   - Early stopping
+   - Overfitting demonstrations
+
+3. **examples/04-cnn/** (v0.4)
+   - Convolutional layers in `src/layers/conv.rs`
+   - Pooling layers
+   - Image classification (MNIST, CIFAR-10)
+   - Feature visualization
+
+4. **examples/05-rnn/** (v0.5)
+   - LSTM/GRU layers in `src/layers/recurrent.rs`
+   - Time series prediction
+   - Sequence-to-sequence models
+
+5. **examples/06-gan/** (v0.6)
+   - Generative adversarial networks
+   - Image generation
+   - Style transfer
+
+6. **examples/07-transformers/** (v0.7)
+   - Attention mechanisms
+   - Multi-head attention
+   - Positional encoding
+
+### Core Library Enhancements
+
+As examples are added, the core library (`src/`) grows:
+- **Multiple Hidden Layers**: Generalize from 3-layer to n-layer
+- **Layer Types**: Dense, Conv2D, MaxPool, LSTM, Attention, etc.
+- **Optimizers**: SGD, Momentum, Adam, RMSprop, AdaGrad
+- **Loss Functions**: MSE, CrossEntropy, Hinge, etc.
+- **Activation Variants**: ReLU, Leaky ReLU, Tanh, Swish, etc.
+- **Serialization**: Save/load trained models (serde)
+- **GPU Support**: CUDA/OpenCL via compute shaders (optional)
+
+### Tooling
+
+- **CLI Tool**: Command-line interface for training networks
+- **Visualization**: Real-time training dashboards
+- **Data Utilities**: Dataset loading, augmentation, preprocessing
+- **Model Export**: ONNX format for interoperability
