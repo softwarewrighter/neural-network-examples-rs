@@ -15,7 +15,7 @@ use std::io::{BufRead, BufReader};
 /// # Examples
 ///
 /// ```no_run
-/// use neural_network_rs::utils::read_matrix_from_file;
+/// use neural_net_core::utils::read_matrix_from_file;
 ///
 /// let matrix = read_matrix_from_file("samples/Xapp.txt").unwrap();
 /// println!("Loaded matrix with {} rows", matrix.len());

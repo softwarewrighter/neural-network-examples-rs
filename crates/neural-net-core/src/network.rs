@@ -27,7 +27,7 @@ impl FeedForwardNetwork {
     /// # Examples
     ///
     /// ```
-    /// use neural_network_rs::FeedForwardNetwork;
+    /// use neural_net_core::FeedForwardNetwork;
     ///
     /// let network = FeedForwardNetwork::new(2, 4, 1);
     /// assert_eq!(network.layer_count(), 3);

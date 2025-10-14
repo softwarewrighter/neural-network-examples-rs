@@ -14,22 +14,26 @@ This project aims to create an **educational ML platform** with:
 ## Current Status: v0.1 - Foundation
 
 **Phase 0 Complete:** Project structure, core data types, and error handling ✓
+**Phase 2 Complete:** Forward propagation implementation ✓
 
-**Next:** Implementing forward propagation (Phase 2)
+**Next:** Implementing backpropagation and training (Phase 3)
 
 ### What's Implemented
 
 - ✓ Core error types (`NeuralNetError`, `Result`)
 - ✓ Activation functions (Sigmoid, Linear) with trait-based design
 - ✓ Layer structure with weight initialization
+- ✓ **Forward propagation** - Matrix multiplication and activation
 - ✓ Network structure (3-layer FFN skeleton)
 - ✓ File I/O utilities for matrix data
-- ✓ Comprehensive test suite (13 unit tests passing)
+- ✓ Workspace structure with `crates/` and `examples/`
+- ✓ Comprehensive test suite (20 unit tests passing)
+- ✓ Example: `examples/forward-propagation/`
 
 ### In Progress
 
-- Forward propagation algorithm
-- Backpropagation and training
+- Backpropagation and weight updates (Phase 3)
+- Training algorithms (by iteration, by error threshold)
 - XOR learning example
 - Digit recognition example
 
@@ -88,19 +92,25 @@ println!("XOR(1, 0) = {:.4}", output[0]); // Expected: ~1.0
 ## Project Structure
 
 ```
-neural-network-rs/
-├── src/                    # Core library (reusable components)
-│   ├── lib.rs             # Public API
-│   ├── error.rs           # Error types
-│   ├── activation.rs      # Activation functions
-│   ├── layer.rs           # Layer implementation
-│   ├── network.rs         # Network implementation
-│   └── utils/             # Utilities (file I/O, etc.)
-├── examples/              # Example programs (XOR, digit recognition)
-├── tests/                 # Integration tests
-├── benches/               # Performance benchmarks
+neural-network-examples-rs/
+├── crates/
+│   └── neural-net-core/   # Core library crate (reusable components)
+│       ├── Cargo.toml
+│       └── src/
+│           ├── lib.rs     # Public API
+│           ├── error.rs   # Error types
+│           ├── activation.rs  # Activation functions
+│           ├── layer.rs   # Layer implementation
+│           ├── network.rs # Network implementation
+│           └── utils/     # Utilities (file I/O, etc.)
+├── examples/
+│   └── forward-propagation/   # Example: Forward propagation demonstration
+│       ├── Cargo.toml
+│       └── src/main.rs
 ├── docs/                  # Documentation (see below)
-└── samples/               # Training/test data
+├── research/              # C++ reference code (gitignored artifacts)
+├── samples/               # Training/test data
+└── Cargo.toml            # Workspace configuration
 ```
 
 ## Documentation
@@ -117,11 +127,12 @@ Comprehensive documentation is available in the `docs/` directory:
 ## Roadmap
 
 ### v0.1 - Feed-Forward Network Foundation (Current)
-- ✓ Project setup and core data structures
-- ⏳ Forward propagation
-- ⏳ Backpropagation and training
-- ⏳ XOR learning example
-- ⏳ Digit recognition example
+- ✓ Project setup and core data structures (Phase 0)
+- ✓ Forward propagation (Phase 2)
+- ⏳ Backpropagation and training (Phase 3)
+- ⏳ Training algorithms (Phase 3)
+- ⏳ XOR learning example (Phase 4)
+- ⏳ Digit recognition example (Phase 4)
 
 ### v0.2+ - Incremental ML Techniques (Future)
 
@@ -214,6 +225,6 @@ MIT License (see [LICENSE](LICENSE))
 
 ---
 
-**Status:** Phase 0 complete, Phase 2 (Forward Propagation) ready to begin
+**Status:** Phase 2 (Forward Propagation) complete ✓ - Phase 3 (Backpropagation) ready to begin
 
 **Last Updated:** 2025-10-14

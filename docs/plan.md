@@ -35,7 +35,7 @@ Edit `Cargo.toml`:
 [package]
 name = "neural-network-rs"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 authors = ["Your Name <email@example.com>"]
 license = "MIT"
 description = "Feed-forward neural network with backpropagation"

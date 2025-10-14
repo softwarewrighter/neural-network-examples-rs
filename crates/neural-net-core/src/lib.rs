@@ -8,7 +8,7 @@
 //! ## Examples
 //!
 //! ```
-//! use neural_network_rs::FeedForwardNetwork;
+//! use neural_net_core::FeedForwardNetwork;
 //!
 //! // Create a network: 2 inputs, 4 hidden neurons, 1 output
 //! let network = FeedForwardNetwork::new(2, 4, 1);
@@ -18,7 +18,7 @@
 //! Full training example (when implementation is complete):
 //!
 //! ```ignore
-//! use neural_network_rs::FeedForwardNetwork;
+//! use neural_net_core::FeedForwardNetwork;
 //!
 //! let mut network = FeedForwardNetwork::new(2, 4, 1);
 //!
@@ -47,4 +47,5 @@ pub mod utils;
 
 pub use activation::{Activation, Linear, Sigmoid};
 pub use error::{NeuralNetError, Result};
+pub use layer::Layer;
 pub use network::{FeedForwardNetwork, TestResults};

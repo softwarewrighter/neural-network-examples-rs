@@ -1,20 +1,23 @@
-[package]
-name = "neural-network-rs"
+[workspace]
+resolver = "2"
+members = [
+    "crates/neural-net-core",
+    "examples/forward-propagation",
+]
+
+[workspace.package]
 version = "0.1.0"
 edition = "2024"
 authors = ["Mike <mike@softwarewrighter.com>"]
 license = "MIT"
-description = "Educational ML platform demonstrating neural network architectures and techniques through incremental examples and visualizations"
 repository = "https://github.com/softwarewrighter/neural-network-examples-rs"
-readme = "README.md"
-keywords = ["neural-network", "machine-learning", "deep-learning", "educational", "visualization"]
-categories = ["algorithms", "science"]
 
-[dependencies]
+[workspace.dependencies]
+# Shared dependencies across all crates
 ndarray = "0.15"
 rand = "0.8"
 thiserror = "1.0"
 
-[dev-dependencies]
+# Development dependencies
 approx = "0.5"
 criterion = "0.5"

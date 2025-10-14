@@ -374,9 +374,49 @@ fn activate(&self, x: f32) -> f32 { ... }
 - Watch for `unsafe_op_in_unsafe_fn` warnings (new in 2024 edition)
 - Use modern patterns: async closures, let_chains, improved temporaries
 
-### Phase 1: [To be filled in]
+### Phase 1: [Skipped - went directly to Phase 2]
 
-### Phase 2: [To be filled in]
+### Phase 2: Forward Propagation
+
+**What Worked Well:**
+- Workspace structure with `crates/` and `examples/` directories scales well
+- Separation of core library from example binaries is clean
+- Test-driven development caught matrix dimension bugs early
+- Direct C++ → Rust port was straightforward for forward propagation
+- `set_weights()` API makes testing deterministic and examples clear
+- All 20 tests passing, zero clippy warnings maintained
+
+**Challenges Overcome:**
+1. **Workspace configuration:** Learning Cargo workspace features (`workspace.dependencies`, `workspace.package`)
+   - **Solution:** Centralized dependency versions in root `Cargo.toml`
+   - Makes adding new examples trivial
+2. **Public API design:** Initial attempt exposed `weights` field directly
+   - **Solution:** Added `set_weights()` method with validation
+   - Maintains encapsulation while allowing test/example setup
+3. **Doctest failures:** Old crate name `neural_network_rs` in docs
+   - **Solution:** Global find/replace to `neural_net_core`
+   - Lesson: Update all docs immediately after refactoring
+
+**Implementation Details:**
+- **Matrix multiplication:** Implemented from scratch (no external ML libraries per project goals)
+  - `inputs[j] = sum(prev_outputs[i] * weights[i][j])` for each neuron j
+  - ndarray used only for weight storage, not computation
+- **Activation functions:** Trait-based design allows easy extension
+  - Linear for input/output layers
+  - Sigmoid for hidden layers
+- **Error handling:** Dimension validation prevents runtime panics
+
+**Code Quality:**
+- Added 5 new tests in `layer.rs` for forward propagation
+- Added 3 tests in `examples/forward-propagation/src/main.rs`
+- Example demonstrates 3 different inputs through full network
+- Documentation updated (README, architecture, learnings)
+
+**For Future Phases:**
+- Phase 3 (Backpropagation): Follow same pattern - implement in core lib, demonstrate in example
+- Consider adding `examples/03-backpropagation/` for gradient descent visualization
+- Matrix operations are currently O(n²) loops - benchmark if performance issues arise
+- Keep workspace pattern: each major concept gets its own example directory
 
 ### Phase 3: [To be filled in]
 
@@ -388,5 +428,5 @@ fn activate(&self, x: f32) -> f32 { ... }
 
 ---
 
-**Last Updated:** Phase 0 completion (2025-10-14)
-**Next Update:** After completing each phase, add lessons learned
+**Last Updated:** Phase 2 completion (2025-10-14)
+**Next Update:** After completing Phase 3 (Backpropagation), add lessons learned

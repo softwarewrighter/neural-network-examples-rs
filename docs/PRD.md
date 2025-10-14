@@ -229,7 +229,7 @@ assert_eq!(info.input_neurons, 2);
 ## Technical Constraints
 
 ### TC-1: Language & Toolchain
-- Rust 1.70+ (2021 edition)
+- Rust 1.85+ (2024 edition required)
 - Cargo for build/test/package
 - No nightly features in core library
 
