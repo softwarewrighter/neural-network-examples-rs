@@ -2,7 +2,7 @@
   "metadata": {
     "name": "XOR Network - Manual Tuning Attempt 1 - Epoch 0",
     "description": "Training checkpoint after 0 epochs",
-    "timestamp": "2025-10-14T23:29:48.750385+00:00",
+    "timestamp": "2025-10-14T23:36:44.583187+00:00",
     "epochs": 0,
     "accuracy": null,
     "custom": {}
@@ -67,17 +67,17 @@
             1
           ],
           "data": [
-            0.3513651,
-            0.42889714,
-            0.7375202,
-            0.68046856
+            0.8405242,
+            0.5688298,
+            -0.5089159,
+            0.6897354
           ]
         },
         "inputs": [
-          1.1734997
+          0.67629397
         ],
         "outputs": [
-          1.1734997
+          0.67629397
         ],
         "deltas": []
       }
