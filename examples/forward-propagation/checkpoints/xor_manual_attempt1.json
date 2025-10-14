@@ -1,0 +1,87 @@
+{
+  "metadata": {
+    "name": "XOR Network - Manual Tuning Attempt 1 - Epoch 0",
+    "description": "Training checkpoint after 0 epochs",
+    "timestamp": "2025-10-14T23:29:48.750385+00:00",
+    "epochs": 0,
+    "accuracy": null,
+    "custom": {}
+  },
+  "network": {
+    "layers": [
+      {
+        "index": 0,
+        "num_neurons": 2,
+        "weights": null,
+        "inputs": [
+          1.0,
+          1.0
+        ],
+        "outputs": [
+          1.0,
+          1.0
+        ],
+        "deltas": []
+      },
+      {
+        "index": 1,
+        "num_neurons": 4,
+        "weights": {
+          "v": 1,
+          "dim": [
+            2,
+            4
+          ],
+          "data": [
+            0.8,
+            -0.5,
+            0.6,
+            -0.3,
+            0.7,
+            -0.6,
+            0.5,
+            -0.4
+          ]
+        },
+        "inputs": [
+          1.5,
+          -1.1,
+          1.1,
+          -0.70000005
+        ],
+        "outputs": [
+          0.81757444,
+          0.24973989,
+          0.7502601,
+          0.33181223
+        ],
+        "deltas": []
+      },
+      {
+        "index": 2,
+        "num_neurons": 1,
+        "weights": {
+          "v": 1,
+          "dim": [
+            4,
+            1
+          ],
+          "data": [
+            0.3513651,
+            0.42889714,
+            0.7375202,
+            0.68046856
+          ]
+        },
+        "inputs": [
+          1.1734997
+        ],
+        "outputs": [
+          1.1734997
+        ],
+        "deltas": []
+      }
+    ],
+    "targets": null
+  }
+}

@@ -56,18 +56,38 @@ impl FeedForwardNetwork {
         self.layers.get(index)
     }
 
-    /// Forward propagation (to be implemented in Phase 2)
+    /// Get a mutable reference to a layer (for manual weight tuning examples)
+    pub fn layer_mut(&mut self, index: usize) -> Option<&mut Layer> {
+        self.layers.get_mut(index)
+    }
+
+    /// Forward propagation through the network
     pub fn forward(&mut self, inputs: &[f32]) -> Result<Vec<f32>> {
         // Validate input size
-        if inputs.len() != self.layers[0].num_neurons {
+        if inputs.len() != self.layers[0].num_neurons() {
             return Err(NeuralNetError::DimensionMismatch {
-                expected: self.layers[0].num_neurons,
+                expected: self.layers[0].num_neurons(),
                 actual: inputs.len(),
             });
         }
 
-        // TODO: Implement forward propagation in Phase 2
-        Ok(vec![0.0; self.layers.last().unwrap().num_neurons])
+        // Set inputs on input layer
+        self.layers[0].set_inputs(inputs.to_vec());
+        self.layers[0].forward_propagate(None, false)?;
+
+        // Propagate through hidden layer(s)
+        for i in 1..self.layers.len() - 1 {
+            let prev_outputs = self.layers[i - 1].outputs().to_vec();
+            self.layers[i].forward_propagate(Some(&prev_outputs), false)?;
+        }
+
+        // Propagate through output layer
+        let output_idx = self.layers.len() - 1;
+        let prev_outputs = self.layers[output_idx - 1].outputs().to_vec();
+        self.layers[output_idx].forward_propagate(Some(&prev_outputs), true)?;
+
+        // Return output layer's outputs
+        Ok(self.layers[output_idx].outputs().to_vec())
     }
 
     /// Train by iteration count (to be implemented in Phase 3)
@@ -128,15 +148,15 @@ mod tests {
         assert_eq!(net.layer_count(), 3);
 
         let layer0 = net.layer(0).unwrap();
-        assert_eq!(layer0.num_neurons, 2);
+        assert_eq!(layer0.num_neurons(), 2);
         assert!(layer0.weights().is_none());
 
         let layer1 = net.layer(1).unwrap();
-        assert_eq!(layer1.num_neurons, 4);
+        assert_eq!(layer1.num_neurons(), 4);
         assert_eq!(layer1.weights().unwrap().shape(), &[2, 4]);
 
         let layer2 = net.layer(2).unwrap();
-        assert_eq!(layer2.num_neurons, 1);
+        assert_eq!(layer2.num_neurons(), 1);
         assert_eq!(layer2.weights().unwrap().shape(), &[4, 1]);
     }
 

@@ -8,4 +8,5 @@ publish = false
 
 [dependencies]
 neural-net-core = { path = "../../crates/neural-net-core" }
+neural-net-viz = { path = "../../crates/neural-net-viz" }
 ndarray.workspace = true

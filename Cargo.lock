@@ -80,6 +80,7 @@ version = "0.1.0"
 dependencies = [
  "ndarray",
  "neural-net-core",
+ "neural-net-viz",
 ]
 
 [[package]]

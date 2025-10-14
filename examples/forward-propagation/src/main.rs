@@ -1,90 +1,182 @@
-//! Forward Propagation Example
+//! Forward Propagation Example - XOR Problem
 //!
-//! This example demonstrates forward propagation through a simple 3-layer neural network.
-//! We manually create layers, set known weights, and propagate inputs through the network
-//! to understand how information flows forward.
+//! This example demonstrates forward propagation through a neural network using the classic
+//! XOR problem. XOR is a non-linearly separable problem that cannot be solved by a simple
+//! perceptron, but requires a hidden layer.
+//!
+//! ## The XOR Problem
+//!
+//! Truth table:
+//! | Input A | Input B | Output |
+//! |---------|---------|--------|
+//! |   0.0   |   0.0   |  0.0   |
+//! |   0.0   |   1.0   |  1.0   |
+//! |   1.0   |   0.0   |  1.0   |
+//! |   1.0   |   1.0   |  0.0   |
+//!
+//! ## What This Example Teaches
+//!
+//! 1. **Network Architecture**: 2 inputs → 4 hidden neurons → 1 output
+//! 2. **Random Initialization**: Networks start with random weights
+//! 3. **Forward Propagation**: How inputs flow through layers to produce outputs
+//! 4. **Manual Tuning Limitations**: Why we need backpropagation (manual tuning is impractical)
+//! 5. **Checkpointing**: Saving network state at different stages
+//! 6. **Visualization**: SVG diagrams showing network structure and weights
+//!
+//! ## Checkpoints Generated
+//!
+//! - `checkpoints/xor_initial.json` - Random weights (untrained)
+//! - `checkpoints/xor_manual_attempt1.json` - First manual tuning attempt
+//! - `checkpoints/xor_manual_attempt2.json` - Second manual tuning attempt
+//!
+//! ## Visualizations Generated
+//!
+//! - `images/xor_initial.svg` - Initial network with random weights
+//! - `images/xor_manual_attempt1.svg` - After first manual adjustment
+//! - `images/xor_manual_attempt2.svg` - After second manual adjustment
 
-use neural_net_core::{Layer, Result};
+use neural_net_core::{FeedForwardNetwork, NetworkMetadata, Result};
+use neural_net_viz::{NetworkVisualization, VisualizationConfig};
 use ndarray::Array2;
+use std::fs;
 
 fn main() -> Result<()> {
-    println!("=== Forward Propagation Example ===\n");
+    println!("=== XOR Problem - Forward Propagation Example ===\n");
 
-    // Create a simple 3-layer network: 2 inputs -> 3 hidden -> 2 outputs
-    println!("Network Architecture:");
-    println!("  Input layer:  2 neurons");
-    println!("  Hidden layer: 3 neurons (sigmoid activation)");
-    println!("  Output layer: 2 neurons (linear activation)\n");
+    // Create output directories
+    fs::create_dir_all("checkpoints")?;
+    fs::create_dir_all("images")?;
 
-    // Create layers
-    let mut input_layer = Layer::new(0, 2, None);
-    let mut hidden_layer = Layer::new(1, 3, Some(2));
-    let mut output_layer = Layer::new(2, 2, Some(3));
+    // Define XOR training data
+    let xor_inputs = vec![
+        vec![0.0, 0.0],
+        vec![0.0, 1.0],
+        vec![1.0, 0.0],
+        vec![1.0, 1.0],
+    ];
+    let xor_targets = vec![0.0, 1.0, 1.0, 0.0];
 
-    // Set known weights for reproducible results
-    // Hidden layer weights: [2 inputs x 3 hidden neurons]
-    hidden_layer.set_weights(Array2::from_shape_vec(
-        (2, 3),
+    println!("XOR Truth Table:");
+    for (input, &target) in xor_inputs.iter().zip(&xor_targets) {
+        println!("  {} XOR {} = {}", input[0], input[1], target);
+    }
+    println!();
+
+    // Stage 1: Initial network with random weights
+    println!("--- Stage 1: Initial Network (Random Weights) ---");
+    let mut network = FeedForwardNetwork::new(2, 4, 1);
+
+    test_network(&mut network, &xor_inputs, &xor_targets, "Initial (Random)")?;
+
+    save_checkpoint(
+        &network,
+        "checkpoints/xor_initial.json",
+        "images/xor_initial.svg",
+        NetworkMetadata::initial("XOR Network"),
+    )?;
+
+    // Stage 2: Manual weight tuning attempt 1
+    // Try to improve the network by manually adjusting weights
+    // (This demonstrates why backpropagation is needed!)
+    println!("\n--- Stage 2: Manual Weight Tuning Attempt 1 ---");
+    println!("Manually adjusting weights (guessing what might work better)...");
+
+    // Access layer 1 (hidden) and manually set some weights
+    // This is a crude attempt to show manual tuning is impractical
+    network.layer_mut(1).unwrap().set_weights(Array2::from_shape_vec(
+        (2, 4),
         vec![
-            0.5, 0.3, 0.2,  // weights from input neuron 0
-            0.4, 0.6, 0.1,  // weights from input neuron 1
+            0.8, -0.5, 0.6, -0.3,   // weights from input 0
+            0.7, -0.6, 0.5, -0.4,   // weights from input 1
         ],
     ).unwrap())?;
 
-    // Output layer weights: [3 hidden x 2 output neurons]
-    output_layer.set_weights(Array2::from_shape_vec(
-        (3, 2),
-        vec![
-            0.7, 0.2,  // weights from hidden neuron 0
-            0.5, 0.4,  // weights from hidden neuron 1
-            0.3, 0.6,  // weights from hidden neuron 2
-        ],
+    test_network(&mut network, &xor_inputs, &xor_targets, "Manual Attempt 1")?;
+
+    save_checkpoint(
+        &network,
+        "checkpoints/xor_manual_attempt1.json",
+        "images/xor_manual_attempt1.svg",
+        NetworkMetadata::checkpoint("XOR Network - Manual Tuning Attempt 1", 0, None),
+    )?;
+
+    // Stage 3: Manual weight tuning attempt 2
+    println!("\n--- Stage 3: Manual Weight Tuning Attempt 2 ---");
+    println!("Trying different manual adjustments...");
+
+    // Adjust output layer weights
+    network.layer_mut(2).unwrap().set_weights(Array2::from_shape_vec(
+        (4, 1),
+        vec![1.5, -1.2, 1.3, -1.1],
     ).unwrap())?;
 
-    // Example 1: Forward propagate with input [1.0, 0.0]
-    println!("--- Example 1: Input [1.0, 0.0] ---");
-    forward_propagate_example(&mut input_layer, &mut hidden_layer, &mut output_layer, vec![1.0, 0.0])?;
+    test_network(&mut network, &xor_inputs, &xor_targets, "Manual Attempt 2")?;
 
-    // Example 2: Forward propagate with input [0.5, 0.8]
-    println!("\n--- Example 2: Input [0.5, 0.8] ---");
-    forward_propagate_example(&mut input_layer, &mut hidden_layer, &mut output_layer, vec![0.5, 0.8])?;
+    save_checkpoint(
+        &network,
+        "checkpoints/xor_manual_attempt2.json",
+        "images/xor_manual_attempt2.svg",
+        NetworkMetadata::checkpoint("XOR Network - Manual Tuning Attempt 2", 0, None),
+    )?;
 
-    // Example 3: Forward propagate with input [0.0, 1.0]
-    println!("\n--- Example 3: Input [0.0, 1.0] ---");
-    forward_propagate_example(&mut input_layer, &mut hidden_layer, &mut output_layer, vec![0.0, 1.0])?;
-
-    println!("\n=== Forward Propagation Complete ===");
+    println!("\n=== Example Complete ===");
+    println!("\nKey Takeaways:");
+    println!("1. Random weights produce random outputs (not useful)");
+    println!("2. Manual weight tuning is impractical (too many weights, complex interactions)");
+    println!("3. We need an automatic learning algorithm → Backpropagation!");
+    println!("\nGenerated files:");
+    println!("  - checkpoints/xor_*.json (network state)");
+    println!("  - images/xor_*.svg (visualizations)");
+    println!("\nNext example will implement backpropagation for automatic learning.");
 
     Ok(())
 }
 
-/// Perform forward propagation through the network with given inputs
-fn forward_propagate_example(
-    input_layer: &mut Layer,
-    hidden_layer: &mut Layer,
-    output_layer: &mut Layer,
-    inputs: Vec<f32>,
+/// Test the network on XOR inputs and display results
+fn test_network(
+    network: &mut FeedForwardNetwork,
+    inputs: &[Vec<f32>],
+    targets: &[f32],
+    stage_name: &str,
 ) -> Result<()> {
-    println!("Input: {:?}", inputs);
+    println!("Testing: {}", stage_name);
+    println!("  Input    Target  Output   Error");
+    println!("  -------  ------  -------  -------");
 
-    // Set inputs to input layer
-    input_layer.set_inputs(inputs.clone());
-    input_layer.forward_propagate(None, false)?;
-    println!("Input layer outputs: {:?}", input_layer.outputs());
+    let mut total_error = 0.0;
 
-    // Propagate through hidden layer
-    hidden_layer.forward_propagate(Some(input_layer.outputs()), false)?;
-    println!("Hidden layer inputs:  {:?}",
-        hidden_layer.inputs().iter().map(|&x| format!("{:.4}", x)).collect::<Vec<_>>());
-    println!("Hidden layer outputs: {:?}",
-        hidden_layer.outputs().iter().map(|&x| format!("{:.4}", x)).collect::<Vec<_>>());
+    for (input, &target) in inputs.iter().zip(targets) {
+        let output = network.forward(input)?;
+        let error = (output[0] - target).abs();
+        total_error += error;
 
-    // Propagate through output layer
-    output_layer.forward_propagate(Some(hidden_layer.outputs()), true)?;
-    println!("Output layer inputs:  {:?}",
-        output_layer.inputs().iter().map(|&x| format!("{:.4}", x)).collect::<Vec<_>>());
-    println!("Output layer outputs: {:?}",
-        output_layer.outputs().iter().map(|&x| format!("{:.4}", x)).collect::<Vec<_>>());
+        println!(
+            "  [{}, {}]   {:.1}     {:.4}   {:.4}",
+            input[0], input[1], target, output[0], error
+        );
+    }
+
+    let mean_error = total_error / inputs.len() as f32;
+    println!("  Mean Absolute Error: {:.4}", mean_error);
+
+    Ok(())
+}
+
+/// Save network checkpoint and visualization
+fn save_checkpoint(
+    network: &FeedForwardNetwork,
+    checkpoint_path: &str,
+    svg_path: &str,
+    metadata: NetworkMetadata,
+) -> Result<()> {
+    // Save JSON checkpoint
+    network.save_checkpoint(checkpoint_path, metadata.clone())?;
+    println!("  ✓ Saved checkpoint: {}", checkpoint_path);
+
+    // Generate and save SVG visualization
+    let config = VisualizationConfig::default();
+    network.save_svg_with_metadata(svg_path, &metadata, &config)?;
+    println!("  ✓ Saved visualization: {}", svg_path);
 
     Ok(())
 }
@@ -94,105 +186,66 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_forward_propagation_specific_input() {
-        // Create layers
-        let mut input_layer = Layer::new(0, 2, None);
-        let mut hidden_layer = Layer::new(1, 3, Some(2));
-        let mut output_layer = Layer::new(2, 2, Some(3));
+    fn test_forward_propagation_xor() {
+        let mut network = FeedForwardNetwork::new(2, 4, 1);
 
-        // Set known weights
-        hidden_layer.set_weights(Array2::from_shape_vec(
-            (2, 3),
-            vec![0.5, 0.3, 0.2, 0.4, 0.6, 0.1],
-        ).unwrap()).unwrap();
+        // Test that network can process all XOR inputs
+        let xor_inputs = vec![
+            vec![0.0, 0.0],
+            vec![0.0, 1.0],
+            vec![1.0, 0.0],
+            vec![1.0, 1.0],
+        ];
 
-        output_layer.set_weights(Array2::from_shape_vec(
-            (3, 2),
-            vec![0.7, 0.2, 0.5, 0.4, 0.3, 0.6],
-        ).unwrap()).unwrap();
-
-        // Test with input [1.0, 0.0]
-        input_layer.set_inputs(vec![1.0, 0.0]);
-        input_layer.forward_propagate(None, false).unwrap();
-
-        hidden_layer.forward_propagate(Some(input_layer.outputs()), false).unwrap();
-
-        // Expected hidden inputs: [1.0*0.5 + 0.0*0.4, 1.0*0.3 + 0.0*0.6, 1.0*0.2 + 0.0*0.1]
-        //                        = [0.5, 0.3, 0.2]
-        assert!((hidden_layer.inputs()[0] - 0.5).abs() < 1e-6);
-        assert!((hidden_layer.inputs()[1] - 0.3).abs() < 1e-6);
-        assert!((hidden_layer.inputs()[2] - 0.2).abs() < 1e-6);
-
-        // Hidden outputs should be sigmoid([0.5, 0.3, 0.2])
-        // sigmoid(0.5) ≈ 0.6225, sigmoid(0.3) ≈ 0.5744, sigmoid(0.2) ≈ 0.5498
-        assert!((hidden_layer.outputs()[0] - 0.6225).abs() < 1e-3);
-        assert!((hidden_layer.outputs()[1] - 0.5744).abs() < 1e-3);
-        assert!((hidden_layer.outputs()[2] - 0.5498).abs() < 1e-3);
-
-        output_layer.forward_propagate(Some(hidden_layer.outputs()), true).unwrap();
-
-        // Output should have 2 values
-        assert_eq!(output_layer.outputs().len(), 2);
+        for input in &xor_inputs {
+            let output = network.forward(input).unwrap();
+            assert_eq!(output.len(), 1, "Should have 1 output");
+            // With random weights, just verify we get some output
+            assert!(!output[0].is_nan(), "Output should not be NaN");
+        }
     }
 
     #[test]
-    fn test_multiple_forward_passes() {
-        let mut input_layer = Layer::new(0, 2, None);
-        let mut hidden_layer = Layer::new(1, 2, Some(2));
-        let mut output_layer = Layer::new(2, 1, Some(2));
+    fn test_checkpoint_save_load() {
+        use std::env;
 
-        // Set simple weights for testing
-        hidden_layer.set_weights(Array2::from_shape_vec(
-            (2, 2),
-            vec![2.0, 0.5, 0.5, 2.0], // Non-identity weights for more variation
-        ).unwrap()).unwrap();
+        let network = FeedForwardNetwork::new(2, 3, 1);
+        let metadata = NetworkMetadata::initial("Test Network");
+        let temp_path = env::temp_dir().join("test_checkpoint.json");
 
-        output_layer.set_weights(Array2::from_shape_vec(
-            (2, 1),
-            vec![1.0, -1.0], // Difference between hidden outputs
-        ).unwrap()).unwrap();
+        // Save checkpoint
+        network.save_checkpoint(&temp_path, metadata.clone()).unwrap();
 
-        // First pass with [1.0, 0.0]
-        input_layer.set_inputs(vec![1.0, 0.0]);
-        input_layer.forward_propagate(None, false).unwrap();
-        hidden_layer.forward_propagate(Some(input_layer.outputs()), false).unwrap();
-        output_layer.forward_propagate(Some(hidden_layer.outputs()), true).unwrap();
+        // Load checkpoint
+        let (loaded_network, loaded_metadata) =
+            FeedForwardNetwork::load_checkpoint(&temp_path).unwrap();
 
-        let output1 = output_layer.outputs()[0];
+        // Verify same architecture
+        assert_eq!(loaded_network.layer_count(), network.layer_count());
+        assert_eq!(loaded_metadata.name, metadata.name);
 
-        // Second pass with [0.0, 1.0] (opposite input)
-        input_layer.set_inputs(vec![0.0, 1.0]);
-        input_layer.forward_propagate(None, false).unwrap();
-        hidden_layer.forward_propagate(Some(input_layer.outputs()), false).unwrap();
-        output_layer.forward_propagate(Some(hidden_layer.outputs()), true).unwrap();
-
-        let output2 = output_layer.outputs()[0];
-
-        // Outputs should be different for different inputs
-        assert!((output1 - output2).abs() > 0.01,
-            "Expected significant difference between outputs, got |{} - {}| = {}",
-            output1, output2, (output1 - output2).abs());
+        // Cleanup
+        std::fs::remove_file(temp_path).ok();
     }
 
     #[test]
-    fn test_linear_activation_output_layer() {
-        // Create an input layer and output layer to test linear activation
-        let mut input_layer = Layer::new(0, 3, None);
-        let mut output_layer = Layer::new(2, 2, Some(3));
+    fn test_svg_generation() {
+        use std::env;
 
-        // Set inputs on input layer
-        input_layer.set_inputs(vec![0.5, -0.3, 0.8]);
-        input_layer.forward_propagate(None, false).unwrap();
+        let network = FeedForwardNetwork::new(2, 4, 1);
+        let config = VisualizationConfig::default();
+        let temp_path = env::temp_dir().join("test_network.svg");
 
-        output_layer.set_weights(Array2::from_shape_vec(
-            (3, 2),
-            vec![1.0, 0.0, 0.0, 1.0, 0.0, 0.0],
-        ).unwrap()).unwrap();
+        // Save SVG
+        network.save_svg(&temp_path, &config).unwrap();
 
-        output_layer.forward_propagate(Some(input_layer.outputs()), true).unwrap();
+        // Verify file exists and contains SVG
+        let content = std::fs::read_to_string(&temp_path).unwrap();
+        assert!(content.contains("<svg"));
+        assert!(content.contains("neurons"));
+        assert!(content.contains("connections"));
 
-        // Output layer should use linear activation
-        // So outputs == inputs (no sigmoid transformation)
-        assert_eq!(output_layer.outputs(), output_layer.inputs());
+        // Cleanup
+        std::fs::remove_file(temp_path).ok();
     }
 }
