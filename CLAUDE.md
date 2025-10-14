@@ -144,17 +144,21 @@ fn test_forward_pass_known_weights() {
 ### Code Quality Standards
 
 - **Zero clippy warnings** (enforced in local CI) - MANDATORY before commits
-- **Rust 2021 edition** - Use modern idioms, follow latest stable edition patterns
+- **Rust 2024 edition** - Use modern idioms, follow latest stable edition patterns
 - **Consistent formatting** (rustfmt) - Auto-format before reviewing
 - **100% public API documentation** (rustdoc with examples)
 - **No `unsafe` code** in library (Phase 1-4)
 - **Result-based error handling** (no panics)
 
 **Clippy compliance:** Pay special attention to:
-- Edition-specific lints (Rust 2021 patterns)
-- Ownership and borrowing warnings
-- Performance lints (unnecessary clones, allocations)
-- API design lints (needless_pass_by_value, etc.)
+- **Edition-specific lints (Rust 2024):**
+  - `unsafe_op_in_unsafe_fn` - Enabled by default in 2024, constrains unsafe to smallest scope
+  - `collapsible_if` with let_chains - Edition 2024 gated
+  - Improved temporary variable handling
+  - Enhanced match pattern rules
+- **Ownership and borrowing warnings**
+- **Performance lints** (unnecessary clones, allocations)
+- **API design lints** (needless_pass_by_value, etc.)
 
 ### File Organization for Future Phases
 

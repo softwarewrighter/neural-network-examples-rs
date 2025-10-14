@@ -124,12 +124,21 @@ cargo bench                     # Run benchmarks (Phase 5+)
 
 ### Rust Edition and Code Style
 
-**Decision:** Use Rust 2021 edition with modern idioms.
+**Decision:** Use Rust 2024 edition with latest modern idioms.
 
 **Requirements:**
-- **Edition:** 2021 (latest stable) specified in `Cargo.toml`
+- **Edition:** 2024 (released Feb 2025 with Rust 1.85.0) specified in `Cargo.toml`
 - **Zero clippy warnings:** Enforced in local CI with `-D warnings` flag
-- **Modern patterns:** Follow Rust 2021 idioms and best practices
+- **Modern patterns:** Follow Rust 2024 idioms and best practices
+
+**Rust 2024 Edition Key Features:**
+- **unsafe_op_in_unsafe_fn:** Enabled by default - constrains unsafe actions to smallest scope
+- **Async closures:** `async || {}` syntax for native async concurrency
+- **Reserved `gen` keyword:** For future async generator support
+- **Improved temporary handling:** Better lifetime management for temporary variables
+- **Enhanced match patterns:** More ergonomic pattern matching
+- **Unsafe block improvements:** Clearer unsafe boundaries
+- **Cargo rust-version aware:** Better dependency resolution
 
 **Key Patterns to Follow:**
 ```rust
@@ -159,8 +168,10 @@ fn activate(&self, x: f32) -> f32 { ... }
 ```
 
 **Common Clippy Warnings to Watch:**
+- `unsafe_op_in_unsafe_fn` - **Rust 2024 default:** Use nested `unsafe {}` blocks within unsafe functions
 - `dead_code` - Mark unused code with `#[allow(dead_code)]` if intentional (with comment explaining why)
 - `vec_init_then_push` - Use `vec![]` macro instead of push pattern
+- `collapsible_if` with let_chains - **Edition 2024 gated:** Use let_chains for cleaner conditionals
 - `needless_pass_by_value` - Use `&self` when appropriate
 - `unnecessary_wraps` - Don't wrap Result if never fails
 - `missing_docs` - Document all public APIs
@@ -168,9 +179,10 @@ fn activate(&self, x: f32) -> f32 { ... }
 
 **Why This Matters:**
 - Clippy catches common mistakes and anti-patterns
-- Edition 2021 provides latest language improvements
+- **Edition 2024** provides latest language improvements (async closures, improved safety)
 - Consistent style improves maintainability
 - Following idioms makes code more familiar to Rust developers
+- **Rust 2024 specifically** improves safety boundaries and async ergonomics
 
 ### Why Rust?
 
@@ -356,9 +368,11 @@ fn activate(&self, x: f32) -> f32 { ... }
 
 **For Future Phases:**
 - Always run `cargo clippy -- -D warnings` before committing
-- Use Rust 2021 idioms (check clippy suggestions)
+- Use **Rust 2024 idioms** (check clippy suggestions, especially edition-specific lints)
 - Add `#[allow(dead_code)]` with explanation for intentionally unused code
 - Test edge cases (dimension mismatches, extreme values)
+- Watch for `unsafe_op_in_unsafe_fn` warnings (new in 2024 edition)
+- Use modern patterns: async closures, let_chains, improved temporaries
 
 ### Phase 1: [To be filled in]
 
