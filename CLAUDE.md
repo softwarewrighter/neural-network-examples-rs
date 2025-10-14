@@ -2,6 +2,21 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## ⚠️ CRITICAL: Iteration Workflow
+
+**BEFORE starting ANY work:**
+1. **READ `docs/learnings.md`** - Review all lessons learned from previous phases
+2. Check for specific warnings about past mistakes to avoid
+3. Note any project-specific patterns or decisions
+
+**AFTER completing ANY work:**
+1. **UPDATE `docs/learnings.md`** in the relevant phase section
+2. Document what worked well, what didn't, and why
+3. Add specific warnings for future iterations to prevent repeating mistakes
+4. Include code examples of correct vs incorrect patterns if relevant
+
+**Purpose:** This ensures continuous learning and prevents repeatedly making the same mistakes across sessions. Treat `docs/learnings.md` as the project's institutional memory.
+
 ## Project Overview
 
 This is an **educational ML demonstration platform** built in Rust, starting with a feed-forward neural network port from C++. The goal is to create a comprehensive learning resource with:
@@ -128,11 +143,18 @@ fn test_forward_pass_known_weights() {
 
 ### Code Quality Standards
 
-- **Zero clippy warnings** (enforced in local CI)
-- **Consistent formatting** (rustfmt)
+- **Zero clippy warnings** (enforced in local CI) - MANDATORY before commits
+- **Rust 2021 edition** - Use modern idioms, follow latest stable edition patterns
+- **Consistent formatting** (rustfmt) - Auto-format before reviewing
 - **100% public API documentation** (rustdoc with examples)
 - **No `unsafe` code** in library (Phase 1-4)
 - **Result-based error handling** (no panics)
+
+**Clippy compliance:** Pay special attention to:
+- Edition-specific lints (Rust 2021 patterns)
+- Ownership and borrowing warnings
+- Performance lints (unnecessary clones, allocations)
+- API design lints (needless_pass_by_value, etc.)
 
 ### File Organization for Future Phases
 
@@ -197,10 +219,10 @@ See `docs/plan.md` for detailed phase breakdown.
 ## Documentation References
 
 **Before implementing features, read:**
+- **`docs/learnings.md`** - ⚠️ READ FIRST - Past mistakes, lessons learned, patterns to follow/avoid
 - `docs/architecture.md` - Technical architecture, design decisions, algorithms
 - `docs/plan.md` - 6-phase implementation plan with code snippets and C++ mappings
 - `docs/PRD.md` - Requirements, success metrics, future roadmap
-- `docs/learnings.md` - Key decisions (TDD, local CI, project vision)
 
 **For specific topics:**
 - Error types: `src/error.rs`

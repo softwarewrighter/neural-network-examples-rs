@@ -122,6 +122,56 @@ cargo bench                     # Run benchmarks (Phase 5+)
 
 ## Technical Decisions
 
+### Rust Edition and Code Style
+
+**Decision:** Use Rust 2021 edition with modern idioms.
+
+**Requirements:**
+- **Edition:** 2021 (latest stable) specified in `Cargo.toml`
+- **Zero clippy warnings:** Enforced in local CI with `-D warnings` flag
+- **Modern patterns:** Follow Rust 2021 idioms and best practices
+
+**Key Patterns to Follow:**
+```rust
+// ✅ CORRECT: Use vec![] macro (clippy: vec_init_then_push)
+let layers = vec![
+    Layer::new(0, input_size, None),
+    Layer::new(1, hidden_size, Some(input_size)),
+    Layer::new(2, output_size, Some(hidden_size)),
+];
+
+// ❌ INCORRECT: Don't use push pattern when vec![] is clearer
+let mut layers = Vec::with_capacity(3);
+layers.push(Layer::new(0, input_size, None));
+layers.push(Layer::new(1, hidden_size, Some(input_size)));
+// ...
+
+// ✅ CORRECT: Mark intentionally unused fields with #[allow]
+#[allow(dead_code)]
+targets: Option<Vec<f32>>,  // Will be used in Phase 3
+
+// ✅ CORRECT: Use ? operator for error propagation
+let data = self.load_data()?;
+
+// ✅ CORRECT: Use inline for hot path functions
+#[inline]
+fn activate(&self, x: f32) -> f32 { ... }
+```
+
+**Common Clippy Warnings to Watch:**
+- `dead_code` - Mark unused code with `#[allow(dead_code)]` if intentional (with comment explaining why)
+- `vec_init_then_push` - Use `vec![]` macro instead of push pattern
+- `needless_pass_by_value` - Use `&self` when appropriate
+- `unnecessary_wraps` - Don't wrap Result if never fails
+- `missing_docs` - Document all public APIs
+- `large_enum_variant` - Box large enum variants
+
+**Why This Matters:**
+- Clippy catches common mistakes and anti-patterns
+- Edition 2021 provides latest language improvements
+- Consistent style improves maintainability
+- Following idioms makes code more familiar to Rust developers
+
 ### Why Rust?
 
 **Advantages:**
@@ -281,11 +331,34 @@ cargo bench                     # Run benchmarks (Phase 5+)
 
 ## Lessons Learned (To Be Updated)
 
+**⚠️ IMPORTANT:** This section MUST be updated after completing each phase. Future Claude instances will read this BEFORE starting work to avoid repeating mistakes.
+
 ### Phase 0: Project Setup
+
+**What Worked Well:**
 - Cargo makes dependency management painless
-- rustfmt/clippy enforce consistency from day one
+- rustfmt/clippy enforce consistency from day one (caught vec_init_then_push, dead_code)
 - thiserror makes error handling ergonomic
 - Starting with comprehensive docs pays off
+- Using TDD from day one establishes good habits
+
+**Mistakes Made:**
+1. **Clippy warnings on first commit:** Used `Vec::with_capacity` + `push` instead of `vec![]` macro
+   - **Fix:** Always use `vec![]` when values are known upfront
+2. **Dead code warnings:** Had unused `targets` field
+   - **Fix:** Add `#[allow(dead_code)]` with comment explaining future use
+
+**Patterns Established:**
+- Use `Result<T, NeuralNetError>` everywhere (no panics)
+- Trait-based design for extensibility (Activation trait)
+- Unidirectional ownership (Network → Layer, no back-pointers)
+- Document intention with TODOs and phase markers
+
+**For Future Phases:**
+- Always run `cargo clippy -- -D warnings` before committing
+- Use Rust 2021 idioms (check clippy suggestions)
+- Add `#[allow(dead_code)]` with explanation for intentionally unused code
+- Test edge cases (dimension mismatches, extreme values)
 
 ### Phase 1: [To be filled in]
 
