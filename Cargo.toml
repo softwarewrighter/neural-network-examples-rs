@@ -4,10 +4,10 @@ version = "0.1.0"
 edition = "2024"
 authors = ["Mike <mike@softwarewrighter.com>"]
 license = "MIT"
-description = "Feed-forward neural network with backpropagation"
+description = "Educational ML platform demonstrating neural network architectures and techniques through incremental examples and visualizations"
 repository = "https://github.com/softwarewrighter/neural-network-examples-rs"
 readme = "README.md"
-keywords = ["neural-network", "machine-learning", "backpropagation", "deep-learning"]
+keywords = ["neural-network", "machine-learning", "deep-learning", "educational", "visualization"]
 categories = ["algorithms", "science"]
 
 [dependencies]
