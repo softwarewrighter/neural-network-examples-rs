@@ -1,2 +1,6 @@
 /target
 /research
+
+# Generated example outputs (run examples to regenerate)
+/checkpoints
+/images

@@ -1,5 +1,5 @@
 [package]
-name = "xor"
+name = "example-2-backward-propagation-or"
 version.workspace = true
 edition.workspace = true
 authors.workspace = true

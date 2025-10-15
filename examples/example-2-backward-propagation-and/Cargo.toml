@@ -1,5 +1,5 @@
 [package]
-name = "and"
+name = "example-2-backward-propagation-and"
 version.workspace = true
 edition.workspace = true
 authors.workspace = true

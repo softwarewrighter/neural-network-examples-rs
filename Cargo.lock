@@ -3,13 +3,6 @@
 version = 4
 
 [[package]]
-name = "and"
-version = "0.1.0"
-dependencies = [
- "neural-net-core",
-]
-
-[[package]]
 name = "android_system_properties"
 version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -76,19 +69,40 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "773648b94d0e5d620f64f280777445740e61fe701025087ec8b57f45c791888b"
 
 [[package]]
-name = "find-msvc-tools"
-version = "0.1.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "52051878f80a721bb68ebfbc930e07b65ba72f2da88968ea5c06fd6ca3d3a127"
-
-[[package]]
-name = "forward-propagation"
+name = "example-1-forward-propagation"
 version = "0.1.0"
 dependencies = [
  "ndarray",
  "neural-net-core",
  "neural-net-viz",
 ]
+
+[[package]]
+name = "example-2-backward-propagation-and"
+version = "0.1.0"
+dependencies = [
+ "neural-net-core",
+]
+
+[[package]]
+name = "example-2-backward-propagation-or"
+version = "0.1.0"
+dependencies = [
+ "neural-net-core",
+]
+
+[[package]]
+name = "example-2-backward-propagation-xor"
+version = "0.1.0"
+dependencies = [
+ "neural-net-core",
+]
+
+[[package]]
+name = "find-msvc-tools"
+version = "0.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "52051878f80a721bb68ebfbc930e07b65ba72f2da88968ea5c06fd6ca3d3a127"
 
 [[package]]
 name = "getrandom"
@@ -245,13 +259,6 @@ name = "once_cell"
 version = "1.21.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "42f5e15c9953c5e4ccceeb2e7382a716482c34515315f7b03532b8b4e8393d2d"
-
-[[package]]
-name = "or"
-version = "0.1.0"
-dependencies = [
- "neural-net-core",
-]
 
 [[package]]
 name = "ppv-lite86"
@@ -536,13 +543,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7837d08f69c77cf6b07689544538e017c1bfcf57e34b4c0ff58e6c2cd3b37091"
 dependencies = [
  "windows-link",
-]
-
-[[package]]
-name = "xor"
-version = "0.1.0"
-dependencies = [
- "neural-net-core",
 ]
 
 [[package]]

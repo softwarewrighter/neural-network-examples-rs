@@ -1,5 +1,5 @@
 [package]
-name = "forward-propagation"
+name = "example-1-forward-propagation"
 version.workspace = true
 edition.workspace = true
 authors.workspace = true
