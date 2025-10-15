@@ -1,0 +1,93 @@
+{
+  "metadata": {
+    "name": "3-Input Majority Network",
+    "description": "Initial network with random weights",
+    "timestamp": "2025-10-15T01:29:50.490932+00:00",
+    "epochs": 0,
+    "accuracy": null,
+    "custom": {}
+  },
+  "network": {
+    "layers": [
+      {
+        "index": 0,
+        "num_neurons": 3,
+        "weights": null,
+        "inputs": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "outputs": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "deltas": []
+      },
+      {
+        "index": 1,
+        "num_neurons": 4,
+        "weights": {
+          "v": 1,
+          "dim": [
+            3,
+            4
+          ],
+          "data": [
+            -0.92174745,
+            -0.5365052,
+            0.9564729,
+            -0.64834094,
+            0.9789746,
+            0.4214208,
+            -0.43700385,
+            0.6807773,
+            0.9322889,
+            0.17371726,
+            -0.22339773,
+            -0.7084482
+          ]
+        },
+        "inputs": [
+          0.989516,
+          0.05863285,
+          0.2960713,
+          -0.6760118
+        ],
+        "outputs": [
+          0.72899234,
+          0.514654,
+          0.57348186,
+          0.33715203
+        ],
+        "deltas": []
+      },
+      {
+        "index": 2,
+        "num_neurons": 1,
+        "weights": {
+          "v": 1,
+          "dim": [
+            4,
+            1
+          ],
+          "data": [
+            0.9141207,
+            -0.015235186,
+            -0.7553835,
+            0.08226371
+          ]
+        },
+        "inputs": [
+          0.25308275
+        ],
+        "outputs": [
+          0.25308275
+        ],
+        "deltas": []
+      }
+    ],
+    "targets": null
+  }
+}

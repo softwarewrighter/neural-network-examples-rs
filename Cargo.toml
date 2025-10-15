@@ -8,6 +8,10 @@ members = [
     "examples/example-2-backward-propagation-and",
     "examples/example-2-backward-propagation-or",
     "examples/example-2-backward-propagation-xor",
+    "examples/example-3-complex-boolean-parity-3bit",
+    "examples/example-3-complex-boolean-majority-3",
+    "examples/example-3-multi-output-half-adder",
+    "examples/example-3-multi-output-full-adder",
 ]
 
 [workspace.package]

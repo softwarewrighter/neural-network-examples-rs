@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+<rect width="100%" height="100%" fill="#f9f9f9"/>
+<g id="connections">
+<line x1="100" y1="100" x2="600" y2="100" stroke="#4CAF50" stroke-width="1.1630667" opacity="0.21366858"/>
+<line x1="100" y1="100" x2="600" y2="220" stroke="#F44336" stroke-width="3.6851597" opacity="0.64602745"/>
+<line x1="100" y1="100" x2="600" y2="340" stroke="#4CAF50" stroke-width="2.332592" opacity="0.41415864"/>
+<line x1="100" y1="100" x2="600" y2="460" stroke="#4CAF50" stroke-width="0.610625" opacity="0.11896429"/>
+<line x1="100" y1="100" x2="600" y2="580" stroke="#F44336" stroke-width="3.6307602" opacity="0.63670176"/>
+<line x1="100" y1="100" x2="600" y2="700" stroke="#4CAF50" stroke-width="0.6301857" opacity="0.12231755"/>
+<line x1="100" y1="400" x2="600" y2="100" stroke="#4CAF50" stroke-width="1.9720339" opacity="0.35234866"/>
+<line x1="100" y1="400" x2="600" y2="220" stroke="#4CAF50" stroke-width="2.5740578" opacity="0.4555528"/>
+<line x1="100" y1="400" x2="600" y2="340" stroke="#F44336" stroke-width="3.9216213" opacity="0.6865637"/>
+<line x1="100" y1="400" x2="600" y2="460" stroke="#4CAF50" stroke-width="0.5749366" opacity="0.112846285"/>
+<line x1="100" y1="400" x2="600" y2="580" stroke="#4CAF50" stroke-width="1.5667217" opacity="0.28286657"/>
+<line x1="100" y1="400" x2="600" y2="700" stroke="#F44336" stroke-width="0.9579536" opacity="0.17850633"/>
+<line x1="100" y1="700" x2="600" y2="100" stroke="#F44336" stroke-width="2.0026236" opacity="0.35759264"/>
+<line x1="100" y1="700" x2="600" y2="220" stroke="#F44336" stroke-width="2.0494664" opacity="0.36562282"/>
+<line x1="100" y1="700" x2="600" y2="340" stroke="#F44336" stroke-width="2.3718536" opacity="0.4208892"/>
+<line x1="100" y1="700" x2="600" y2="460" stroke="#4CAF50" stroke-width="2.2594545" opacity="0.40162078"/>
+<line x1="100" y1="700" x2="600" y2="580" stroke="#F44336" stroke-width="1.1710159" opacity="0.2150313"/>
+<line x1="100" y1="700" x2="600" y2="700" stroke="#4CAF50" stroke-width="0.8835068" opacity="0.16574402"/>
+<line x1="600" y1="100" x2="1100" y2="100" stroke="#F44336" stroke-width="2.1879902" opacity="0.38936973"/>
+<line x1="600" y1="100" x2="1100" y2="700" stroke="#F44336" stroke-width="0.79173565" opacity="0.15001184"/>
+<line x1="600" y1="220" x2="1100" y2="100" stroke="#4CAF50" stroke-width="2.244017" opacity="0.39897433"/>
+<line x1="600" y1="220" x2="1100" y2="700" stroke="#F44336" stroke-width="1.4187034" opacity="0.25749204"/>
+<line x1="600" y1="340" x2="1100" y2="100" stroke="#F44336" stroke-width="3.3876452" opacity="0.59502494"/>
+<line x1="600" y1="340" x2="1100" y2="700" stroke="#4CAF50" stroke-width="2.1476696" opacity="0.38245764"/>
+<line x1="600" y1="460" x2="1100" y2="100" stroke="#4CAF50" stroke-width="2.7147493" opacity="0.47967136"/>
+<line x1="600" y1="460" x2="1100" y2="700" stroke="#4CAF50" stroke-width="2.9830832" opacity="0.5256715"/>
+<line x1="600" y1="580" x2="1100" y2="100" stroke="#4CAF50" stroke-width="2.3096676" opacity="0.41022873"/>
+<line x1="600" y1="580" x2="1100" y2="700" stroke="#F44336" stroke-width="3.910864" opacity="0.6847196"/>
+<line x1="600" y1="700" x2="1100" y2="100" stroke="#F44336" stroke-width="1.3594347" opacity="0.24733168"/>
+<line x1="600" y1="700" x2="1100" y2="700" stroke="#F44336" stroke-width="3.799029" opacity="0.6655479"/>
+</g>
+<g id="neurons">
+<circle cx="100" cy="100" r="20" fill="#2196F3" stroke="#333" stroke-width="2"/>
+<text x="100" y="100" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="12">#0</text>
+<circle cx="100" cy="400" r="20" fill="#2196F3" stroke="#333" stroke-width="2"/>
+<text x="100" y="400" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="12">#1</text>
+<circle cx="100" cy="700" r="20" fill="#2196F3" stroke="#333" stroke-width="2"/>
+<text x="100" y="700" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="12">#2</text>
+<circle cx="600" cy="100" r="20" fill="#9C27B0" stroke="#333" stroke-width="2"/>
+<text x="600" y="100" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="12">#0</text>
+<circle cx="600" cy="220" r="20" fill="#9C27B0" stroke="#333" stroke-width="2"/>
+<text x="600" y="220" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="12">#1</text>
+<circle cx="600" cy="340" r="20" fill="#9C27B0" stroke="#333" stroke-width="2"/>
+<text x="600" y="340" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="12">#2</text>
+<circle cx="600" cy="460" r="20" fill="#9C27B0" stroke="#333" stroke-width="2"/>
+<text x="600" y="460" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="12">#3</text>
+<circle cx="600" cy="580" r="20" fill="#9C27B0" stroke="#333" stroke-width="2"/>
+<text x="600" y="580" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="12">#4</text>
+<circle cx="600" cy="700" r="20" fill="#9C27B0" stroke="#333" stroke-width="2"/>
+<text x="600" y="700" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="12">#5</text>
+<circle cx="1100" cy="100" r="20" fill="#FF9800" stroke="#333" stroke-width="2"/>
+<text x="1100" y="100" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="12">#0</text>
+<circle cx="1100" cy="700" r="20" fill="#FF9800" stroke="#333" stroke-width="2"/>
+<text x="1100" y="700" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="12">#1</text>
+</g>
+<g id="labels">
+<text x="100" y="50" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Input Layer</text>
+<text x="100" y="70" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">3 neurons</text>
+<text x="600" y="50" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Hidden Layer</text>
+<text x="600" y="70" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">6 neurons</text>
+<text x="1100" y="50" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Output Layer</text>
+<text x="1100" y="70" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">2 neurons</text>
+</g>
+<g id="metadata">
+<rect x="890" y="670" width="300" height="120" fill="white" stroke="#333" stroke-width="2" rx="5"/>
+<text x="900" y="685" font-size="16" font-weight="bold" fill="#333">Full Adder Network</text>
+<text x="900" y="710" font-size="12" fill="#666">Epochs: 0</text>
+<text x="900" y="730" font-size="10" fill="#999">Initial network with random weights</text>
+</g>
+</svg>

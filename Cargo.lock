@@ -102,6 +102,38 @@ dependencies = [
 ]
 
 [[package]]
+name = "example-3-complex-boolean-majority-3"
+version = "0.1.0"
+dependencies = [
+ "neural-net-core",
+ "neural-net-viz",
+]
+
+[[package]]
+name = "example-3-complex-boolean-parity-3bit"
+version = "0.1.0"
+dependencies = [
+ "neural-net-core",
+ "neural-net-viz",
+]
+
+[[package]]
+name = "example-3-multi-output-full-adder"
+version = "0.1.0"
+dependencies = [
+ "neural-net-core",
+ "neural-net-viz",
+]
+
+[[package]]
+name = "example-3-multi-output-half-adder"
+version = "0.1.0"
+dependencies = [
+ "neural-net-core",
+ "neural-net-viz",
+]
+
+[[package]]
 name = "find-msvc-tools"
 version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
