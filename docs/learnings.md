@@ -527,5 +527,180 @@ let new_inputs: Vec<f32> = {
 
 ---
 
-**Last Updated:** Phase 2 completion (2025-10-14)
-**Next Update:** After completing Phase 3 (Backpropagation), add lessons learned
+## Documentation & Visualization Best Practices
+
+### Educational Files Are Documentation, Not Build Artifacts
+
+**Critical Decision:** Generated visualization and checkpoint files should be committed to git, not ignored.
+
+**Context:** Initial instinct was to add `/checkpoints` and `/images` to `.gitignore` like typical build artifacts.
+
+**Why This Was Wrong:**
+- These files are **educational documentation**, not build artifacts
+- They're small (checkpoints: ~1-3KB JSON, visualizations: ~2-3KB SVG)
+- They demonstrate training progression visually
+- Users viewing on GitHub benefit from seeing these without running code
+- They're interesting to compare (initial vs trained weights)
+
+**Policy:**
+```gitignore
+# ✅ CORRECT: Only ignore build artifacts and temp files
+/target
+/research
+
+# ❌ WRONG: Don't ignore educational outputs
+# /checkpoints  # NO - these are documentation!
+# /images       # NO - these visualize network state!
+```
+
+**Rationale:**
+- GitHub renders SVG files natively in README files
+- Checkpoint JSON files are readable and educational
+- Commit history shows evolution of visualizations
+- No practical storage concern (files are tiny)
+
+### SVG Legend Positioning Matters
+
+**Problem Discovered:** Initial visualization placed metadata legend at lower-left (x=10), which obscured the bottom input neuron.
+
+**Why This Happened:**
+- Neural networks typically have 2+ input neurons on the left side
+- Input neurons are vertically spaced to fill the canvas height
+- Legend box (300×120px) at lower-left overlapped with bottom input neuron
+
+**Solution:**
+```rust
+// ❌ WRONG: Hard-coded lower-left position
+writeln!(svg, "<rect x=\"10\" y=\"{}\" ...", config.height - 130)?;
+writeln!(svg, "<text x=\"20\" y=\"{}\" ...", base_y)?;
+
+// ✅ CORRECT: Calculate lower-right position
+let box_width = 300;
+let box_x = config.width - box_width - 10;  // 1200 - 300 - 10 = 890
+let text_x = box_x + 10;                     // 900
+writeln!(svg, "<rect x=\"{}\" y=\"{}\" width=\"{}\" ...",
+    box_x, config.height - 130, box_width)?;
+writeln!(svg, "<text x=\"{}\" y=\"{}\" ...", text_x, base_y)?;
+```
+
+**Why Lower-Right Works Better:**
+- Output layer typically has 1 neuron (or fewer than inputs)
+- Less vertical space occupied on right side
+- Legend doesn't obscure any network components
+- Still visible and readable
+
+**Lesson:** When designing visualizations, consider the typical use case (2-3 inputs → many hidden → 1 output) and position UI elements accordingly.
+
+### File Organization: Use CARGO_MANIFEST_DIR
+
+**Problem:** Using relative paths like `"checkpoints/file.json"` saves to workspace root when running `cargo run -p example-name`.
+
+**Why This Happened:**
+- Current working directory when using `cargo run -p` is the workspace root
+- Relative paths resolve relative to CWD, not the example's directory
+- Results in mixed files from different examples in workspace root (confusing!)
+
+**Solution Pattern:**
+```rust
+// ❌ WRONG: Relative paths go to workspace root
+fs::create_dir_all("checkpoints")?;
+network.save_checkpoint("checkpoints/initial.json", metadata)?;
+
+// ✅ CORRECT: Use CARGO_MANIFEST_DIR for example's own directory
+let example_dir = env!("CARGO_MANIFEST_DIR");
+let checkpoint_dir = format!("{}/checkpoints", example_dir);
+let image_dir = format!("{}/images", example_dir);
+fs::create_dir_all(&checkpoint_dir)?;
+fs::create_dir_all(&image_dir)?;
+
+network.save_checkpoint(
+    &format!("{}/initial.json", checkpoint_dir),
+    metadata,
+)?;
+```
+
+**Benefits:**
+- Each example has its own `checkpoints/` and `images/` directories
+- Clear organization when viewing in file explorer
+- No mixing of files from different examples
+- Works correctly regardless of CWD
+
+**Pattern to Follow:**
+```
+examples/
+├── example-1-forward-propagation/
+│   ├── checkpoints/
+│   │   ├── xor_initial.json
+│   │   └── xor_trained.json
+│   ├── images/
+│   │   ├── xor_initial.svg
+│   │   └── xor_trained.svg
+│   ├── src/main.rs
+│   ├── Cargo.toml
+│   └── README.md
+├── example-2-backward-propagation-xor/
+│   ├── checkpoints/
+│   ├── images/
+│   └── ...
+```
+
+### README Documentation Pattern
+
+**Best Practice:** Each example should have comprehensive documentation visible on GitHub.
+
+**Required Elements:**
+1. **Problem statement** with truth table/dataset
+2. **Network architecture** explanation (inputs → hidden → outputs)
+3. **Embedded visualizations** using relative paths
+4. **Detailed observations** explaining what to see in each image
+5. **Results table** showing before/after training
+6. **Key learnings** section
+
+**Image Embedding Pattern:**
+```markdown
+### Initial Network (Random Weights)
+
+The network starts with randomly initialized weights:
+
+![XOR Initial Network](images/xor_initial.svg)
+
+**Key observations:**
+- **Random weight distribution**: Green (positive) and red (negative) weights scattered throughout
+- **No learned pattern**: Line thickness (weight magnitude) shows no meaningful structure
+- **Poor performance**: Mean absolute error >1.0, essentially random outputs
+
+### Trained Network
+
+After training with backpropagation:
+
+![XOR Trained Network](images/xor_trained.svg)
+
+**Key observations:**
+- **Strong positive weights**: Hidden neurons learn to activate for specific input patterns
+- **Balanced output weights**: Some positive (green), some negative (red) for XOR logic
+- **Learned representation**: Network has discovered non-linear decision boundary
+- **Excellent performance**: Mean absolute error <0.01
+```
+
+**Why This Matters:**
+- GitHub renders SVG files directly in README
+- Users can understand the example without running code
+- Visual comparisons teach intuition about learning
+- Detailed observations guide what to look for
+- Searchable documentation (can grep for concepts)
+
+**Weight Visualization Legend (Include in All READMEs):**
+```markdown
+**Understanding the visualizations:**
+- **Green lines**: Positive weights (increase activation)
+- **Red lines**: Negative weights (decrease activation)
+- **Line thickness**: Weight magnitude (thicker = stronger influence)
+- **Blue neurons**: Input layer
+- **Purple neurons**: Hidden layer
+- **Orange neurons**: Output layer
+```
+
+---
+
+**Last Updated:** Post-Phase 3 documentation improvements (2025-10-14)
+**Next Update:** After completing example-3 implementations
