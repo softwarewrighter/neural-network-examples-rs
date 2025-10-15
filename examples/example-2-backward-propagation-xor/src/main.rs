@@ -28,8 +28,17 @@
 //!
 //! This demonstrates why backpropagation was a breakthrough - it enables
 //! networks to learn non-linearly separable patterns that simpler methods cannot.
+//!
+//! ## Generated Files
+//!
+//! - `checkpoints/xor_initial.json` - Initial network with random weights
+//! - `checkpoints/xor_trained.json` - Trained network after backpropagation
+//! - `images/xor_initial.svg` - Visualization of initial network
+//! - `images/xor_trained.svg` - Visualization of trained network
 
-use neural_net_core::{FeedForwardNetwork, ForwardPropagation, NetworkTraining, Result};
+use neural_net_core::{FeedForwardNetwork, ForwardPropagation, NetworkTraining, NetworkMetadata, Result};
+use neural_net_viz::{NetworkVisualization, VisualizationConfig};
+use std::fs;
 
 fn main() -> Result<()> {
     println!("========================================");
@@ -40,6 +49,13 @@ fn main() -> Result<()> {
     println!("  - NOT linearly separable (no single line can solve it)");
     println!("  - Requires hidden layer + backpropagation");
     println!("  - The problem that motivated modern neural networks!\n");
+
+    // Create output directories in the example's own directory
+    let example_dir = env!("CARGO_MANIFEST_DIR");
+    let checkpoint_dir = format!("{}/checkpoints", example_dir);
+    let image_dir = format!("{}/images", example_dir);
+    fs::create_dir_all(&checkpoint_dir)?;
+    fs::create_dir_all(&image_dir)?;
 
     // XOR truth table
     let inputs = vec![
@@ -67,18 +83,39 @@ fn main() -> Result<()> {
     println!("Expected: Random performance (~50% accuracy)\n");
     test_network(&mut network, &inputs, &targets)?;
 
+    // Save initial checkpoint and visualization
+    save_checkpoint(
+        &network,
+        &format!("{}/xor_initial.json", checkpoint_dir),
+        &format!("{}/xor_initial.svg", image_dir),
+        NetworkMetadata::initial("XOR Network"),
+    )?;
+
     // Train the network
     println!("\n--- TRAINING ---");
     println!("Using backpropagation to learn the XOR pattern...\n");
-    network.train_by_error(&inputs, &targets, 0.01, Some(0.1), Some(10000))?;
+    let iterations = network.train_by_error(&inputs, &targets, 0.01, Some(0.1), Some(10000))?;
 
     // Test AFTER training
     println!("\n--- AFTER TRAINING ---");
     println!("Expected: Perfect learning (100% accuracy)\n");
     test_network(&mut network, &inputs, &targets)?;
 
+    // Save trained checkpoint and visualization
+    save_checkpoint(
+        &network,
+        &format!("{}/xor_trained.json", checkpoint_dir),
+        &format!("{}/xor_trained.svg", image_dir),
+        NetworkMetadata::checkpoint("XOR Network", iterations, None),
+    )?;
+
     println!("\n✓ Network successfully learned XOR!");
     println!("✓ This proves backpropagation can solve non-linearly separable problems!");
+    println!("\nGenerated files:");
+    println!("  - checkpoints/xor_initial.json (initial network)");
+    println!("  - checkpoints/xor_trained.json (trained network)");
+    println!("  - images/xor_initial.svg (initial visualization)");
+    println!("  - images/xor_trained.svg (trained visualization)");
 
     Ok(())
 }
@@ -125,6 +162,25 @@ fn test_network(
         inputs.len(),
         (correct as f32 / inputs.len() as f32) * 100.0
     );
+
+    Ok(())
+}
+
+/// Save network checkpoint and visualization
+fn save_checkpoint(
+    network: &FeedForwardNetwork,
+    checkpoint_path: &str,
+    svg_path: &str,
+    metadata: NetworkMetadata,
+) -> Result<()> {
+    // Save JSON checkpoint
+    network.save_checkpoint(checkpoint_path, metadata.clone())?;
+    println!("  ✓ Saved checkpoint: {}", checkpoint_path);
+
+    // Generate and save SVG visualization
+    let config = VisualizationConfig::default();
+    network.save_svg_with_metadata(svg_path, &metadata, &config)?;
+    println!("  ✓ Saved visualization: {}", svg_path);
 
     Ok(())
 }

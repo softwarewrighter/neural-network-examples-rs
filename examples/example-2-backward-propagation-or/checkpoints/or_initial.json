@@ -1,0 +1,87 @@
+{
+  "metadata": {
+    "name": "OR Network",
+    "description": "Initial network with random weights",
+    "timestamp": "2025-10-15T00:57:11.157838+00:00",
+    "epochs": 0,
+    "accuracy": null,
+    "custom": {}
+  },
+  "network": {
+    "layers": [
+      {
+        "index": 0,
+        "num_neurons": 2,
+        "weights": null,
+        "inputs": [
+          1.0,
+          1.0
+        ],
+        "outputs": [
+          1.0,
+          1.0
+        ],
+        "deltas": []
+      },
+      {
+        "index": 1,
+        "num_neurons": 4,
+        "weights": {
+          "v": 1,
+          "dim": [
+            2,
+            4
+          ],
+          "data": [
+            0.09818983,
+            -0.47105598,
+            0.4093926,
+            -0.16304803,
+            0.44238043,
+            0.44972348,
+            0.092488766,
+            0.97887325
+          ]
+        },
+        "inputs": [
+          0.54057026,
+          -0.021332502,
+          0.50188136,
+          0.8158252
+        ],
+        "outputs": [
+          0.6319451,
+          0.49466708,
+          0.6229014,
+          0.6933494
+        ],
+        "deltas": []
+      },
+      {
+        "index": 2,
+        "num_neurons": 1,
+        "weights": {
+          "v": 1,
+          "dim": [
+            4,
+            1
+          ],
+          "data": [
+            -0.6287024,
+            -0.39020658,
+            0.76141477,
+            0.27969646
+          ]
+        },
+        "inputs": [
+          0.077885956
+        ],
+        "outputs": [
+          0.077885956
+        ],
+        "deltas": []
+      }
+    ],
+    "targets": null
+  }
+}

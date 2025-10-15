@@ -82,6 +82,7 @@ name = "example-2-backward-propagation-and"
 version = "0.1.0"
 dependencies = [
  "neural-net-core",
+ "neural-net-viz",
 ]
 
 [[package]]
@@ -89,6 +90,7 @@ name = "example-2-backward-propagation-or"
 version = "0.1.0"
 dependencies = [
  "neural-net-core",
+ "neural-net-viz",
 ]
 
 [[package]]
@@ -96,6 +98,7 @@ name = "example-2-backward-propagation-xor"
 version = "0.1.0"
 dependencies = [
  "neural-net-core",
+ "neural-net-viz",
 ]
 
 [[package]]

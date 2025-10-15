@@ -18,13 +18,29 @@
 //! 1. **Before Training**: Random weights produce random outputs
 //! 2. **During Training**: Backpropagation adjusts weights to minimize error
 //! 3. **After Training**: Network learns the AND function perfectly
+//!
+//! ## Generated Files
+//!
+//! - `checkpoints/and_initial.json` - Initial network with random weights
+//! - `checkpoints/and_trained.json` - Trained network after backpropagation
+//! - `images/and_initial.svg` - Visualization of initial network
+//! - `images/and_trained.svg` - Visualization of trained network
 
-use neural_net_core::{FeedForwardNetwork, ForwardPropagation, NetworkTraining, Result};
+use neural_net_core::{FeedForwardNetwork, ForwardPropagation, NetworkTraining, NetworkMetadata, Result};
+use neural_net_viz::{NetworkVisualization, VisualizationConfig};
+use std::fs;
 
 fn main() -> Result<()> {
     println!("====================================");
     println!("   AND Gate - Backpropagation Demo");
     println!("====================================\n");
+
+    // Create output directories in the example's own directory
+    let example_dir = env!("CARGO_MANIFEST_DIR");
+    let checkpoint_dir = format!("{}/checkpoints", example_dir);
+    let image_dir = format!("{}/images", example_dir);
+    fs::create_dir_all(&checkpoint_dir)?;
+    fs::create_dir_all(&image_dir)?;
 
     // AND truth table
     let inputs = vec![
@@ -50,15 +66,36 @@ fn main() -> Result<()> {
     println!("--- BEFORE TRAINING (Random Weights) ---");
     test_network(&mut network, &inputs, &targets)?;
 
+    // Save initial checkpoint and visualization
+    save_checkpoint(
+        &network,
+        &format!("{}/and_initial.json", checkpoint_dir),
+        &format!("{}/and_initial.svg", image_dir),
+        NetworkMetadata::initial("AND Network"),
+    )?;
+
     // Train the network
     println!("\n--- TRAINING ---");
-    network.train_by_error(&inputs, &targets, 0.01, Some(0.1), Some(5000))?;
+    let iterations = network.train_by_error(&inputs, &targets, 0.01, Some(0.1), Some(5000))?;
 
     // Test AFTER training
     println!("\n--- AFTER TRAINING ---");
     test_network(&mut network, &inputs, &targets)?;
 
+    // Save trained checkpoint and visualization
+    save_checkpoint(
+        &network,
+        &format!("{}/and_trained.json", checkpoint_dir),
+        &format!("{}/and_trained.svg", image_dir),
+        NetworkMetadata::checkpoint("AND Network", iterations, None),
+    )?;
+
     println!("\n✓ Network successfully learned the AND function!");
+    println!("\nGenerated files:");
+    println!("  - checkpoints/and_initial.json (initial network)");
+    println!("  - checkpoints/and_trained.json (trained network)");
+    println!("  - images/and_initial.svg (initial visualization)");
+    println!("  - images/and_trained.svg (trained visualization)");
 
     Ok(())
 }
@@ -94,6 +131,25 @@ fn test_network(
     println!("-----------|----------|---------|-------");
     println!("Total Error: {:.4}", total_error);
     println!("Correct: {}/{}", correct, inputs.len());
+
+    Ok(())
+}
+
+/// Save network checkpoint and visualization
+fn save_checkpoint(
+    network: &FeedForwardNetwork,
+    checkpoint_path: &str,
+    svg_path: &str,
+    metadata: NetworkMetadata,
+) -> Result<()> {
+    // Save JSON checkpoint
+    network.save_checkpoint(checkpoint_path, metadata.clone())?;
+    println!("  ✓ Saved checkpoint: {}", checkpoint_path);
+
+    // Generate and save SVG visualization
+    let config = VisualizationConfig::default();
+    network.save_svg_with_metadata(svg_path, &metadata, &config)?;
+    println!("  ✓ Saved visualization: {}", svg_path);
 
     Ok(())
 }
