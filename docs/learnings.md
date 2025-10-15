@@ -363,6 +363,119 @@ let new_inputs: Vec<f32> = {
 
 ## Testing Strategy
 
+### Critical Requirement: Negative and Positive Tests for ALL Examples
+
+**⚠️ MANDATORY FOR ALL EXAMPLES:** Every example (Example-1 through Example-N) MUST include both negative and positive tests.
+
+**Pattern to Follow:**
+```rust
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_<task>_untrained_has_high_error() {
+        // Negative test: Untrained network should produce high error
+        let mut network = FeedForwardNetwork::new(...);
+
+        let inputs = vec![...];
+        let targets = vec![...];
+
+        let mean_error = compute_mean_error(&mut network, &inputs, &targets);
+
+        assert!(
+            mean_error > 0.3,  // Or appropriate threshold for task
+            "Untrained network should have high error (>0.3), but got {:.4}",
+            mean_error
+        );
+    }
+
+    #[test]
+    fn test_<task>_network_trains() {
+        // Positive test: Trained network should produce low error
+        let mut network = FeedForwardNetwork::new(...);
+
+        let inputs = vec![...];
+        let targets = vec![...];
+
+        // Train the network
+        let iterations = network
+            .train_by_error(&inputs, &targets, 0.01, Some(0.1), Some(10000))
+            .unwrap();
+
+        assert!(iterations > 0, "Should train for at least 1 iteration");
+        assert!(iterations <= 10000, "Should complete within max iterations");
+
+        let mean_error = compute_mean_error(&mut network, &inputs, &targets);
+
+        assert!(
+            mean_error < 0.15,  // Or appropriate threshold for task
+            "Trained network should have low error (<0.15), but got {:.4}",
+            mean_error
+        );
+    }
+
+    // Optional: Additional tests for specific behaviors
+    #[test]
+    fn test_<task>_truth_table() {
+        // Verify the task's expected behavior
+        // ...
+    }
+}
+```
+
+**Why This Pattern is Mandatory:**
+
+1. **Negative Test (Untrained Network):**
+   - Verifies the problem is non-trivial
+   - Proves random weights don't solve the task by accident
+   - Establishes baseline performance
+   - Catches bugs where network "cheats" (e.g., always outputs 0)
+
+2. **Positive Test (Trained Network):**
+   - Verifies training actually works
+   - Ensures backpropagation converges
+   - Validates the example is pedagogically sound
+   - Prevents regressions in training code
+
+3. **Test Count Expectation:**
+   - Minimum: 2 tests (negative + positive)
+   - Recommended: 3 tests (negative + positive + specific behavior)
+   - Example-1: 5 tests ✓
+   - Example-2 (AND, OR, XOR): 3 tests each ✓
+   - Example-3 (Complex Boolean): 3 tests each ✓
+   - Example-4 (Optimizers): 3 tests ✓
+   - Example-5 (Activations): MUST ADD 3 tests ⚠️
+
+**Examples to Follow:**
+
+See `examples/example-2-backward-propagation-xor/src/main.rs` for reference implementation:
+- `test_xor_untrained_has_high_error()` - Negative test
+- `test_xor_trained_has_low_error()` - Positive test
+- `test_xor_truth_table()` - Verification test
+
+**Enforcement:**
+
+Before considering any example "complete":
+1. Run `cargo test --package example-N` - must show at least 2-3 tests passing
+2. Verify negative test with `grep "untrained.*high_error"` in main.rs
+3. Verify positive test with `grep "network_trains\|trained.*low_error"` in main.rs
+4. Document test results in example's README
+
+**⚠️ Common Mistake to Avoid:**
+
+DO NOT create examples without tests! This has happened with:
+- ❌ Example-4: Missing negative test (has 3 comparison tests, but no untrained baseline) **FIXED 2025-10-14**
+- ❌ Example-5: Originally created with zero tests **FIXED 2025-10-14**
+
+Always write tests DURING or IMMEDIATELY AFTER example implementation, not later.
+
+**Fix Applied (2025-10-14):**
+- Added `test_parity3_untrained_has_high_error()` to Example-4
+- Added `test_xor_untrained_has_high_error()` and `test_xor_network_trains()` to Example-5
+- All examples now follow the negative+positive test pattern
+- Documentation updated in CLAUDE.md, learnings.md, and roadmap to prevent future occurrences
+
 ### Unit Tests
 - Test individual components in isolation
 - Fast, focused tests

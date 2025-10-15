@@ -4,6 +4,14 @@
 
 ---
 
+## Visual Overview
+
+![Repository Structure and Relationships](images/repository-structure.svg)
+
+The diagram above shows all planned repositories, their internal concepts/crates, and their dependency relationships. Each repository has a specific focus and imports from its dependencies.
+
+---
+
 ## Repository Hierarchy
 
 ```

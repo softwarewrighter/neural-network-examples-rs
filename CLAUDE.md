@@ -5,17 +5,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## ⚠️ CRITICAL: Iteration Workflow
 
 **BEFORE starting ANY work:**
-1. **READ `docs/learnings.md`** - Review all lessons learned from previous phases
+1. **READ `docs/learnings.md` COMPLETELY** - Review all lessons learned from previous phases
+   - Pay special attention to "Testing Strategy" section
+   - **MANDATORY**: All examples MUST have negative + positive tests
+   - Review past mistakes to avoid repeating them
 2. Check for specific warnings about past mistakes to avoid
 3. Note any project-specific patterns or decisions
+4. Verify understanding of test requirements for current task
 
-**AFTER completing ANY work:**
-1. **UPDATE `docs/learnings.md`** in the relevant phase section
+**AFTER completing ANY incremental change:**
+1. **UPDATE `docs/learnings.md`** in the relevant section
 2. Document what worked well, what didn't, and why
 3. Add specific warnings for future iterations to prevent repeating mistakes
 4. Include code examples of correct vs incorrect patterns if relevant
+5. **VERIFY test coverage** if working on examples (negative + positive tests required)
 
 **Purpose:** This ensures continuous learning and prevents repeatedly making the same mistakes across sessions. Treat `docs/learnings.md` as the project's institutional memory.
+
+**⚠️ CRITICAL TEST REQUIREMENT:**
+Every example MUST include:
+- Negative test: `test_<task>_untrained_has_high_error()` - Verifies problem is non-trivial
+- Positive test: `test_<task>_network_trains()` - Verifies training works
+- See `docs/learnings.md` "Testing Strategy" section for detailed pattern
 
 ## Project Overview
 

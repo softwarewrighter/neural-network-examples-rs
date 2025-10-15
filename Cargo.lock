@@ -144,6 +144,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "example-5-modern-activations"
+version = "0.1.0"
+dependencies = [
+ "neural-net-core",
+ "neural-net-types",
+]
+
+[[package]]
 name = "find-msvc-tools"
 version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"

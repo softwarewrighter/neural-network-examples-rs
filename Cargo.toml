@@ -13,6 +13,7 @@ members = [
     "examples/example-3-multi-output-half-adder",
     "examples/example-3-multi-output-full-adder",
     "examples/example-4-modern-optimizers",
+    "examples/example-5-modern-activations",
 ]
 
 [workspace.package]

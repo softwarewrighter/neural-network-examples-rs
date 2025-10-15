@@ -1,0 +1,285 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 2000" font-family="Arial, sans-serif">
+  <defs>
+    <style>
+      .foundation-box { fill: #2196F3; stroke: #1565C0; stroke-width: 3; }
+      .educational-box { fill: #03A9F4; stroke: #0277BD; stroke-width: 2; }
+      .specialized-box { fill: #FF9800; stroke: #E65100; stroke-width: 3; }
+      .hybrid-box { fill: #9C27B0; stroke: #6A1B9A; stroke-width: 3; }
+      .agent-box { fill: #F44336; stroke: #C62828; stroke-width: 3; }
+      .app-box { fill: #607D8B; stroke: #37474F; stroke-width: 2; }
+
+      .repo-title { fill: white; font-size: 18px; font-weight: bold; }
+      .repo-subtitle { fill: white; font-size: 11px; }
+      .concept-item { fill: white; font-size: 10px; }
+      .crate-name { fill: #FFD54F; font-size: 10px; font-weight: bold; }
+
+      .dependency-arrow { stroke: #666; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); opacity: 0.7; }
+      .dependency-label { fill: #333; font-size: 10px; font-style: italic; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="800" y="40" style="font-size: 28px; font-weight: bold; text-anchor: middle; fill: #1565C0;">
+    Neural Network Learning Architecture
+  </text>
+  <text x="800" y="65" style="font-size: 14px; text-anchor: middle; fill: #666;">
+    Repository Relationships and Internal Concepts
+  </text>
+
+  <!-- ======================================= -->
+  <!-- FOUNDATION LAYER: neural-network-examples-rs (THIS REPO) -->
+  <!-- ======================================= -->
+  <rect x="400" y="100" width="800" height="280" class="foundation-box" rx="10" />
+  <text x="800" y="130" class="repo-title">neural-network-examples-rs (THIS REPO)</text>
+  <text x="800" y="148" class="repo-subtitle">Foundation Layer: Core Building Blocks • Status: ~50% complete • Timeline: 3 months</text>
+
+  <!-- Crates exported by this repo -->
+  <text x="420" y="175" class="crate-name">Crates (importable):</text>
+  <text x="420" y="195" class="concept-item">• neural_net_core - Layers, optimizers, activations, attention, training</text>
+  <text x="420" y="210" class="concept-item">• neural_net_types - Data structures (Network, Layer, errors)</text>
+  <text x="420" y="225" class="concept-item">• neural_net_viz - SVG visualization utilities</text>
+
+  <!-- Concepts in this repo -->
+  <text x="420" y="250" class="crate-name">Core Concepts:</text>
+  <text x="420" y="270" class="concept-item">✅ Feedforward networks (3-layer) • Backpropagation • Sigmoid activation</text>
+  <text x="420" y="285" class="concept-item">✅ Modern optimizers: SGD, Adam, RMSprop, AdamW</text>
+  <text x="420" y="300" class="concept-item">🔄 Modern activations: ReLU, Leaky ReLU, GELU, Swish, Tanh  [Example-5: IN PROGRESS]</text>
+  <text x="420" y="315" class="concept-item">🔲 Deep networks (4-6 layers) • Residual connections</text>
+  <text x="420" y="330" class="concept-item">🔲 Normalization: Layer norm, Batch norm • Dropout</text>
+  <text x="420" y="345" class="concept-item">🔲 Attention: Scaled dot-product, Multi-head attention</text>
+  <text x="420" y="360" class="concept-item">🔲 Embeddings: Learned embeddings, Positional encoding</text>
+
+  <!-- ======================================= -->
+  <!-- EDUCATIONAL LAYER: neural-network-concepts-rs -->
+  <!-- ======================================= -->
+  <rect x="50" y="450" width="400" height="180" class="educational-box" rx="10" />
+  <text x="250" y="480" class="repo-title">neural-network-concepts-rs</text>
+  <text x="250" y="498" class="repo-subtitle">Educational Layer (Optional) • Timeline: 1-2 months</text>
+
+  <text x="70" y="525" class="crate-name">Purpose: Additional learning concepts not required for Layer 2</text>
+  <text x="70" y="545" class="concept-item">📚 CNNs: Conv2D, MaxPool, image classification</text>
+  <text x="70" y="560" class="concept-item">📚 RNNs: Vanilla RNN, LSTM, GRU</text>
+  <text x="70" y="575" class="concept-item">📚 Sequence-to-sequence models</text>
+  <text x="70" y="590" class="concept-item">📚 Advanced CNN architectures (ResNet, VGG)</text>
+
+  <text x="70" y="615" class="repo-subtitle">Imports: neural_net_core, neural_net_types from foundation repo</text>
+
+  <!-- Dependency arrow from foundation to educational -->
+  <path d="M 600 380 L 250 450" class="dependency-arrow" />
+  <text x="400" y="410" class="dependency-label">depends on</text>
+
+  <!-- ======================================= -->
+  <!-- SPECIALIZED MODELS LAYER 2 -->
+  <!-- ======================================= -->
+
+  <!-- TRM: Tiny Recursion Model -->
+  <rect x="500" y="700" width="350" height="180" class="specialized-box" rx="10" />
+  <text x="675" y="730" class="repo-title">trm-reasoning-rs</text>
+  <text x="675" y="748" class="repo-subtitle">Tiny Recursion Model • Timeline: 2-3 months</text>
+
+  <text x="520" y="775" class="crate-name">Crate: trm_core</text>
+  <text x="520" y="795" class="concept-item">• 2-layer recursive network architecture</text>
+  <text x="520" y="810" class="concept-item">• Latent (z) + answer (y) features</text>
+  <text x="520" y="825" class="concept-item">• Deep supervision training</text>
+  <text x="520" y="840" class="concept-item">• Detached recursion (T-1 steps free, 1 backprop)</text>
+  <text x="520" y="855" class="concept-item">• Halting mechanism, EMA stability</text>
+  <text x="520" y="870" class="concept-item">Examples: Sudoku, logic puzzles, ARC-AGI tasks</text>
+
+  <!-- HRM: Hierarchical Reasoning Model -->
+  <rect x="900" y="700" width="350" height="180" class="specialized-box" rx="10" />
+  <text x="1075" y="730" class="repo-title">hrm-reasoning-rs</text>
+  <text x="1075" y="748" class="repo-subtitle">Hierarchical Reasoning Model • Timeline: 2-3 months</text>
+
+  <text x="920" y="775" class="crate-name">Crate: hrm_core</text>
+  <text x="920" y="795" class="concept-item">• Dual-network: Controller + Worker</text>
+  <text x="920" y="810" class="concept-item">• Different frequency recursion</text>
+  <text x="920" y="825" class="concept-item">• Hierarchical features (z_L, z_H)</text>
+  <text x="920" y="840" class="concept-item">• ACT (adaptive computational time)</text>
+  <text x="920" y="855" class="concept-item">• Deep supervision</text>
+  <text x="920" y="870" class="concept-item">Examples: Mini-Sudoku, maze solving</text>
+
+  <!-- SNN: Spiking Neural Networks -->
+  <rect x="50" y="950" width="350" height="180" class="specialized-box" rx="10" />
+  <text x="225" y="980" class="repo-title">spiking-networks-rs</text>
+  <text x="225" y="998" class="repo-subtitle">Spiking Neural Networks • Timeline: 3-4 months</text>
+
+  <text x="70" y="1025" class="crate-name">Crates: snn_core, bdh</text>
+  <text x="70" y="1045" class="concept-item">• LIF (Leaky Integrate-and-Fire) neurons</text>
+  <text x="70" y="1060" class="concept-item">• STDP (Spike-Timing-Dependent Plasticity)</text>
+  <text x="70" y="1075" class="concept-item">• Surrogate gradients for backprop</text>
+  <text x="70" y="1090" class="concept-item">• BDH: Baby Dragon Hatchling (scale-free)</text>
+  <text x="70" y="1105" class="concept-item">• Event-driven computation</text>
+  <text x="70" y="1120" class="concept-item">Examples: Event classification, energy efficiency</text>
+
+  <!-- Text Diffusion -->
+  <rect x="450" y="950" width="350" height="180" class="specialized-box" rx="10" />
+  <text x="625" y="980" class="repo-title">text-diffusion-rs</text>
+  <text x="625" y="998" class="repo-subtitle">Text Generation via Diffusion • Timeline: 3-4 months</text>
+
+  <text x="470" y="1025" class="crate-name">Crate: text_diffusion</text>
+  <text x="470" y="1045" class="concept-item">• Transformer architecture (uses attention from Layer 1)</text>
+  <text x="470" y="1060" class="concept-item">• Masked diffusion process (MDLM)</text>
+  <text x="470" y="1075" class="concept-item">• Absorbing state diffusion</text>
+  <text x="470" y="1090" class="concept-item">• Forward/reverse diffusion</text>
+  <text x="470" y="1105" class="concept-item">• Sampling algorithms</text>
+  <text x="470" y="1120" class="concept-item">Examples: Code completion, controlled generation</text>
+
+  <!-- RAG: Retrieval-Augmented Generation -->
+  <rect x="850" y="950" width="350" height="180" class="specialized-box" rx="10" />
+  <text x="1025" y="980" class="repo-title">rag-learning-rs</text>
+  <text x="1025" y="998" class="repo-subtitle">RAG + Continual Learning • Timeline: 2-3 months</text>
+
+  <text x="870" y="1025" class="crate-name">Crates: vector_db, rag_core, continual_learning</text>
+  <text x="870" y="1045" class="concept-item">• Vector database (from scratch)</text>
+  <text x="870" y="1060" class="concept-item">• Dense retrieval mechanisms</text>
+  <text x="870" y="1075" class="concept-item">• RAG system: small model + big memory</text>
+  <text x="870" y="1090" class="concept-item">• Continual learning without catastrophic forgetting</text>
+  <text x="870" y="1105" class="concept-item">• Experience replay</text>
+  <text x="870" y="1120" class="concept-item">Examples: Code search, doc retrieval, learning from feedback</text>
+
+  <!-- Dependency arrows from foundation to specialized models -->
+  <path d="M 600 380 L 675 700" class="dependency-arrow" />
+  <path d="M 800 380 L 1075 700" class="dependency-arrow" />
+  <path d="M 600 380 L 225 950" class="dependency-arrow" />
+  <path d="M 700 380 L 625 950" class="dependency-arrow" />
+  <path d="M 900 380 L 1025 950" class="dependency-arrow" />
+
+  <text x="600" y="550" class="dependency-label">All Layer 2 repos import neural_net_core</text>
+
+  <!-- ======================================= -->
+  <!-- HYBRID COMBINATIONS LAYER 3 -->
+  <!-- ======================================= -->
+
+  <!-- TRM + RAG Hybrid -->
+  <rect x="150" y="1200" width="300" height="140" class="hybrid-box" rx="10" />
+  <text x="300" y="1230" class="repo-title">trm-rag-hybrid-rs</text>
+  <text x="300" y="1248" class="repo-subtitle">TRM + RAG • Timeline: 1-2 months</text>
+
+  <text x="170" y="1275" class="crate-name">Crate: trm_rag_hybrid</text>
+  <text x="170" y="1295" class="concept-item">• Each TRM recursion step can retrieve knowledge</text>
+  <text x="170" y="1310" class="concept-item">• Reasoning grounded in documentation</text>
+  <text x="170" y="1325" class="concept-item">Examples: Code debugging with docs lookup</text>
+
+  <!-- Diffusion + RAG Hybrid -->
+  <rect x="500" y="1200" width="300" height="140" class="hybrid-box" rx="10" />
+  <text x="650" y="1230" class="repo-title">diffusion-rag-hybrid-rs</text>
+  <text x="650" y="1248" class="repo-subtitle">Diffusion + RAG • Timeline: 1-2 months</text>
+
+  <text x="520" y="1275" class="crate-name">Crate: diffusion_rag_hybrid</text>
+  <text x="520" y="1295" class="concept-item">• Retrieve code examples before generation</text>
+  <text x="520" y="1310" class="concept-item">• Generate following project conventions</text>
+  <text x="520" y="1325" class="concept-item">Examples: Style-aware code generation</text>
+
+  <!-- SNN + TRM Hybrid -->
+  <rect x="850" y="1200" width="300" height="140" class="hybrid-box" rx="10" />
+  <text x="1000" y="1230" class="repo-title">snn-trm-hybrid-rs</text>
+  <text x="1000" y="1248" class="repo-subtitle">SNN + TRM • Timeline: 2 months</text>
+
+  <text x="870" y="1275" class="crate-name">Crate: snn_trm_hybrid</text>
+  <text x="870" y="1295" class="concept-item">• Event-driven recursive reasoning</text>
+  <text x="870" y="1310" class="concept-item">• Energy-efficient logic</text>
+  <text x="870" y="1325" class="concept-item">Examples: Always-on monitoring with reasoning</text>
+
+  <!-- Dependency arrows to hybrids -->
+  <path d="M 675 880 L 300 1200" class="dependency-arrow" />
+  <path d="M 1025 1130 L 300 1200" class="dependency-arrow" />
+  <path d="M 625 1130 L 650 1200" class="dependency-arrow" />
+  <path d="M 1025 1130 L 650 1200" class="dependency-arrow" />
+  <path d="M 225 1130 L 1000 1200" class="dependency-arrow" />
+  <path d="M 675 880 L 1000 1200" class="dependency-arrow" />
+
+  <!-- ======================================= -->
+  <!-- DEV AGENTS LAYER 4 -->
+  <!-- ======================================= -->
+
+  <rect x="300" y="1400" width="900" height="160" class="agent-box" rx="10" />
+  <text x="750" y="1430" class="repo-title">ai-dev-agents-rs</text>
+  <text x="750" y="1448" class="repo-subtitle">Multi-Agent Software Development System • Timeline: 3-4 months</text>
+
+  <text x="320" y="1475" class="crate-name">Crate: dev_agents</text>
+  <text x="320" y="1495" class="concept-item">• Agent orchestration framework • Task decomposition • Agent communication</text>
+
+  <text x="320" y="1515" class="crate-name">Specialist Agents:</text>
+  <text x="320" y="1535" class="concept-item">1. LogicReasoner (uses TRM) - Debug, constraint solving  |  2. CodeGenerator (uses Diffusion) - Boilerplate, tests</text>
+  <text x="320" y="1550" class="concept-item">3. KnowledgeRetriever (uses RAG) - Docs, codebase search  |  4. EventMonitor (uses SNN) - Real-time analysis</text>
+
+  <!-- Dependency arrows from hybrids to agents -->
+  <path d="M 300 1340 L 750 1400" class="dependency-arrow" />
+  <path d="M 650 1340 L 750 1400" class="dependency-arrow" />
+  <path d="M 1000 1340 L 750 1400" class="dependency-arrow" />
+
+  <!-- ======================================= -->
+  <!-- APPLICATIONS LAYER 5 -->
+  <!-- ======================================= -->
+
+  <rect x="200" y="1620" width="250" height="90" class="app-box" rx="10" />
+  <text x="325" y="1650" class="repo-title">rust-web-app-demo</text>
+  <text x="325" y="1670" class="concept-item">Full-stack Rust web application</text>
+  <text x="325" y="1685" class="concept-item">Built by agent team</text>
+  <text x="325" y="1700" class="repo-subtitle">Ongoing</text>
+
+  <rect x="500" y="1620" width="250" height="90" class="app-box" rx="10" />
+  <text x="625" y="1650" class="repo-title">cli-tool-generator</text>
+  <text x="625" y="1670" class="concept-item">CLI tool scaffolding</text>
+  <text x="625" y="1685" class="concept-item">Built by agent team</text>
+  <text x="625" y="1700" class="repo-subtitle">Ongoing</text>
+
+  <rect x="800" y="1620" width="250" height="90" class="app-box" rx="10" />
+  <text x="925" y="1650" class="repo-title">code-analyzer</text>
+  <text x="925" y="1670" class="concept-item">Static analysis tool</text>
+  <text x="925" y="1685" class="concept-item">Built by agent team</text>
+  <text x="925" y="1700" class="repo-subtitle">Ongoing</text>
+
+  <!-- Dependency arrows from agents to apps -->
+  <path d="M 750 1560 L 325 1620" class="dependency-arrow" />
+  <path d="M 750 1560 L 625 1620" class="dependency-arrow" />
+  <path d="M 750 1560 L 925 1620" class="dependency-arrow" />
+
+  <!-- ======================================= -->
+  <!-- LEGEND AND TIMELINE -->
+  <!-- ======================================= -->
+
+  <rect x="50" y="1760" width="1500" height="210" fill="#F5F5F5" stroke="#999" stroke-width="1" rx="8" />
+
+  <text x="70" y="1785" style="font-size: 16px; font-weight: bold; fill: #333;">Legend & Timeline:</text>
+
+  <rect x="70" y="1800" width="25" height="15" class="foundation-box" />
+  <text x="105" y="1812" style="font-size: 11px; fill: #333;">Foundation (THIS REPO) - 3 months (~50% complete)</text>
+
+  <rect x="70" y="1825" width="25" height="15" class="educational-box" />
+  <text x="105" y="1837" style="font-size: 11px; fill: #333;">Educational (Optional) - 1-2 months</text>
+
+  <rect x="70" y="1850" width="25" height="15" class="specialized-box" />
+  <text x="105" y="1862" style="font-size: 11px; fill: #333;">Specialized Models - 2-4 months each</text>
+
+  <rect x="70" y="1875" width="25" height="15" class="hybrid-box" />
+  <text x="105" y="1887" style="font-size: 11px; fill: #333;">Hybrid Combinations - 1-2 months each</text>
+
+  <rect x="70" y="1900" width="25" height="15" class="agent-box" />
+  <text x="105" y="1912" style="font-size: 11px; fill: #333;">Multi-Agent Dev System - 3-4 months</text>
+
+  <rect x="70" y="1925" width="25" height="15" class="app-box" />
+  <text x="105" y="1937" style="font-size: 11px; fill: #333;">Real-World Applications - Ongoing</text>
+
+  <text x="400" y="1812" style="font-size: 12px; font-weight: bold; fill: #E65100;">
+    Total Timeline: 12-18 months to working dev agent system
+  </text>
+  <text x="400" y="1832" style="font-size: 12px; font-weight: bold; fill: #1565C0;">
+    Next Milestone: Layer 2 (TRM) starts in ~3 months
+  </text>
+
+  <text x="400" y="1862" style="font-size: 11px; fill: #333; font-weight: bold;">Key Dependencies:</text>
+  <text x="400" y="1880" style="font-size: 10px; fill: #333;">• All Layer 2 repos depend on neural_net_core from foundation</text>
+  <text x="400" y="1895" style="font-size: 10px; fill: #333;">• Hybrids combine multiple Layer 2 specialized models</text>
+  <text x="400" y="1910" style="font-size: 10px; fill: #333;">• Dev agents orchestrate all hybrid capabilities</text>
+  <text x="400" y="1925" style="font-size: 10px; fill: #333;">• Applications are built by the agent team</text>
+
+  <!-- Current Focus -->
+  <rect x="50" y="1980" width="1100" height="2" fill="#E65100" />
+  <text x="70" y="1965" style="font-size: 14px; font-weight: bold; fill: #E65100;">
+    CURRENT FOCUS: neural-network-examples-rs → Example-5: Modern Activations (ReLU, GELU, Swish, Tanh)
+  </text>
+</svg>

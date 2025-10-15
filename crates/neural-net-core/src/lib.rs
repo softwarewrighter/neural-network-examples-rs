@@ -37,7 +37,7 @@ pub use neural_net_types::{
 };
 
 // Export activation functions
-pub use activation::{Activation, Linear, Sigmoid};
+pub use activation::{Activation, GELU, LeakyReLU, Linear, ReLU, Sigmoid, Swish, Tanh};
 
 // Export algorithm traits
 pub use backward::{LayerBackward, NetworkTraining};

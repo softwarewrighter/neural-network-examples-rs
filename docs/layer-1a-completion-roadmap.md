@@ -166,8 +166,14 @@ GELU (used in transformers/TRM):
 - [ ] ReLU, Leaky ReLU, GELU, Swish, Tanh implementations
 - [ ] Example with 4-layer network
 - [ ] Gradient flow visualization
-- [ ] Tests for each activation
+- [ ] **Tests for each activation** (negative + positive required - see docs/learnings.md)
 - [ ] Documentation with mathematical formulas
+
+**Testing Requirement** (ALL EXAMPLES):
+- ⚠️ **MANDATORY**: Each example MUST include negative and positive tests
+- Negative test: `test_<task>_untrained_has_high_error()` - Verifies problem non-trivial
+- Positive test: `test_<task>_network_trains()` - Verifies training works
+- See `docs/learnings.md` "Testing Strategy" section for detailed pattern
 
 **Timeline**: 1 week
 

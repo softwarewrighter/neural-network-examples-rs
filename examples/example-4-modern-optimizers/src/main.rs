@@ -288,6 +288,51 @@ fn train_with_optimizer<O: Optimizer + ?Sized>(
 mod tests {
     use super::*;
 
+    /// Helper function to compute mean absolute error
+    fn compute_mean_error(network: &mut FeedForwardNetwork, inputs: &[Vec<f32>], targets: &[Vec<f32>]) -> f32 {
+        let mut total_error = 0.0;
+        for (input, target) in inputs.iter().zip(targets) {
+            let output = network.forward(input).unwrap();
+            total_error += (output[0] - target[0]).abs();
+        }
+        total_error / inputs.len() as f32
+    }
+
+    #[test]
+    fn test_parity3_untrained_has_high_error() {
+        // Negative test: Untrained network should produce high error
+        let mut network = FeedForwardNetwork::new(3, 6, 1);
+
+        let inputs = vec![
+            vec![0.0, 0.0, 0.0],
+            vec![0.0, 0.0, 1.0],
+            vec![0.0, 1.0, 0.0],
+            vec![0.0, 1.0, 1.0],
+            vec![1.0, 0.0, 0.0],
+            vec![1.0, 0.0, 1.0],
+            vec![1.0, 1.0, 0.0],
+            vec![1.0, 1.0, 1.0],
+        ];
+        let targets = vec![
+            vec![0.0],
+            vec![1.0],
+            vec![1.0],
+            vec![0.0],
+            vec![1.0],
+            vec![0.0],
+            vec![0.0],
+            vec![1.0],
+        ];
+
+        let mean_error = compute_mean_error(&mut network, &inputs, &targets);
+
+        assert!(
+            mean_error > 0.3,
+            "Untrained network should have high error (>0.3), but got {:.4}",
+            mean_error
+        );
+    }
+
     #[test]
     fn test_parity3_adam_convergence() {
         let mut network = FeedForwardNetwork::new(3, 6, 1);
