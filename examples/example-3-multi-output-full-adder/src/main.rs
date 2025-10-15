@@ -196,6 +196,47 @@ mod tests {
     use super::*;
 
     #[test]
+    fn test_full_adder_untrained_has_high_error() {
+        // Negative test: Untrained network should produce high error
+        let mut network = FeedForwardNetwork::new(3, 6, 2);
+
+        let inputs = vec![
+            vec![0.0, 0.0, 0.0],
+            vec![0.0, 0.0, 1.0],
+            vec![0.0, 1.0, 0.0],
+            vec![0.0, 1.0, 1.0],
+            vec![1.0, 0.0, 0.0],
+            vec![1.0, 0.0, 1.0],
+            vec![1.0, 1.0, 0.0],
+            vec![1.0, 1.0, 1.0],
+        ];
+        let targets = vec![
+            vec![0.0, 0.0],
+            vec![1.0, 0.0],
+            vec![1.0, 0.0],
+            vec![0.0, 1.0],
+            vec![1.0, 0.0],
+            vec![0.0, 1.0],
+            vec![0.0, 1.0],
+            vec![1.0, 1.0],
+        ];
+
+        let mut total_error = 0.0;
+        for (input, target) in inputs.iter().zip(&targets) {
+            let output = network.forward(input).unwrap();
+            total_error += (output[0] - target[0]).abs();
+            total_error += (output[1] - target[1]).abs();
+        }
+        let mean_error = total_error / inputs.len() as f32;
+
+        assert!(
+            mean_error > 0.4,
+            "Untrained network should have high error (>0.4), but got {:.4}",
+            mean_error
+        );
+    }
+
+    #[test]
     fn test_full_adder_truth_table() {
         // Verify our truth table is correct
         let inputs = vec![

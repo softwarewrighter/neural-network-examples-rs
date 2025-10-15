@@ -184,3 +184,92 @@ fn save_checkpoint(
 
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Helper function to compute mean absolute error
+    fn compute_mean_error(network: &mut FeedForwardNetwork, inputs: &[Vec<f32>], targets: &[Vec<f32>]) -> f32 {
+        let mut total_error = 0.0;
+        for (input, target) in inputs.iter().zip(targets) {
+            let output = network.forward(input).unwrap();
+            total_error += (output[0] - target[0]).abs();
+        }
+        total_error / inputs.len() as f32
+    }
+
+    #[test]
+    fn test_xor_untrained_has_high_error() {
+        // Negative test: Untrained network should produce high error
+        let mut network = FeedForwardNetwork::new(2, 4, 1);
+        
+        let inputs = vec![
+            vec![0.0, 0.0],
+            vec![0.0, 1.0],
+            vec![1.0, 0.0],
+            vec![1.0, 1.0],
+        ];
+        let targets = vec![vec![0.0], vec![1.0], vec![1.0], vec![0.0]];
+        
+        let mean_error = compute_mean_error(&mut network, &inputs, &targets);
+        
+        assert!(
+            mean_error > 0.3,
+            "Untrained network should have high error (>0.3), but got {:.4}",
+            mean_error
+        );
+    }
+
+    #[test]
+    fn test_xor_trained_has_low_error() {
+        // Positive test: Trained network should produce low error
+        let mut network = FeedForwardNetwork::new(2, 4, 1);
+        
+        let inputs = vec![
+            vec![0.0, 0.0],
+            vec![0.0, 1.0],
+            vec![1.0, 0.0],
+            vec![1.0, 1.0],
+        ];
+        let targets = vec![vec![0.0], vec![1.0], vec![1.0], vec![0.0]];
+        
+        // Train the network
+        let iterations = network
+            .train_by_error(&inputs, &targets, 0.01, Some(0.1), Some(10000))
+            .unwrap();
+        
+        assert!(iterations > 0, "Should train for at least 1 iteration");
+        assert!(iterations <= 10000, "Should complete within max iterations");
+        
+        let mean_error = compute_mean_error(&mut network, &inputs, &targets);
+        
+        assert!(
+            mean_error < 0.15,
+            "Trained network should have low error (<0.15), but got {:.4}",
+            mean_error
+        );
+    }
+
+    #[test]
+    fn test_xor_truth_table() {
+        // Verify XOR logic is correct
+        let test_cases = vec![
+            (vec![0.0, 0.0], 0.0),
+            (vec![0.0, 1.0], 1.0),
+            (vec![1.0, 0.0], 1.0),
+            (vec![1.0, 1.0], 0.0),
+        ];
+        
+        for (input, expected) in test_cases {
+            let a = input[0] as u8;
+            let b = input[1] as u8;
+            let result = (a ^ b) as f32;
+            assert_eq!(
+                result, expected,
+                "XOR({}, {}) should be {}",
+                a, b, expected
+            );
+        }
+    }
+}

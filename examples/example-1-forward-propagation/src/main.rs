@@ -189,6 +189,57 @@ mod tests {
     use super::*;
 
     #[test]
+    fn test_xor_truth_table() {
+        // Verify XOR logic is correct
+        let test_cases = vec![
+            (vec![0.0, 0.0], 0.0),
+            (vec![0.0, 1.0], 1.0),
+            (vec![1.0, 0.0], 1.0),
+            (vec![1.0, 1.0], 0.0),
+        ];
+
+        for (input, expected) in test_cases {
+            let a = input[0] as u8;
+            let b = input[1] as u8;
+            let result = (a ^ b) as f32;
+            assert_eq!(
+                result, expected,
+                "XOR({}, {}) should be {}",
+                a, b, expected
+            );
+        }
+    }
+
+    #[test]
+    fn test_untrained_network_has_high_error() {
+        // Negative test: Untrained network with random weights should produce high error
+        let mut network = FeedForwardNetwork::new(2, 4, 1);
+
+        let xor_inputs = vec![
+            vec![0.0, 0.0],
+            vec![0.0, 1.0],
+            vec![1.0, 0.0],
+            vec![1.0, 1.0],
+        ];
+        let xor_targets = vec![
+            vec![0.0], vec![1.0], vec![1.0], vec![0.0]
+        ];
+
+        let mut total_error = 0.0;
+        for (input, target) in xor_inputs.iter().zip(&xor_targets) {
+            let output = network.forward(input).unwrap();
+            total_error += (output[0] - target[0]).abs();
+        }
+        let mean_error = total_error / xor_inputs.len() as f32;
+
+        assert!(
+            mean_error > 0.3,
+            "Untrained network should have high error (>0.3), but got {:.4}",
+            mean_error
+        );
+    }
+
+    #[test]
     fn test_forward_propagation_xor() {
         let mut network = FeedForwardNetwork::new(2, 4, 1);
 
