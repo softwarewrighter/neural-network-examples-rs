@@ -134,6 +134,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "example-4-modern-optimizers"
+version = "0.1.0"
+dependencies = [
+ "ndarray",
+ "neural-net-core",
+ "neural-net-types",
+ "neural-net-viz",
+]
+
+[[package]]
 name = "find-msvc-tools"
 version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"

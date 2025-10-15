@@ -28,6 +28,7 @@
 mod activation;
 mod backward;
 mod forward;
+pub mod optimizer;
 pub mod utils;
 
 // Re-export all types from neural-net-types for convenience
@@ -41,3 +42,6 @@ pub use activation::{Activation, Linear, Sigmoid};
 // Export algorithm traits
 pub use backward::{LayerBackward, NetworkTraining};
 pub use forward::ForwardPropagation;
+
+// Export optimizers
+pub use optimizer::{Adam, AdamW, Optimizer, RMSprop, SGDMomentum, SGD};

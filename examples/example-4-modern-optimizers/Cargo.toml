@@ -1,0 +1,10 @@
+[package]
+name = "example-4-modern-optimizers"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+neural-net-core = { path = "../../crates/neural-net-core" }
+neural-net-types = { path = "../../crates/neural-net-types" }
+neural-net-viz = { path = "../../crates/neural-net-viz" }
+ndarray = "0.15"
