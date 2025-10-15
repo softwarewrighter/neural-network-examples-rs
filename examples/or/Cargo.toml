@@ -1,0 +1,10 @@
+[package]
+name = "or"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+neural-net-core = { path = "../../crates/neural-net-core" }

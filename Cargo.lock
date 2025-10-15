@@ -3,6 +3,13 @@
 version = 4
 
 [[package]]
+name = "and"
+version = "0.1.0"
+dependencies = [
+ "neural-net-core",
+]
+
+[[package]]
 name = "android_system_properties"
 version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -238,6 +245,13 @@ name = "once_cell"
 version = "1.21.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "42f5e15c9953c5e4ccceeb2e7382a716482c34515315f7b03532b8b4e8393d2d"
+
+[[package]]
+name = "or"
+version = "0.1.0"
+dependencies = [
+ "neural-net-core",
+]
 
 [[package]]
 name = "ppv-lite86"
@@ -522,6 +536,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7837d08f69c77cf6b07689544538e017c1bfcf57e34b4c0ff58e6c2cd3b37091"
 dependencies = [
  "windows-link",
+]
+
+[[package]]
+name = "xor"
+version = "0.1.0"
+dependencies = [
+ "neural-net-core",
 ]
 
 [[package]]

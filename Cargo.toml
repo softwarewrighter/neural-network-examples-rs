@@ -5,6 +5,9 @@ members = [
     "crates/neural-net-core",
     "crates/neural-net-viz",
     "examples/forward-propagation",
+    "examples/and",
+    "examples/or",
+    "examples/xor",
 ]
 
 [workspace.package]
