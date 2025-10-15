@@ -323,11 +323,18 @@ fn generate_metadata_overlay(
     let mut svg = String::new();
     writeln!(svg, "<g id=\"metadata\">").unwrap();
 
+    // Position metadata box on lower right (avoiding input neurons on left)
+    let box_width = 300;
+    let box_x = config.width - box_width - 10;
+    let text_x = box_x + 10;
+
     // Background box
     writeln!(
         svg,
-        "<rect x=\"10\" y=\"{}\" width=\"300\" height=\"120\" fill=\"white\" stroke=\"#333\" stroke-width=\"2\" rx=\"5\"/>",
-        config.height - 130
+        "<rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"120\" fill=\"white\" stroke=\"#333\" stroke-width=\"2\" rx=\"5\"/>",
+        box_x,
+        config.height - 130,
+        box_width
     ).unwrap();
 
     let base_y = config.height - 115;
@@ -335,7 +342,8 @@ fn generate_metadata_overlay(
 
     writeln!(
         svg,
-        "<text x=\"20\" y=\"{}\" font-size=\"16\" font-weight=\"bold\" fill=\"#333\">{}</text>",
+        "<text x=\"{}\" y=\"{}\" font-size=\"16\" font-weight=\"bold\" fill=\"#333\">{}</text>",
+        text_x,
         base_y + y_offset,
         metadata.name
     ).unwrap();
@@ -343,7 +351,8 @@ fn generate_metadata_overlay(
 
     writeln!(
         svg,
-        "<text x=\"20\" y=\"{}\" font-size=\"12\" fill=\"#666\">Epochs: {}</text>",
+        "<text x=\"{}\" y=\"{}\" font-size=\"12\" fill=\"#666\">Epochs: {}</text>",
+        text_x,
         base_y + y_offset,
         metadata.epochs
     ).unwrap();
@@ -352,7 +361,8 @@ fn generate_metadata_overlay(
     if let Some(accuracy) = metadata.accuracy {
         writeln!(
             svg,
-            "<text x=\"20\" y=\"{}\" font-size=\"12\" fill=\"#666\">Accuracy: {:.2}%</text>",
+            "<text x=\"{}\" y=\"{}\" font-size=\"12\" fill=\"#666\">Accuracy: {:.2}%</text>",
+            text_x,
             base_y + y_offset,
             accuracy
         ).unwrap();
@@ -361,7 +371,8 @@ fn generate_metadata_overlay(
 
     writeln!(
         svg,
-        "<text x=\"20\" y=\"{}\" font-size=\"10\" fill=\"#999\">{}</text>",
+        "<text x=\"{}\" y=\"{}\" font-size=\"10\" fill=\"#999\">{}</text>",
+        text_x,
         base_y + y_offset,
         metadata.description
     ).unwrap();

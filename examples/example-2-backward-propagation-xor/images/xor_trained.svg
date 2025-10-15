@@ -3,15 +3,15 @@
 <rect width="100%" height="100%" fill="#f9f9f9"/>
 <g id="connections">
 <line x1="100" y1="100" x2="600" y2="100" stroke="#F44336" stroke-width="4" opacity="0.70000005"/>
-<line x1="100" y1="100" x2="600" y2="300" stroke="#4CAF50" stroke-width="4" opacity="0.70000005"/>
-<line x1="100" y1="100" x2="600" y2="500" stroke="#F44336" stroke-width="4" opacity="0.70000005"/>
-<line x1="100" y1="100" x2="600" y2="700" stroke="#4CAF50" stroke-width="2.560191" opacity="0.45317557"/>
-<line x1="100" y1="700" x2="600" y2="100" stroke="#4CAF50" stroke-width="4" opacity="0.70000005"/>
-<line x1="100" y1="700" x2="600" y2="300" stroke="#4CAF50" stroke-width="4" opacity="0.70000005"/>
-<line x1="100" y1="700" x2="600" y2="500" stroke="#4CAF50" stroke-width="4" opacity="0.70000005"/>
-<line x1="100" y1="700" x2="600" y2="700" stroke="#F44336" stroke-width="3.9331636" opacity="0.68854237"/>
-<line x1="600" y1="100" x2="1100" y2="400" stroke="#F44336" stroke-width="4" opacity="0.70000005"/>
-<line x1="600" y1="300" x2="1100" y2="400" stroke="#4CAF50" stroke-width="4" opacity="0.70000005"/>
+<line x1="100" y1="100" x2="600" y2="300" stroke="#F44336" stroke-width="1.7814265" opacity="0.31967312"/>
+<line x1="100" y1="100" x2="600" y2="500" stroke="#4CAF50" stroke-width="1.4767904" opacity="0.2674498"/>
+<line x1="100" y1="100" x2="600" y2="700" stroke="#F44336" stroke-width="4" opacity="0.70000005"/>
+<line x1="100" y1="700" x2="600" y2="100" stroke="#4CAF50" stroke-width="2.1428728" opacity="0.38163534"/>
+<line x1="100" y1="700" x2="600" y2="300" stroke="#4CAF50" stroke-width="3.6023037" opacity="0.63182354"/>
+<line x1="100" y1="700" x2="600" y2="500" stroke="#F44336" stroke-width="4" opacity="0.70000005"/>
+<line x1="100" y1="700" x2="600" y2="700" stroke="#F44336" stroke-width="4" opacity="0.70000005"/>
+<line x1="600" y1="100" x2="1100" y2="400" stroke="#4CAF50" stroke-width="4" opacity="0.70000005"/>
+<line x1="600" y1="300" x2="1100" y2="400" stroke="#F44336" stroke-width="2.9697" opacity="0.5233772"/>
 <line x1="600" y1="500" x2="1100" y2="400" stroke="#4CAF50" stroke-width="4" opacity="0.70000005"/>
 <line x1="600" y1="700" x2="1100" y2="400" stroke="#F44336" stroke-width="4" opacity="0.70000005"/>
 </g>
@@ -40,9 +40,9 @@
 <text x="1100" y="70" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">1 neurons</text>
 </g>
 <g id="metadata">
-<rect x="10" y="670" width="300" height="120" fill="white" stroke="#333" stroke-width="2" rx="5"/>
-<text x="20" y="685" font-size="16" font-weight="bold" fill="#333">XOR Network - Epoch 1211</text>
-<text x="20" y="710" font-size="12" fill="#666">Epochs: 1211</text>
-<text x="20" y="730" font-size="10" fill="#999">Training checkpoint after 1211 epochs</text>
+<rect x="890" y="670" width="300" height="120" fill="white" stroke="#333" stroke-width="2" rx="5"/>
+<text x="900" y="685" font-size="16" font-weight="bold" fill="#333">XOR Network - Epoch 1183</text>
+<text x="900" y="710" font-size="12" fill="#666">Epochs: 1183</text>
+<text x="900" y="730" font-size="10" fill="#999">Training checkpoint after 1183 epochs</text>
 </g>
 </svg>
