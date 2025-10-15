@@ -26,6 +26,7 @@
 //! ```
 
 mod activation;
+mod backward;
 mod forward;
 pub mod utils;
 
@@ -38,4 +39,5 @@ pub use neural_net_types::{
 pub use activation::{Activation, Linear, Sigmoid};
 
 // Export algorithm traits
+pub use backward::{LayerBackward, NetworkTraining};
 pub use forward::ForwardPropagation;

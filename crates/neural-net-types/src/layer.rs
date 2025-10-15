@@ -164,6 +164,11 @@ impl Layer {
     pub fn deltas_mut(&mut self) -> &mut Vec<f32> {
         &mut self.deltas
     }
+
+    /// Get mutable reference to weights (used by algorithms in neural-net-core)
+    pub fn weights_mut(&mut self) -> Option<&mut Array2<f32>> {
+        self.weights.as_mut()
+    }
 }
 
 #[cfg(test)]
