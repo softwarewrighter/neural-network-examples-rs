@@ -1,53 +1,41 @@
-//! # Neural Network Library
+//! # Neural Network Algorithms
 //!
-//! A feed-forward neural network implementation with backpropagation training algorithm.
+//! This crate provides algorithms for neural network operations (forward propagation,
+//! backpropagation, training). It depends on `neural-net-types` for data structures.
 //!
-//! This library provides a simple, type-safe implementation of a 3-layer neural network
-//! (input, hidden, output) suitable for learning basic patterns and classification tasks.
+//! ## Architecture
+//!
+//! - **Data structures** (Layer, Network, errors) → `neural-net-types` crate
+//! - **Algorithms** (forward/backward propagation) → this crate (`neural-net-core`)
+//! - **Visualization** (SVG generation) → `neural-net-viz` crate
+//!
+//! This separation prevents circular dependencies and keeps each crate small and focused.
 //!
 //! ## Examples
 //!
 //! ```
-//! use neural_net_core::FeedForwardNetwork;
+//! use neural_net_core::{FeedForwardNetwork, ForwardPropagation};
 //!
 //! // Create a network: 2 inputs, 4 hidden neurons, 1 output
-//! let network = FeedForwardNetwork::new(2, 4, 1);
-//! assert_eq!(network.layer_count(), 3);
-//! ```
-//!
-//! Full training example (when implementation is complete):
-//!
-//! ```ignore
-//! use neural_net_core::FeedForwardNetwork;
-//!
 //! let mut network = FeedForwardNetwork::new(2, 4, 1);
+//! assert_eq!(network.layer_count(), 3);
 //!
-//! // Training data for XOR
-//! let inputs = vec![
-//!     vec![0.0, 0.0],
-//!     vec![0.0, 1.0],
-//!     vec![1.0, 0.0],
-//!     vec![1.0, 1.0],
-//! ];
-//! let targets = vec![vec![0.0], vec![1.0], vec![1.0], vec![0.0]];
-//!
-//! // Train the network
-//! network.train_by_error(&inputs, &targets, 0.0001).unwrap();
-//!
-//! // Test the network
+//! // Forward propagation
 //! let output = network.forward(&[1.0, 0.0]).unwrap();
-//! assert!((output[0] - 1.0).abs() < 0.1);
+//! assert_eq!(output.len(), 1);
 //! ```
 
 mod activation;
-mod error;
-mod layer;
-mod network;
-mod persistence;
+mod forward;
 pub mod utils;
 
+// Re-export all types from neural-net-types for convenience
+pub use neural_net_types::{
+    FeedForwardNetwork, Layer, NetworkCheckpoint, NetworkMetadata, NeuralNetError, Result,
+};
+
+// Export activation functions
 pub use activation::{Activation, Linear, Sigmoid};
-pub use error::{NeuralNetError, Result};
-pub use layer::Layer;
-pub use network::{FeedForwardNetwork, TestResults};
-pub use persistence::{NetworkCheckpoint, NetworkMetadata};
+
+// Export algorithm traits
+pub use forward::ForwardPropagation;

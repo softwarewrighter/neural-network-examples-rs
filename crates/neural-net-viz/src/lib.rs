@@ -4,6 +4,15 @@
 //! educational purposes and visual learning. It generates scalable vector graphics
 //! showing network architecture, weights, and training progress.
 //!
+//! ## Architecture
+//!
+//! - **Data structures** (Layer, Network, errors) → `neural-net-types` crate
+//! - **Visualization** (SVG generation) → this crate (`neural-net-viz`)
+//! - **Algorithms** (forward/backward propagation) → `neural-net-core` crate
+//!
+//! This crate depends on `neural-net-types` for data structures and adds visualization
+//! capabilities via extension traits.
+//!
 //! ## Features
 //!
 //! - SVG generation for network architecture diagrams
@@ -15,7 +24,7 @@
 //! ## Example
 //!
 //! ```
-//! use neural_net_core::{FeedForwardNetwork, NetworkMetadata};
+//! use neural_net_types::{FeedForwardNetwork, NetworkMetadata};
 //! use neural_net_viz::{NetworkVisualization, VisualizationConfig};
 //!
 //! let network = FeedForwardNetwork::new(2, 4, 1);
@@ -33,7 +42,7 @@
 //! assert!(svg_with_meta.contains("XOR Network"));
 //! ```
 
-use neural_net_core::{FeedForwardNetwork, NetworkMetadata, Result};
+use neural_net_types::{FeedForwardNetwork, NetworkMetadata, Result};
 use std::fmt::Write;
 use std::fs::File;
 use std::io::Write as IoWrite;

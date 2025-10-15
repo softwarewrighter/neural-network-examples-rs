@@ -263,6 +263,58 @@ fn activate(&self, x: f32) -> f32 { ... }
 - `nalgebra` - More focused on linear algebra, less ML-oriented
 - Manual `Vec<Vec<f32>>` - Poor cache locality, no BLAS
 
+### Rust Borrowing Patterns for Performance
+
+**Critical Principle:** Avoid cloning large data structures in performance-critical paths.
+
+**Problem:** When working with mutable and immutable borrows simultaneously, the naive solution is to clone data to satisfy the borrow checker. However, cloning large arrays (like weight matrices) on every forward pass is O(n*m) and doesn't scale.
+
+**Solution Pattern - Compute Then Write:**
+```rust
+// ❌ INCORRECT: Cloning large arrays
+let weights_clone = weights.clone(); // O(n*m) - too expensive!
+let inputs = layer.inputs_mut();
+for col in 0..num_neurons {
+    for row in 0..num_prev {
+        sum += prev_outputs[row] * weights_clone[[row, col]];
+    }
+}
+
+// ✅ CORRECT: Compute in scope, then write
+let new_inputs: Vec<f32> = {
+    let weights = layer.weights()?; // Immutable borrow
+    (0..num_neurons)
+        .map(|col| {
+            (0..num_prev)
+                .map(|row| prev_outputs[row] * weights[[row, col]])
+                .sum()
+        })
+        .collect()
+}; // Borrow ends here - only O(n) temporary allocation
+*layer.inputs_mut() = new_inputs; // Single mutable borrow
+```
+
+**Key Techniques:**
+1. **Scope borrows:** Use `{ }` blocks to end borrows before taking new ones
+2. **Compute-then-write:** Calculate all results with immutable borrows, then write with one mutable borrow
+3. **Iterator chains:** Functional style often has better borrow ergonomics than loops
+4. **Accept necessary allocations:** A temporary Vec of size O(n) is fine; cloning O(n*m) is not
+
+**Performance Characteristics:**
+- Cloning weight matrix: O(n*m) time + O(n*m) space
+- Temporary result vector: O(n) time + O(n) space ✓
+- The temporary Vec allocation is unavoidable since we need to store results somewhere
+
+**When This Matters:**
+- Hot paths (called millions of times): forward/backward propagation
+- Large data structures: weight matrices, activation maps
+- Production code that must scale to larger networks
+
+**When Cloning is OK:**
+- Small data structures (< 100 bytes)
+- Cold paths (initialization, configuration)
+- Developer convenience in non-critical code
+
 ### Architecture Patterns
 
 **Trait-Based Design:**
@@ -279,6 +331,7 @@ fn activate(&self, x: f32) -> f32 { ... }
 - `Result<T, E>` everywhere (no panics in library)
 - `thiserror` for ergonomic error types
 - Clear error messages with context
+- **Never use `unwrap()`** in library code - always propagate errors with `?`
 
 ## Performance Considerations
 

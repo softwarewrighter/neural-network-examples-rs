@@ -35,7 +35,7 @@
 //! - `images/xor_manual_attempt1.svg` - After first manual adjustment
 //! - `images/xor_manual_attempt2.svg` - After second manual adjustment
 
-use neural_net_core::{FeedForwardNetwork, NetworkMetadata, Result};
+use neural_net_core::{FeedForwardNetwork, ForwardPropagation, NetworkMetadata, Result};
 use neural_net_viz::{NetworkVisualization, VisualizationConfig};
 use ndarray::Array2;
 use std::fs;

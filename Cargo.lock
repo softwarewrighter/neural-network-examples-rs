@@ -181,6 +181,15 @@ name = "neural-net-core"
 version = "0.1.0"
 dependencies = [
  "approx",
+ "ndarray",
+ "neural-net-types",
+]
+
+[[package]]
+name = "neural-net-types"
+version = "0.1.0"
+dependencies = [
+ "approx",
  "chrono",
  "ndarray",
  "rand",
@@ -194,7 +203,7 @@ name = "neural-net-viz"
 version = "0.1.0"
 dependencies = [
  "approx",
- "neural-net-core",
+ "neural-net-types",
 ]
 
 [[package]]

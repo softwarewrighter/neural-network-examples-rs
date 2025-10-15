@@ -5,17 +5,13 @@ edition.workspace = true
 authors.workspace = true
 license.workspace = true
 repository.workspace = true
-description = "Core data structures and algorithms for neural network examples (from-scratch implementation)"
-keywords = ["neural-network", "machine-learning", "educational"]
+description = "Neural network algorithms (forward/backward propagation, training) - depends on neural-net-types for data structures"
+keywords = ["neural-network", "machine-learning", "educational", "backpropagation"]
 categories = ["algorithms", "science"]
 
 [dependencies]
+neural-net-types = { path = "../neural-net-types" }
 ndarray.workspace = true
-rand.workspace = true
-thiserror.workspace = true
-serde.workspace = true
-serde_json.workspace = true
-chrono.workspace = true
 
 [dev-dependencies]
 approx.workspace = true

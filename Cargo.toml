@@ -1,6 +1,7 @@
 [workspace]
 resolver = "2"
 members = [
+    "crates/neural-net-types",
     "crates/neural-net-core",
     "crates/neural-net-viz",
     "examples/forward-propagation",
