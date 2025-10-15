@@ -98,6 +98,7 @@ async fn main() -> Result<()> {
                 host: host.clone(),
                 script_path: script,
                 checkpoint_dir: checkpoints,
+                web_dist_path: Some(PathBuf::from("crates/neural-net-animator/web/dist")),
             };
 
             let url = format!("http://{}:{}", host, port);

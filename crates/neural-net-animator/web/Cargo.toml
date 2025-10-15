@@ -7,32 +7,33 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-# Animation core (shared types)
-neural-net-animator = { path = ".." }
-
-# Leptos framework
-leptos = { version = "0.6", features = ["csr"] }
-leptos_meta = { version = "0.6", features = ["csr"] }
-leptos_router = { version = "0.6", features = ["csr"] }
+# Yew framework
+yew = { version = "0.21", features = ["csr"] }
+yew-hooks = "0.3"
 
 # WASM bindings
 wasm-bindgen = "0.2"
+wasm-bindgen-futures = "0.4"
 web-sys = { version = "0.3", features = [
-    "Window",
     "Document",
+    "Element",
     "HtmlElement",
-    "HtmlCanvasElement",
-    "CanvasRenderingContext2d",
-    "console",
+    "HtmlInputElement",
+    "Window",
+    "Event",
+    "EventTarget",
 ] }
 
-# Serialization
+# Utilities
+gloo-timers = "0.3"
+gloo-net = "0.6"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 serde-wasm-bindgen = "0.6"
-
-# Utilities
 console_error_panic_hook = "0.1"
 
-[package.metadata.wasm-pack.profile.release]
-wasm-opt = ["-O4"]
+# Local dependencies
+neural-net-animator = { path = ".." }
+neural-net-core = { path = "../../neural-net-core" }
+neural-net-types = { path = "../../neural-net-types" }
+neural-net-viz = { path = "../../neural-net-viz" }

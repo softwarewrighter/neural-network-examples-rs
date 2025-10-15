@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 /// Complete animation script
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct AnimationScript {
     /// Metadata about the animation
     pub metadata: AnimationMetadata,
@@ -53,7 +53,7 @@ impl AnimationScript {
 }
 
 /// Animation metadata
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct AnimationMetadata {
     /// Title of the animation
     pub title: String,
@@ -80,7 +80,7 @@ impl Default for AnimationMetadata {
 }
 
 /// Network architecture information
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct NetworkInfo {
     /// Architecture description (e.g., "2-4-1")
     pub architecture: String,
@@ -99,7 +99,7 @@ pub struct NetworkInfo {
 }
 
 /// Truth table for displaying expected behavior
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct TruthTable {
     /// Input column names
     pub input_labels: Vec<String>,
@@ -112,7 +112,7 @@ pub struct TruthTable {
 }
 
 /// Single row in truth table
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct TruthTableRow {
     /// Input values
     pub inputs: Vec<f32>,
@@ -125,7 +125,7 @@ pub struct TruthTableRow {
 }
 
 /// Individual scene in the animation
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct Scene {
     /// Unique identifier
     pub id: String,
@@ -147,7 +147,7 @@ pub struct Scene {
 }
 
 /// Network state at a point in time
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct NetworkState {
     /// Path to checkpoint file
     pub checkpoint_path: String,
@@ -163,7 +163,7 @@ pub struct NetworkState {
 }
 
 /// Test results at a checkpoint
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct TestResults {
     /// Overall accuracy (0.0 to 1.0)
     pub accuracy: f32,
@@ -176,7 +176,7 @@ pub struct TestResults {
 }
 
 /// Result for a single test example
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct ExampleResult {
     /// Input values
     pub inputs: Vec<f32>,
@@ -195,7 +195,7 @@ pub struct ExampleResult {
 }
 
 /// Annotation to display
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct Annotation {
     /// Type of annotation
     pub annotation_type: AnnotationType,
@@ -211,7 +211,7 @@ pub struct Annotation {
 }
 
 /// Type of annotation
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "lowercase")]
 pub enum AnnotationType {
     Title,
@@ -221,7 +221,7 @@ pub enum AnnotationType {
 }
 
 /// Position of annotation
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(untagged)]
 pub enum AnnotationPosition {
     /// Fixed position name
@@ -232,7 +232,7 @@ pub enum AnnotationPosition {
 }
 
 /// Annotation style
-#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default, PartialEq)]
 pub struct AnnotationStyle {
     /// Font size
     pub font_size: Option<String>,
@@ -245,7 +245,7 @@ pub struct AnnotationStyle {
 }
 
 /// Visual highlight
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct Highlight {
     /// Type of highlight
     pub highlight_type: HighlightType,
@@ -258,7 +258,7 @@ pub struct Highlight {
 }
 
 /// Type of highlight
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "snake_case")]
 pub enum HighlightType {
     /// Highlight weights that changed significantly
@@ -272,7 +272,7 @@ pub enum HighlightType {
 }
 
 /// Transition between scenes
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "lowercase")]
 pub enum TransitionType {
     /// No transition, instant cut

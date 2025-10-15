@@ -945,15 +945,17 @@ After training with backpropagation:
 
 **Architecture Decisions:**
 
-1. **All-Rust Frontend**: Decided to use Leptos WASM (not JavaScript)
+1. **All-Rust Frontend with Yew**: Chose Yew over Leptos for stability
+   - **Why Yew**: Mature, stable API with React-like patterns
+   - **Why NOT Leptos**: Breaking changes between versions (0.6 → 0.7 changed core APIs)
    - Domain logic in Rust
    - Presentation logic in Rust
    - JavaScript only for minimal bootstrap/glue
-   - Rationale: This is an educational ML tool - keep it consistent with Rust ecosystem
+   - Rationale: Educational ML tool needs stable, maintainable patterns
 
 2. **SVG Rendering**: Reuse existing `neural-net-viz` crate
    - Generate SVG server-side from checkpoints
-   - Inject into DOM via Leptos components
+   - Inject into DOM via Yew's `Html::from_html_unchecked()`
    - No need to reimplement visualization logic
 
 3. **Pluggable Scripts**: JSON format allows full control
@@ -961,51 +963,60 @@ After training with backpropagation:
    - Auto-generation provides good defaults
    - Supports complex annotations and highlights
 
-### What's Pending
+4. **Yew Best Practices Followed**:
+   - ✅ Props implement `PartialEq` for efficient re-renders
+   - ✅ Use `use_state` for component state
+   - ✅ Use `use_effect_with` for side effects
+   - ✅ Pass scene indices instead of complex borrowed data
+   - ✅ Clone small data (AnimationScript) rather than fighting borrow checker
+   - ✅ Use `Callback::from` for event handlers
+   - ✅ Proper cleanup with `move || drop(interval)` pattern
 
-**Phase 2: Leptos WASM Frontend** (Next Session)
+### What's Completed (Phase 2: Yew Frontend)
 
-**Required Components:**
+**✅ Yew WASM Implementation Complete - Compiles Successfully**
 
-1. **Leptos Components** (all Rust):
+1. **Yew Components** (all Rust) - `web/src/components/`:
    ```rust
-   - AnimationPlayer      // Main app component
-   - NetworkCanvas        // SVG rendering area
-   - Timeline             // Scrubbing bar with progress
-   - DvrControls          // Play/pause/speed buttons
-   - MetricsPanel         // Iteration, accuracy, error display
-   - InfoPanel            // Architecture, activation info
+   ✅ App                  // Top-level app component
+   ✅ AnimationPlayer      // Main coordinator, loads script
+   ✅ NetworkCanvas        // SVG rendering with Html::from_html_unchecked
+   ✅ Timeline             // Scrubbing bar with input range
+   ✅ DvrControls          // All DVR buttons with callbacks
+   ✅ MetricsPanel         // Displays accuracy, error, test results
+   ✅ InfoPanel            // Shows network architecture, annotations
    ```
 
-2. **State Management** (Leptos Signals):
+2. **State Management** (Yew Hooks):
    ```rust
-   - animation_script: Signal<AnimationScript>
-   - current_time: Signal<f64>
-   - playback_state: Signal<PlaybackState>
-   - playback_speed: Signal<PlaybackSpeed>
+   ✅ use_state<AnimationScript>      // Script data
+   ✅ use_state<Timeline>             // Timeline controller
+   ✅ use_state<Option<String>>       // Current SVG
+   ✅ use_effect_with                 // Effects for loading/updating
+   ✅ Callback::from                  // Event handlers
    ```
 
 3. **SVG Rendering**:
-   - Load checkpoint from server via API
-   - Generate SVG using `neural-net-viz`
-   - Inject into DOM via Leptos `InnerHtml`
-   - Update on scene changes
+   ✅ Load checkpoint from server via gloo-net
+   ✅ Placeholder SVG generation (TODO: integrate neural-net-viz)
+   ✅ Inject into DOM via `Html::from_html_unchecked()`
+   ✅ Update on scene changes via interval
 
 4. **Build Setup**:
-   - Trunk for WASM building/bundling
-   - `trunk.toml` configuration
-   - Minimal `index.html` bootstrap
-   - Server endpoint to serve WASM bundle
+   ✅ Trunk configuration (`Trunk.toml`)
+   ✅ Minimal `index.html` bootstrap
+   ✅ Complete CSS styling (`styles.css`)
+   ⏳ Needs `cargo install trunk` and `trunk build` (next step)
 
 5. **Server Updates** (`src/server/mod.rs`):
-   - Remove embedded HTML (JavaScript solution)
-   - Add endpoint for SVG generation
-   - Serve static WASM/JS files
-   - API for loading checkpoints
+   ✅ Serve Trunk-built dist/ directory
+   ✅ Fallback to placeholder if dist doesn't exist
+   ✅ Updated checkpoint endpoint for full paths
+   ✅ API endpoints: `/api/script`, `/api/checkpoint/*`
 
 ### Why This Approach
 
-**Two-Phase Strategy:**
+**Three-Phase Strategy:**
 
 **Phase 1** (Completed):
 - Build solid foundation with data structures
@@ -1014,11 +1025,17 @@ After training with backpropagation:
 - Document usage patterns
 - **Result**: Fully functional backend and CLI tool
 
-**Phase 2** (Next):
-- Focus entirely on Leptos frontend
-- Clean session with fresh context
-- Proper Rust/WASM architecture
-- **Benefit**: Avoid rushing the frontend, do it right
+**Phase 2** (Completed):
+- Initially tried Leptos but hit breaking API changes
+- **Pivoted to Yew** - more stable, mature framework
+- Implemented all components following Yew best practices
+- **Result**: Compiling Yew frontend with proper Rust patterns
+
+**Phase 3** (Next):
+- Install Trunk: `cargo install trunk`
+- Build: `cd web && trunk build`
+- Test in browser with full integration
+- **Benefit**: Clean implementation without workarounds
 
 ### Usage (Current)
 
@@ -1044,24 +1061,107 @@ After training with backpropagation:
 
 ### Key Lessons
 
-1. **Architecture First**: Built solid data structures before rushing to UI
-2. **Testability**: Timeline has 10 tests, all passing
-3. **Documentation**: Comprehensive README makes tool approachable
-4. **Clean Separation**: Backend logic independent of frontend choice
-5. **CLI First**: Tool is immediately useful even without web UI
+1. **Choose Stable Frameworks**: Yew's stability > Leptos' novelty
+   - Leptos 0.6 → 0.7 broke Signal API, wasm_bindgen imports, string rendering
+   - Yew has consistent API since 0.18, well-documented patterns
+   - **Lesson**: For educational tools, prioritize stability and clear docs
 
-### Next Steps
+2. **Follow Framework Patterns, Don't Fight Them**:
+   - ✅ **Correct**: Pass scene index `scene_idx: Option<usize>` in props
+   - ❌ **Wrong**: Pass full scene tuple `scene: Option<(usize, Scene, f64)>` (Yew can't derive PartialEq)
+   - ✅ **Correct**: Clone small data (`AnimationScript`) when needed
+   - ❌ **Wrong**: Complex borrowing gymnastics to avoid clones
+   - **Lesson**: Framework ergonomics exist for a reason - use them
 
-1. **Create Leptos project** in `web/` directory
-2. **Implement components** (NetworkCanvas, DvrControls, Timeline)
-3. **Wire up state management** with Leptos signals
-4. **Build with Trunk** and test in browser
-5. **Update server** to serve WASM bundle
-6. **Test end-to-end** with Playwright
+3. **Implement PartialEq Correctly**:
+   - Timeline needed PartialEq but contains `Instant` (doesn't implement PartialEq)
+   - ✅ **Solution**: Manual impl comparing all fields except `last_update`
+   - ✅ **Clean**: Use epsilon comparison for f64 fields (`abs() < 0.001`)
+   - ❌ **Avoid**: Skipping PartialEq and working around it everywhere
 
-**Estimated Effort**: 50-70k tokens for complete Leptos implementation
+4. **Add Derives Early**: PartialEq requirements cascade
+   - AnimationScript needs PartialEq → all nested types need it too
+   - Added to 15+ types: Scene, NetworkState, Annotation, Highlight, etc.
+   - **Lesson**: Add common derives (Debug, Clone, PartialEq, Serialize, Deserialize) upfront
+
+5. **Architecture First**: Built solid data structures before rushing to UI
+   - Timeline has 10 tests, all passing
+   - Clean separation: Backend logic independent of frontend choice
+   - CLI first: Tool immediately useful without web UI
+
+6. **Documentation**: Comprehensive README makes tool approachable
+   - Documented script format, CLI usage, keyboard shortcuts
+   - Examples of workflows and troubleshooting
+
+7. **Avoid Unmaintainable Workarounds**:
+   - When Leptos proved problematic, we pivoted rather than hack around it
+   - Better to restart with stable foundation than build on shaky ground
+   - **Lesson**: Technical debt compounds - choose clean solutions
+
+### Next Steps (Phase 3: Build & Test)
+
+1. ✅ **Yew project created** in `web/` directory
+2. ✅ **All components implemented** (7 components, all compile)
+3. ✅ **State management wired** with Yew hooks
+4. ⏳ **Install Trunk**: `cargo install trunk`
+5. ⏳ **Build with Trunk**: `cd web && trunk build`
+6. ⏳ **Test in browser**: Start server, open http://localhost:8080
+7. ⏳ **Integrate neural-net-viz**: Replace placeholder SVG with real rendering
+8. ⏳ **End-to-end test**: Validate with Playwright
+
+**Remaining Effort**: ~10-20k tokens (build, test, fix integration issues)
 
 ---
 
-**Last Updated:** Post-Animation Tool Phase 1 (2025-10-15)
-**Next Update:** After completing Leptos frontend (Phase 2)
+### Yew Best Practices Reference
+
+**For Future Yew Development:**
+
+1. **Props Must Implement PartialEq**:
+   ```rust
+   #[derive(Properties, PartialEq)]  // PartialEq is required
+   pub struct MyProps {
+       pub data: SomeType,  // SomeType must also impl PartialEq
+   }
+   ```
+
+2. **State Management**:
+   ```rust
+   let state = use_state(|| initial_value);
+   state.set(new_value);   // Update state
+   let value = (*state).clone();  // Read state (dereference, then clone)
+   ```
+
+3. **Effects**:
+   ```rust
+   use_effect_with((), move |_| {
+       // Run on mount
+       || () // Cleanup function
+   });
+   ```
+
+4. **Event Handlers**:
+   ```rust
+   let onclick = Callback::from(move |_| {
+       // Handle event
+   });
+   ```
+
+5. **Complex Props - Pass Indices, Not References**:
+   ```rust
+   // ✅ GOOD: Pass simple data
+   pub scene_idx: Option<usize>
+
+   // ❌ BAD: Pass complex borrowed data
+   pub scene: Option<(usize, &Scene, f64)>
+   ```
+
+6. **HTML Injection** (for SVG):
+   ```rust
+   Html::from_html_unchecked(AttrValue::from(svg_string))
+   ```
+
+---
+
+**Last Updated:** Post-Yew Implementation (2025-10-15)
+**Next Update:** After Trunk build and browser testing (Phase 3)

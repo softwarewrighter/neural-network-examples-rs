@@ -29,6 +29,9 @@ pub struct ServerConfig {
 
     /// Path to checkpoint directory
     pub checkpoint_dir: PathBuf,
+
+    /// Path to web assets directory (Trunk dist)
+    pub web_dist_path: Option<PathBuf>,
 }
 
 impl Default for ServerConfig {
@@ -38,6 +41,7 @@ impl Default for ServerConfig {
             host: "127.0.0.1".to_string(),
             script_path: PathBuf::from("animation.json"),
             checkpoint_dir: PathBuf::from("checkpoints"),
+            web_dist_path: Some(PathBuf::from("crates/neural-net-animator/web/dist")),
         }
     }
 }
@@ -46,6 +50,7 @@ impl Default for ServerConfig {
 #[derive(Clone)]
 struct AppState {
     script: Arc<AnimationScript>,
+    #[allow(dead_code)]  // TODO: Use for resolving relative checkpoint paths
     checkpoint_dir: PathBuf,
 }
 
@@ -68,11 +73,9 @@ pub async fn start_server(config: ServerConfig) -> anyhow::Result<()> {
     };
 
     // Build router
-    let app = Router::new()
-        .route("/", get(index_handler))
+    let mut app = Router::new()
         .route("/api/script", get(get_script))
-        .route("/api/checkpoint/:name", get(get_checkpoint))
-        .nest_service("/static", ServeDir::new("static"))
+        .route("/api/checkpoint/*path", get(get_checkpoint))
         .layer(
             CorsLayer::new()
                 .allow_origin(Any)
@@ -81,6 +84,22 @@ pub async fn start_server(config: ServerConfig) -> anyhow::Result<()> {
         )
         .layer(TraceLayer::new_for_http())
         .with_state(state);
+
+    // Serve static files if web_dist_path is provided
+    if let Some(dist_path) = &config.web_dist_path {
+        if dist_path.exists() {
+            tracing::info!("Serving web assets from: {}", dist_path.display());
+            app = app.fallback_service(ServeDir::new(dist_path));
+        } else {
+            tracing::warn!(
+                "Web dist path does not exist: {}. Run 'trunk build' in web/ directory first.",
+                dist_path.display()
+            );
+            app = app.route("/", get(placeholder_handler));
+        }
+    } else {
+        app = app.route("/", get(placeholder_handler));
+    }
 
     let addr = SocketAddr::from((
         config.host.parse::<std::net::IpAddr>()?,
@@ -96,10 +115,9 @@ pub async fn start_server(config: ServerConfig) -> anyhow::Result<()> {
     Ok(())
 }
 
-/// Serve the main HTML page
-async fn index_handler() -> Html<String> {
-    let html = r#"
-<!DOCTYPE html>
+/// Serve a placeholder page when Trunk hasn't built the frontend yet
+async fn placeholder_handler() -> Html<String> {
+    let html = r#"<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -604,21 +622,36 @@ async fn get_script(State(state): State<AppState>) -> Json<AnimationScript> {
 
 /// Get checkpoint file
 async fn get_checkpoint(
-    State(state): State<AppState>,
-    axum::extract::Path(name): axum::extract::Path<String>,
+    State(_state): State<AppState>,
+    axum::extract::Path(path): axum::extract::Path<String>,
 ) -> Result<Response, StatusCode> {
-    let checkpoint_path = state.checkpoint_dir.join(&name);
+    // The path parameter contains the full path after /api/checkpoint/
+    // which may include directories (e.g., "examples/example-2/.../file.json")
+    let checkpoint_path = PathBuf::from(&path);
 
-    if !checkpoint_path.exists() {
+    // Resolve relative to project root or use as absolute path
+    let full_path = if checkpoint_path.is_absolute() {
+        checkpoint_path
+    } else {
+        std::env::current_dir()
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?
+            .join(&checkpoint_path)
+    };
+
+    if !full_path.exists() {
+        tracing::warn!("Checkpoint not found: {}", full_path.display());
         return Err(StatusCode::NOT_FOUND);
     }
 
-    match std::fs::read(&checkpoint_path) {
+    match std::fs::read(&full_path) {
         Ok(content) => Ok((
             [(header::CONTENT_TYPE, "application/json")],
             content,
         )
             .into_response()),
-        Err(_) => Err(StatusCode::INTERNAL_SERVER_ERROR),
+        Err(e) => {
+            tracing::error!("Failed to read checkpoint: {}", e);
+            Err(StatusCode::INTERNAL_SERVER_ERROR)
+        }
     }
 }

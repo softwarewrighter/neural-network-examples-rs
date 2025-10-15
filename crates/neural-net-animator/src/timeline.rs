@@ -67,7 +67,7 @@ impl PlaybackSpeed {
 }
 
 /// Timeline controller
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Timeline {
     /// Current playback state
     state: PlaybackState,
@@ -86,6 +86,17 @@ pub struct Timeline {
 
     /// Whether to loop
     looping: bool,
+}
+
+impl PartialEq for Timeline {
+    fn eq(&self, other: &Self) -> bool {
+        // Compare all fields except last_update (Instant doesn't implement PartialEq)
+        self.state == other.state
+            && self.speed == other.speed
+            && (self.current_time - other.current_time).abs() < 0.001
+            && (self.total_duration - other.total_duration).abs() < 0.001
+            && self.looping == other.looping
+    }
 }
 
 impl Timeline {
