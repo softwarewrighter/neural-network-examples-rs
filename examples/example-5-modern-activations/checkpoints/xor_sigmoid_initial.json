@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "name": "XOR (Sigmoid)",
+    "description": "Initial network with random weights",
+    "timestamp": "2025-10-15T03:45:58.315320+00:00",
+    "epochs": 0,
+    "accuracy": null,
+    "custom": {}
+  },
+  "network": {
+    "layers": [
+      {
+        "index": 0,
+        "num_neurons": 2,
+        "weights": null,
+        "inputs": [],
+        "outputs": [],
+        "deltas": []
+      },
+      {
+        "index": 1,
+        "num_neurons": 4,
+        "weights": {
+          "v": 1,
+          "dim": [
+            2,
+            4
+          ],
+          "data": [
+            0.22724867,
+            -0.19380784,
+            -0.013902903,
+            -0.7575252,
+            0.033548594,
+            -0.32538652,
+            0.6590533,
+            -0.62741375
+          ]
+        },
+        "inputs": [],
+        "outputs": [],
+        "deltas": []
+      },
+      {
+        "index": 2,
+        "num_neurons": 1,
+        "weights": {
+          "v": 1,
+          "dim": [
+            4,
+            1
+          ],
+          "data": [
+            0.5504737,
+            -0.063975334,
+            0.45594907,
+            -0.932878
+          ]
+        },
+        "inputs": [],
+        "outputs": [],
+        "deltas": []
+      }
+    ],
+    "targets": null
+  }
+}

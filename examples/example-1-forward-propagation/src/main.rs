@@ -215,12 +215,10 @@ mod tests {
         // Negative test: Untrained network with random weights should produce high error
         let mut network = FeedForwardNetwork::new(2, 4, 1);
 
-        let xor_inputs = vec![
-            vec![0.0, 0.0],
+        let xor_inputs = [vec![0.0, 0.0],
             vec![0.0, 1.0],
             vec![1.0, 0.0],
-            vec![1.0, 1.0],
-        ];
+            vec![1.0, 1.0]];
         let xor_targets = vec![
             vec![0.0], vec![1.0], vec![1.0], vec![0.0]
         ];

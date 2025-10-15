@@ -20,9 +20,11 @@
 //! - When to use each activation function
 
 use neural_net_core::{
-    FeedForwardNetwork, ForwardPropagation, NetworkTraining, Result,
+    FeedForwardNetwork, ForwardPropagation, NetworkTraining, NetworkMetadata, Result,
     Activation, Sigmoid, ReLU, LeakyReLU, GELU, Swish, Tanh,
 };
+use neural_net_viz::{NetworkVisualization, VisualizationConfig};
+use std::fs;
 
 fn main() -> Result<()> {
     let separator = "======================================================================";
@@ -31,6 +33,14 @@ fn main() -> Result<()> {
     println!("Example-5: Modern Activation Functions");
     println!("{}", separator);
     println!();
+
+    // Create directories for checkpoints and visualizations
+    let manifest_dir = env!("CARGO_MANIFEST_DIR");
+    let checkpoints_dir = format!("{}/checkpoints", manifest_dir);
+    let images_dir = format!("{}/images", manifest_dir);
+
+    fs::create_dir_all(&checkpoints_dir)?;
+    fs::create_dir_all(&images_dir)?;
 
     // Demonstrate basic activation behavior
     demonstrate_activation_outputs();
@@ -41,7 +51,7 @@ fn main() -> Result<()> {
     println!();
 
     // Train networks with different activations
-    train_with_different_activations()?;
+    train_with_different_activations(&checkpoints_dir, &images_dir)?;
     println!();
 
     println!("{}", separator);
@@ -154,7 +164,7 @@ fn demonstrate_gradient_behavior() {
 }
 
 /// Train networks with different activations and compare performance
-fn train_with_different_activations() -> Result<()> {
+fn train_with_different_activations(checkpoints_dir: &str, images_dir: &str) -> Result<()> {
     println!("--- Training XOR with Different Activations ---");
     println!();
 
@@ -185,6 +195,18 @@ fn train_with_different_activations() -> Result<()> {
         print!("Training with {}... ", activation_name);
 
         let mut network = FeedForwardNetwork::new(2, 4, 1);
+
+        // Save initial state
+        println!();
+        println!("  Saving initial network state...");
+        let metadata_initial = NetworkMetadata::initial("XOR (Sigmoid)");
+        let checkpoint_path = format!("{}/xor_sigmoid_initial.json", checkpoints_dir);
+        network.save_checkpoint(&checkpoint_path, metadata_initial.clone())?;
+
+        let config = VisualizationConfig::default();
+        let svg_path = format!("{}/xor_sigmoid_initial.svg", images_dir);
+        network.save_svg_with_metadata(&svg_path, &metadata_initial, &config)?;
+        println!("  ✓ Saved initial checkpoint and visualization");
 
         // Train using train_by_error which trains until error threshold or max iterations
         let iterations = network.train_by_error(
@@ -237,6 +259,16 @@ fn train_with_different_activations() -> Result<()> {
         } else {
             println!("  Status: ⚠️  Did not fully learn XOR");
         }
+
+        // Save trained state
+        println!("  Saving trained network state...");
+        let metadata_trained = NetworkMetadata::checkpoint("XOR (Sigmoid)", iterations, Some(accuracy));
+        let checkpoint_path = format!("{}/xor_sigmoid_trained.json", checkpoints_dir);
+        network.save_checkpoint(&checkpoint_path, metadata_trained.clone())?;
+
+        let svg_path = format!("{}/xor_sigmoid_trained.svg", images_dir);
+        network.save_svg_with_metadata(&svg_path, &metadata_trained, &config)?;
+        println!("  ✓ Saved trained checkpoint and visualization");
 
         println!();
     }

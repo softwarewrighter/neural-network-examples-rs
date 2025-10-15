@@ -200,7 +200,7 @@ mod tests {
         let weights = layer.weights().unwrap();
 
         for &w in weights.iter() {
-            assert!(w >= -1.0 && w <= 1.0, "Weight {} out of range", w);
+            assert!((-1.0..=1.0).contains(&w), "Weight {} out of range", w);
         }
     }
 

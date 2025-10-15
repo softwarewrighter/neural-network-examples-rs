@@ -222,6 +222,46 @@ Key Insights:
 
 ---
 
+## Network Visualization
+
+This example generates visualizations of the network before and after training using the Adam optimizer (the best performer). The visualizations show how the network's weights change during training.
+
+### Before Training (Random Weights)
+
+The initial network has randomly initialized weights. Notice the varied thickness and colors of the connections representing different weight magnitudes and directions.
+
+![Parity3 Network - Initial State](images/parity3_adam_initial.svg)
+
+At this stage:
+- Weights are randomly initialized
+- Network produces random outputs (~50% accuracy)
+- No clear pattern in weight structure
+
+### After Training (Learned Weights)
+
+After 760 iterations with the Adam optimizer, the network has learned the 3-bit parity function perfectly:
+
+![Parity3 Network - Trained State](images/parity3_adam_trained.svg)
+
+Key observations:
+- **100% accuracy** on all 8 parity cases
+- **760 iterations** to convergence (26× faster than SGD!)
+- Weights have organized into meaningful patterns
+- Hidden layer neurons have specialized to detect different input combinations
+
+### What Changed?
+
+Compare the two visualizations:
+
+1. **Weight Magnitudes**: Some connections became stronger (thicker lines), others weaker
+2. **Weight Directions**: Positive (blue/green) vs negative (red) weights serve different roles
+3. **Network Structure**: Clear patterns emerge showing which neurons activate for which inputs
+4. **Bias Values**: Adjusted to properly threshold the neuron activations
+
+This visualization demonstrates why Adam is so effective - it rapidly adjusts both the magnitude and direction of weights to minimize error.
+
+---
+
 ## Key Insights
 
 ### Why Adam is So Much Faster

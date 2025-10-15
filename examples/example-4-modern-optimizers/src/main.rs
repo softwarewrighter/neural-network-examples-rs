@@ -44,12 +44,14 @@
 //! ```
 
 use neural_net_core::{
-    Adam, AdamW, FeedForwardNetwork, ForwardPropagation, LayerBackward, Optimizer, RMSprop,
-    SGDMomentum, SGD,
+    Adam, AdamW, FeedForwardNetwork, ForwardPropagation, LayerBackward, NetworkMetadata, Optimizer, RMSprop,
+    Result, SGDMomentum, SGD,
 };
+use neural_net_viz::{NetworkVisualization, VisualizationConfig};
+use std::fs;
 use std::time::Instant;
 
-fn main() {
+fn main() -> Result<()> {
     println!("{}", "=".repeat(80));
     println!("Example 4: Modern Optimizers Comparison");
     println!("{}", "=".repeat(80));
@@ -95,6 +97,14 @@ fn main() {
         (Box::new(AdamW::new(0.01, 0.001)), "AdamW", 0.01),
     ];
 
+    // Create directories for checkpoints and visualizations
+    let manifest_dir = env!("CARGO_MANIFEST_DIR");
+    let checkpoints_dir = format!("{}/checkpoints", manifest_dir);
+    let images_dir = format!("{}/images", manifest_dir);
+
+    fs::create_dir_all(&checkpoints_dir)?;
+    fs::create_dir_all(&images_dir)?;
+
     let mut results = Vec::new();
 
     for (mut optimizer, name, lr) in optimizers {
@@ -104,6 +114,22 @@ fn main() {
         println!("{}", "-".repeat(80));
 
         let mut network = FeedForwardNetwork::new(3, 6, 1);
+
+        // Save initial state for Adam (the best optimizer)
+        if name == "Adam" {
+            println!("  Saving initial network state...");
+            let metadata = NetworkMetadata::initial("Parity3 (Adam)");
+
+            let checkpoint_path = format!("{}/parity3_adam_initial.json", checkpoints_dir);
+            network.save_checkpoint(&checkpoint_path, metadata.clone())?;
+
+            // Generate initial visualization
+            let config = VisualizationConfig::default();
+            let svg_path = format!("{}/parity3_adam_initial.svg", images_dir);
+            network.save_svg_with_metadata(&svg_path, &metadata, &config)?;
+            println!("  ✓ Saved initial checkpoint and visualization");
+        }
+
         let start = Instant::now();
 
         let iterations =
@@ -138,6 +164,21 @@ fn main() {
             println!("  ✓ Converged successfully");
         } else {
             println!("  ✗ Did not converge (reached max iterations)");
+        }
+
+        // Save trained state for Adam
+        if name == "Adam" {
+            println!("  Saving trained network state...");
+            let metadata = NetworkMetadata::checkpoint("Parity3 (Adam)", iterations, Some(accuracy));
+
+            let checkpoint_path = format!("{}/parity3_adam_trained.json", checkpoints_dir);
+            network.save_checkpoint(&checkpoint_path, metadata.clone())?;
+
+            // Generate trained visualization
+            let config = VisualizationConfig::default();
+            let svg_path = format!("{}/parity3_adam_trained.svg", images_dir);
+            network.save_svg_with_metadata(&svg_path, &metadata, &config)?;
+            println!("  ✓ Saved trained checkpoint and visualization");
         }
 
         println!();
@@ -184,6 +225,8 @@ fn main() {
     println!("  • RMSprop is comparable to Adam for this task");
     println!("  • Modern optimizers (Adam, RMSprop) are essential for deep learning");
     println!();
+
+    Ok(())
 }
 
 /// Train network with a specific optimizer until target error is reached

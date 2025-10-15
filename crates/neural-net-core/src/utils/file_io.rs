@@ -71,7 +71,7 @@ mod tests {
         let temp_path = "/tmp/test_neural_net_matrix_empty.txt";
         let mut file = File::create(temp_path).unwrap();
         writeln!(file, "1.0 2.0").unwrap();
-        writeln!(file, "").unwrap(); // Empty line
+        writeln!(file).unwrap(); // Empty line
         writeln!(file, "3.0 4.0").unwrap();
 
         let matrix = read_matrix_from_file(temp_path).unwrap();

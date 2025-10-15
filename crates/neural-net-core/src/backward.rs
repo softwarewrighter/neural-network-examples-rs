@@ -337,12 +337,10 @@ mod tests {
         let mut network = neural_net_types::FeedForwardNetwork::new(2, 4, 1);
 
         // XOR inputs and targets
-        let inputs = vec![
-            vec![0.0, 0.0],
+        let inputs = [vec![0.0, 0.0],
             vec![0.0, 1.0],
             vec![1.0, 0.0],
-            vec![1.0, 1.0],
-        ];
+            vec![1.0, 1.0]];
         let targets = vec![vec![0.0], vec![1.0], vec![1.0], vec![0.0]];
 
         // Calculate error before training

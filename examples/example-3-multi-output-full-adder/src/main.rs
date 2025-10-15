@@ -200,16 +200,14 @@ mod tests {
         // Negative test: Untrained network should produce high error
         let mut network = FeedForwardNetwork::new(3, 6, 2);
 
-        let inputs = vec![
-            vec![0.0, 0.0, 0.0],
+        let inputs = [vec![0.0, 0.0, 0.0],
             vec![0.0, 0.0, 1.0],
             vec![0.0, 1.0, 0.0],
             vec![0.0, 1.0, 1.0],
             vec![1.0, 0.0, 0.0],
             vec![1.0, 0.0, 1.0],
             vec![1.0, 1.0, 0.0],
-            vec![1.0, 1.0, 1.0],
-        ];
+            vec![1.0, 1.0, 1.0]];
         let targets = vec![
             vec![0.0, 0.0],
             vec![1.0, 0.0],
@@ -239,16 +237,14 @@ mod tests {
     #[test]
     fn test_full_adder_truth_table() {
         // Verify our truth table is correct
-        let inputs = vec![
-            vec![0.0, 0.0, 0.0],
+        let inputs = [vec![0.0, 0.0, 0.0],
             vec![0.0, 0.0, 1.0],
             vec![0.0, 1.0, 0.0],
             vec![0.0, 1.0, 1.0],
             vec![1.0, 0.0, 0.0],
             vec![1.0, 0.0, 1.0],
             vec![1.0, 1.0, 0.0],
-            vec![1.0, 1.0, 1.0],
-        ];
+            vec![1.0, 1.0, 1.0]];
         let expected = vec![
             vec![0.0, 0.0],
             vec![1.0, 0.0],

@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "name": "Parity3 (Adam)",
+    "description": "Initial network with random weights",
+    "timestamp": "2025-10-15T03:43:54.614967+00:00",
+    "epochs": 0,
+    "accuracy": null,
+    "custom": {}
+  },
+  "network": {
+    "layers": [
+      {
+        "index": 0,
+        "num_neurons": 3,
+        "weights": null,
+        "inputs": [],
+        "outputs": [],
+        "deltas": []
+      },
+      {
+        "index": 1,
+        "num_neurons": 6,
+        "weights": {
+          "v": 1,
+          "dim": [
+            3,
+            6
+          ],
+          "data": [
+            0.044151068,
+            0.96317625,
+            0.14397454,
+            -0.31625056,
+            -0.7752869,
+            0.0335958,
+            0.18852639,
+            -0.34855223,
+            0.10382986,
+            0.09808302,
+            0.4611442,
+            0.8530626,
+            0.8241358,
+            0.59039664,
+            0.63064384,
+            0.9389372,
+            -0.5197799,
+            0.6773355
+          ]
+        },
+        "inputs": [],
+        "outputs": [],
+        "deltas": []
+      },
+      {
+        "index": 2,
+        "num_neurons": 1,
+        "weights": {
+          "v": 1,
+          "dim": [
+            6,
+            1
+          ],
+          "data": [
+            -0.81832266,
+            0.15804219,
+            -0.65873194,
+            -0.64970946,
+            -0.87227726,
+            -0.36266422
+          ]
+        },
+        "inputs": [],
+        "outputs": [],
+        "deltas": []
+      }
+    ],
+    "targets": null
+  }
+}
