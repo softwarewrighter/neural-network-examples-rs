@@ -43,9 +43,12 @@ use std::fs;
 fn main() -> Result<()> {
     println!("=== XOR Problem - Forward Propagation Example ===\n");
 
-    // Create output directories
-    fs::create_dir_all("checkpoints")?;
-    fs::create_dir_all("images")?;
+    // Create output directories in the example's own directory
+    let example_dir = env!("CARGO_MANIFEST_DIR");
+    let checkpoint_dir = format!("{}/checkpoints", example_dir);
+    let image_dir = format!("{}/images", example_dir);
+    fs::create_dir_all(&checkpoint_dir)?;
+    fs::create_dir_all(&image_dir)?;
 
     // Define XOR training data
     let xor_inputs = vec![
@@ -70,8 +73,8 @@ fn main() -> Result<()> {
 
     save_checkpoint(
         &network,
-        "checkpoints/xor_initial.json",
-        "images/xor_initial.svg",
+        &format!("{}/xor_initial.json", checkpoint_dir),
+        &format!("{}/xor_initial.svg", image_dir),
         NetworkMetadata::initial("XOR Network"),
     )?;
 
@@ -95,8 +98,8 @@ fn main() -> Result<()> {
 
     save_checkpoint(
         &network,
-        "checkpoints/xor_manual_attempt1.json",
-        "images/xor_manual_attempt1.svg",
+        &format!("{}/xor_manual_attempt1.json", checkpoint_dir),
+        &format!("{}/xor_manual_attempt1.svg", image_dir),
         NetworkMetadata::checkpoint("XOR Network - Manual Tuning Attempt 1", 0, None),
     )?;
 
@@ -114,8 +117,8 @@ fn main() -> Result<()> {
 
     save_checkpoint(
         &network,
-        "checkpoints/xor_manual_attempt2.json",
-        "images/xor_manual_attempt2.svg",
+        &format!("{}/xor_manual_attempt2.json", checkpoint_dir),
+        &format!("{}/xor_manual_attempt2.svg", image_dir),
         NetworkMetadata::checkpoint("XOR Network - Manual Tuning Attempt 2", 0, None),
     )?;
 

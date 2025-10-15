@@ -10,10 +10,10 @@
 <line x1="100" y1="700" x2="600" y2="300" stroke="#F44336" stroke-width="2.6000001" opacity="0.46"/>
 <line x1="100" y1="700" x2="600" y2="500" stroke="#4CAF50" stroke-width="2.25" opacity="0.4"/>
 <line x1="100" y1="700" x2="600" y2="700" stroke="#F44336" stroke-width="1.9" opacity="0.34"/>
-<line x1="600" y1="100" x2="1100" y2="400" stroke="#4CAF50" stroke-width="4" opacity="0.70000005"/>
-<line x1="600" y1="300" x2="1100" y2="400" stroke="#F44336" stroke-width="4" opacity="0.70000005"/>
-<line x1="600" y1="500" x2="1100" y2="400" stroke="#4CAF50" stroke-width="4" opacity="0.70000005"/>
-<line x1="600" y1="700" x2="1100" y2="400" stroke="#F44336" stroke-width="4" opacity="0.70000005"/>
+<line x1="600" y1="100" x2="1100" y2="400" stroke="#4CAF50" stroke-width="2.601692" opacity="0.46029004"/>
+<line x1="600" y1="300" x2="1100" y2="400" stroke="#4CAF50" stroke-width="1.704365" opacity="0.3064626"/>
+<line x1="600" y1="500" x2="1100" y2="400" stroke="#F44336" stroke-width="0.65351987" opacity="0.1263177"/>
+<line x1="600" y1="700" x2="1100" y2="400" stroke="#4CAF50" stroke-width="3.8669946" opacity="0.6771991"/>
 </g>
 <g id="neurons">
 <circle cx="100" cy="100" r="20" fill="#2196F3" stroke="#333" stroke-width="2"/>
@@ -41,7 +41,7 @@
 </g>
 <g id="metadata">
 <rect x="890" y="670" width="300" height="120" fill="white" stroke="#333" stroke-width="2" rx="5"/>
-<text x="900" y="685" font-size="16" font-weight="bold" fill="#333">XOR Network - Manual Tuning Attempt 2 - Epoch 0</text>
+<text x="900" y="685" font-size="16" font-weight="bold" fill="#333">XOR Network - Manual Tuning Attempt 1 - Epoch 0</text>
 <text x="900" y="710" font-size="12" fill="#666">Epochs: 0</text>
 <text x="900" y="730" font-size="10" fill="#999">Training checkpoint after 0 epochs</text>
 </g>

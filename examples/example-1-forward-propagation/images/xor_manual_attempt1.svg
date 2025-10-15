@@ -10,10 +10,10 @@
 <line x1="100" y1="700" x2="600" y2="300" stroke="#F44336" stroke-width="2.6000001" opacity="0.46"/>
 <line x1="100" y1="700" x2="600" y2="500" stroke="#4CAF50" stroke-width="2.25" opacity="0.4"/>
 <line x1="100" y1="700" x2="600" y2="700" stroke="#F44336" stroke-width="1.9" opacity="0.34"/>
-<line x1="600" y1="100" x2="1100" y2="400" stroke="#4CAF50" stroke-width="3.4418347" opacity="0.60431457"/>
-<line x1="600" y1="300" x2="1100" y2="400" stroke="#4CAF50" stroke-width="2.4909043" opacity="0.44129786"/>
-<line x1="600" y1="500" x2="1100" y2="400" stroke="#F44336" stroke-width="2.2812057" opacity="0.40534955"/>
-<line x1="600" y1="700" x2="1100" y2="400" stroke="#4CAF50" stroke-width="2.914074" opacity="0.5138413"/>
+<line x1="600" y1="100" x2="1100" y2="400" stroke="#F44336" stroke-width="2.823915" opacity="0.49838543"/>
+<line x1="600" y1="300" x2="1100" y2="400" stroke="#F44336" stroke-width="1.114591" opacity="0.20535846"/>
+<line x1="600" y1="500" x2="1100" y2="400" stroke="#4CAF50" stroke-width="0.9585619" opacity="0.17861062"/>
+<line x1="600" y1="700" x2="1100" y2="400" stroke="#F44336" stroke-width="1.9538375" opacity="0.3492293"/>
 </g>
 <g id="neurons">
 <circle cx="100" cy="100" r="20" fill="#2196F3" stroke="#333" stroke-width="2"/>
@@ -40,9 +40,9 @@
 <text x="1100" y="70" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">1 neurons</text>
 </g>
 <g id="metadata">
-<rect x="10" y="670" width="300" height="120" fill="white" stroke="#333" stroke-width="2" rx="5"/>
-<text x="20" y="685" font-size="16" font-weight="bold" fill="#333">XOR Network - Manual Tuning Attempt 1 - Epoch 0</text>
-<text x="20" y="710" font-size="12" fill="#666">Epochs: 0</text>
-<text x="20" y="730" font-size="10" fill="#999">Training checkpoint after 0 epochs</text>
+<rect x="890" y="670" width="300" height="120" fill="white" stroke="#333" stroke-width="2" rx="5"/>
+<text x="900" y="685" font-size="16" font-weight="bold" fill="#333">XOR Network - Manual Tuning Attempt 1 - Epoch 0</text>
+<text x="900" y="710" font-size="12" fill="#666">Epochs: 0</text>
+<text x="900" y="730" font-size="10" fill="#999">Training checkpoint after 0 epochs</text>
 </g>
 </svg>
