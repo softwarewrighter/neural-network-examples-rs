@@ -7,7 +7,9 @@
 ## Repository Hierarchy
 
 ```
-Layer 1: Foundation (THIS REPO)
+Layer 1a: Foundation - Core Building Blocks (THIS REPO)
+    ↓ (depends on)
+Layer 1b: Foundation - Educational Concepts (neural-network-concepts-rs)
     ↓ (depends on)
 Layer 2: Specialized Models (TRM, SNN, Diffusion, etc.)
     ↓ (depends on)
@@ -18,13 +20,17 @@ Layer 4: Software Development Agents
 Layer 5: Real-World Applications
 ```
 
+**Note**: Layer 1 is split into two repos:
+- **1a (THIS REPO)**: Essential building blocks that Layer 2 will actually use
+- **1b (Part 2)**: Additional educational concepts (CNN, RNN) for completeness
+
 ---
 
-## Layer 1: neural-network-examples-rs (THIS REPO) ✅
+## Layer 1a: neural-network-examples-rs (THIS REPO) ✅
 
-**Purpose**: Educational building blocks and foundational concepts
+**Purpose**: Core building blocks used by Layer 2 specialized models
 
-**Scope**: ONLY fundamental, general-purpose neural network components
+**Scope**: ONLY components that will be imported and used by TRM, Text-Diffusion, RAG, etc.
 
 **What Belongs Here:**
 - ✅ Basic feedforward networks (3-layer)
@@ -34,28 +40,29 @@ Layer 5: Real-World Applications
 - ✅ Simple arithmetic (adders)
 - ✅ Visualization (SVG)
 - ✅ Checkpoint save/load
-- 🔲 Better optimizers (Adam, RMSprop, AdamW)
-- 🔲 Modern activations (ReLU, Leaky ReLU, GELU, Swish)
-- 🔲 Deeper networks (4-6 layers)
-- 🔲 Residual connections
-- 🔲 Layer normalization, Batch normalization
-- 🔲 Dropout
-- 🔲 RNNs (basic LSTM/GRU cells)
-- 🔲 CNNs (Conv2D, MaxPool, etc.)
-- 🔲 Attention mechanism (scaled dot-product, multi-head)
-- 🔲 Embeddings (learned embeddings, positional encoding)
+- ✅ Modern optimizers (Adam, RMSprop, AdamW) ⭐ **Example-4 DONE**
+- 🔲 Modern activations (ReLU, Leaky ReLU, GELU, Swish) ⭐ **Example-5 NEXT**
+- 🔲 Deeper networks (4-6 layers) ⭐ **Example-6**
+- 🔲 Residual connections ⭐ **Example-6**
+- 🔲 Layer normalization, Batch normalization ⭐ **Example-6**
+- 🔲 Dropout ⭐ **Example-7**
+- 🔲 Attention mechanism (scaled dot-product, multi-head) ⭐ **Example-8**
+- 🔲 Embeddings (learned embeddings, positional encoding) ⭐ **Example-9**
+- 🔲 Training utilities (LR schedules, early stopping, gradient clipping) ⭐ **Example-10**
 
 **What Does NOT Belong Here:**
-- ❌ TRM/HRM (too specialized → separate repo)
-- ❌ SNNs/BDH (too specialized → separate repo)
-- ❌ Diffusion models (too specialized → separate repo)
-- ❌ RAG systems (too specialized → separate repo)
-- ❌ Multi-agent systems (too complex → separate repo)
+- ❌ TRM/HRM (too specialized → Layer 2 repo)
+- ❌ SNNs/BDH (too specialized → Layer 2 repo)
+- ❌ Diffusion models (too specialized → Layer 2 repo)
+- ❌ RAG systems (too specialized → Layer 2 repo)
+- ❌ Multi-agent systems (too complex → Layer 4 repo)
 - ❌ Production applications (→ Layer 5)
+- ❌ CNNs (Conv2D, MaxPool - educational only → Layer 1b)
+- ❌ RNNs (LSTM, GRU - educational only → Layer 1b)
 
 **Deliverables:**
-1. **Crates** (importable by other repos):
-   - `neural_net_core` - Network, layers, optimizers, activations
+1. **Crates** (importable by Layer 2 repos):
+   - `neural_net_core` - Network, layers, optimizers, activations, attention
    - `neural_net_viz` - Visualization tools
    - `neural_net_utils` - Common utilities
 
@@ -64,13 +71,13 @@ Layer 5: Real-World Applications
    - `example-2-backward-propagation-{and,or,xor}` ✅
    - `example-3-complex-boolean-{parity,majority}` ✅
    - `example-3-multi-output-{half-adder,full-adder}` ✅
-   - `example-4-optimizers` (Adam, RMSprop)
-   - `example-5-activations` (ReLU, GELU)
-   - `example-6-deep-networks` (4-6 layers, residuals)
-   - `example-7-rnns` (LSTM, GRU)
-   - `example-8-cnns` (Conv2D for image classification)
-   - `example-9-attention` (Self-attention, multi-head)
-   - `example-10-embeddings` (Word embeddings)
+   - `example-4-modern-optimizers` ✅ **DONE**
+   - `example-5-modern-activations` (ReLU, GELU, Swish) ⭐ **NEXT**
+   - `example-6-deep-networks` (4-6 layers, residuals, layer norm)
+   - `example-7-regularization` (Dropout, L1/L2)
+   - `example-8-attention` (Scaled dot-product, multi-head)
+   - `example-9-embeddings` (Learned embeddings, positional encoding)
+   - `example-10-training-utilities` (LR schedules, early stopping)
 
 3. **Documentation**:
    - Tutorial for each building block
@@ -78,12 +85,56 @@ Layer 5: Real-World Applications
    - Theory explanations
    - Roadmap for future repos
 
-**Status**: ~40% complete
+**Status**: ~50% complete
 - ✅ Feedforward + backprop
-- ✅ Basic examples
-- 🔲 Missing: optimizers, activations, RNN, CNN, attention
+- ✅ Basic examples (1-3)
+- ✅ Modern optimizers (4)
+- 🔲 Missing: activations, deep networks, attention, embeddings, training utilities
 
-**Timeline to Complete**: 2-3 months (see detailed roadmap below)
+**Timeline to Complete**: ~10-12 weeks (see detailed roadmap below)
+
+---
+
+## Layer 1b: neural-network-concepts-rs (Educational Concepts) 📚
+
+**Purpose**: Additional educational concepts for completeness (not required for Layer 2)
+
+**Scope**: Architectures that are valuable for learning but not used by our Layer 2 models
+
+**What Belongs Here:**
+- 📚 CNNs (Conv2D, MaxPool, image classification)
+- 📚 RNNs (Vanilla RNN, LSTM, GRU)
+- 📚 Advanced CNN architectures (ResNet, VGG patterns)
+- 📚 Sequence-to-sequence models
+- 📚 Other educational architectures
+
+**Depends On**: Layer 1a (imports optimizers, activations, etc. from THIS repo)
+
+**Why Separate?**
+1. **Focus**: Keep Layer 1a focused on what Layer 2 actually needs
+2. **Optional**: Students can skip to Layer 2 after Layer 1a if desired
+3. **Clarity**: Clear distinction between "must learn" and "nice to learn"
+4. **Scope**: Prevents Layer 1a from becoming too large
+
+**When to Implement**: After Layer 1a is complete (or in parallel by different contributor)
+
+**Examples**:
+- `example-cnn-1-convolution` (Conv2D, MaxPool)
+- `example-cnn-2-mnist` (Digit classification)
+- `example-rnn-1-vanilla` (Basic RNN)
+- `example-rnn-2-lstm` (LSTM for sequences)
+- `example-rnn-3-gru` (GRU comparison)
+- `example-seq2seq` (Encoder-decoder)
+
+**Deliverables**:
+- Examples only (no new crates, reuses Layer 1a crates)
+- Documentation for each architecture
+- Theory explanations
+- References to papers
+
+**Timeline**: 4-6 weeks (after Layer 1a complete)
+
+**Status**: Not started (deferred)
 
 ---
 
@@ -357,22 +408,24 @@ Combine specialized models for enhanced capabilities.
 
 ## Development Sequence
 
-### Phase 1: Complete Layer 1 (THIS REPO) ⭐ CURRENT FOCUS
+### Phase 1: Complete Layer 1a (THIS REPO) ⭐ CURRENT FOCUS
 
-**Timeline**: 2-3 months
-**Status**: ~40% complete
+**Timeline**: 10-12 weeks
+**Status**: ~50% complete
 
 **Remaining Work**:
-1. Optimizers (Adam, RMSprop) - 1-2 weeks
-2. Activations (ReLU, GELU, etc.) - 1 week
-3. Deeper networks + residuals - 1-2 weeks
-4. RNNs (LSTM, GRU) - 2-3 weeks
-5. CNNs (Conv2D, MaxPool) - 2-3 weeks
-6. Attention mechanism - 2-3 weeks
-7. Embeddings - 1-2 weeks
+1. ✅ Optimizers (Adam, RMSprop, AdamW) - **DONE** (Week 1-2)
+2. Activations (ReLU, GELU, Swish) - 1 week ⭐ **NEXT**
+3. Deep networks + residuals + layer norm - 1-2 weeks
+4. Regularization (Dropout, L1/L2) - 1 week
+5. Attention mechanism - 2-3 weeks
+6. Embeddings - 1-2 weeks
+7. Training utilities - 1 week
 8. Documentation polish - 1 week
 
-**Total**: ~12-16 weeks
+**Total**: ~10-12 weeks (~3 months)
+
+**Note**: CNN and RNN deferred to Layer 1b (neural-network-concepts-rs)
 
 ---
 
@@ -433,7 +486,8 @@ Use dev agents to build real projects.
 
 | Phase | Duration | Cumulative |
 |-------|----------|------------|
-| Phase 1: Layer 1 (THIS REPO) | 3 months | 3 months |
+| Phase 1a: Layer 1a (THIS REPO) | 3 months | 3 months |
+| Phase 1b: Layer 1b (Educational) | 1-2 months | 4-5 months (optional) |
 | Phase 2a: TRM | 2-3 months | 5-6 months |
 | Phase 2b: RAG | 2-3 months | 7-9 months |
 | Phase 2c: Diffusion | 3 months | 10-12 months |
@@ -441,7 +495,10 @@ Use dev agents to build real projects.
 | Phase 4: Dev Agents | 3-4 months | 14-18 months |
 | Phase 5: Applications | Ongoing | - |
 
+**Note**: Layer 1b (CNN/RNN) is optional and can be done in parallel or skipped entirely.
+
 **Realistic timeline to working dev agent system: 12-18 months**
+**Timeline to start Layer 2 (TRM): 3 months** (after Layer 1a complete)
 
 ---
 
