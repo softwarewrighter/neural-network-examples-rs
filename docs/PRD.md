@@ -2,15 +2,17 @@
 
 ## Executive Summary
 
-This project creates a comprehensive machine learning demonstration platform in Rust, starting with a port of the existing C++ feed-forward neural network. The initial release (v0.1) will establish a reusable core library with type-safe, performant implementations of fundamental ML concepts.
+This project creates a comprehensive machine learning demonstration platform in Rust, starting with a port of the existing C++ feed-forward neural network. **The project prioritizes clean architecture, maintainability, and educational clarity over feature velocity.**
 
-**Long-Term Vision:** Build an educational ML platform showcasing diverse neural network architectures and techniques through incremental examples (feedforward → CNNs → RNNs → GANs → transformers, etc.). Each example includes tutorials, visualizations, and working code.
+**Long-Term Vision:** Build an educational ML platform with small, focused crates and comprehensive examples. Each crate has a single responsibility; each technique/concept lives in its own example directory with tutorials and visualizations.
 
-**Current Focus (v0.1):** Port and enhance the C++ feedforward network implementation as the foundation for future work.
+**Core Principle:** **Architecture over features.** Clean, well-tested code with clear separation of concerns takes precedence over shipping features quickly. Each crate should be small (<500 LOC), focused, and independently testable.
 
-**Project Name:** `neural-network-rs`
-**Version:** 0.1.0
-**Target Audience:** ML practitioners, students, researchers, Rust developers
+**Current Focus (v0.1):** Refactor to optimal 3-crate structure (types, core, viz) before implementing backpropagation. Establish architectural foundation that scales to future enhancements.
+
+**Project Name:** `neural-network-examples-rs`
+**Version:** 0.1.0 (architectural refactor in progress)
+**Target Audience:** ML students, educators, visual learners, Rust developers
 **Platform:** Cross-platform (Linux, macOS, Windows)
 
 ## Goals & Objectives
@@ -255,12 +257,13 @@ The following features are explicitly **not** included in the initial release:
 - ❌ Convolutional/recurrent layers
 - ❌ GPU acceleration
 - ❌ Mini-batch training
-- ❌ Model serialization (save/load)
-- ❌ Visualization tools (may be added as separate crate)
 - ❌ Python bindings
 - ❌ Real-time visualization (SFML equivalent)
+- ❌ Backpropagation (Phase 3 - deferred until after architectural refactor)
 
-These features will be added in future releases as separate example directories.
+**Note:** Model serialization (✓) and visualization tools (✓) were initially out of scope but have been implemented in separate crates to support educational examples.
+
+These deferred features will be added in future releases as the architecture supports them.
 
 ## Future Roadmap (Post v0.1)
 

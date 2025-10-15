@@ -2,11 +2,13 @@
 
 ## Overview
 
-This document describes the architecture for a comprehensive neural network platform in Rust, beginning with a multi-layer feed-forward network (FFN) implementation. The design prioritizes type safety, zero-cost abstractions, and idiomatic Rust patterns while maintaining mathematical clarity.
+This document describes the architecture for a comprehensive neural network platform in Rust, beginning with a multi-layer feed-forward network (FFN) implementation. The design prioritizes **clean architecture, maintainability, and educational clarity** over feature velocity.
 
-**Project Vision:** Create an educational ML platform with a reusable core library supporting diverse neural network architectures. Each technique/concept lives in its own example directory with tutorials and visualizations.
+**Project Vision:** Create an educational ML platform with small, focused crates and comprehensive examples. Each crate has a single responsibility; each technique/concept lives in its own example directory with tutorials and visualizations.
 
-**Current Phase (v0.1):** Implement the foundational feed-forward network as the basis for future work.
+**Core Principle:** **Architecture over features.** Clean, well-tested code with clear separation of concerns takes precedence over shipping features quickly.
+
+**Current Phase (v0.1):** Refactoring to optimal crate structure before implementing backpropagation.
 
 ## Core Components
 
@@ -43,39 +45,97 @@ This document describes the architecture for a comprehensive neural network plat
          └────────────────────────────────┘
 ```
 
-### 2. Module Organization
+### 2. Crate Organization
 
-#### Current Structure (v0.1)
+#### Current Structure (v0.1 - After Refactor)
+
+**Workspace layout** with multiple focused crates:
 
 ```
-neural-network-rs/
-├── src/                    # Core reusable library
-│   ├── lib.rs             # Library root, re-exports public API
-│   ├── error.rs           # Error types (NeuralNetError, Result)
-│   ├── activation.rs      # Activation functions (trait-based)
-│   ├── layer.rs           # Layer implementation
-│   ├── network.rs         # FeedForwardNetwork implementation
-│   └── utils/
-│       ├── mod.rs         # Utilities module root
-│       └── file_io.rs     # Matrix file reading/writing
-├── examples/
-│   ├── xor.rs             # XOR learning example
-│   └── digit_recognition.rs # Digit recognition example
-├── tests/
-│   └── integration_tests.rs # End-to-end tests
-├── benches/
-│   └── training_benchmark.rs # Performance benchmarks
+neural-network-examples-rs/
+├── crates/                 # Library crates (small, focused)
+│   ├── neural-net-types/   # Data structures & serialization
+│   │   ├── Cargo.toml
+│   │   └── src/
+│   │       ├── lib.rs          # Public API
+│   │       ├── layer.rs        # Layer struct
+│   │       ├── network.rs      # FeedForwardNetwork struct
+│   │       ├── metadata.rs     # NetworkMetadata, NetworkCheckpoint
+│   │       └── error.rs        # NeuralNetError, Result
+│   ├── neural-net-core/    # Algorithms & computation
+│   │   ├── Cargo.toml      # depends on: neural-net-types
+│   │   └── src/
+│   │       ├── lib.rs          # Public API
+│   │       ├── activation.rs   # Activation trait & implementations
+│   │       ├── forward.rs      # Forward propagation algorithms
+│   │       ├── backward.rs     # Backpropagation algorithms (Phase 3)
+│   │       └── utils/
+│   │           └── file_io.rs  # Matrix data I/O
+│   └── neural-net-viz/     # Visualization & rendering
+│       ├── Cargo.toml      # depends on: neural-net-types
+│       └── src/
+│           ├── lib.rs          # NetworkVisualization trait
+│           ├── svg.rs          # SVG generation
+│           └── config.rs       # VisualizationConfig
+├── examples/               # Educational examples
+│   └── forward-propagation/
+│       ├── Cargo.toml      # depends on: neural-net-core, neural-net-viz
+│       ├── README.md       # Tutorial on forward propagation
+│       ├── src/main.rs     # XOR example with manual weight tuning
+│       ├── checkpoints/    # Generated JSON checkpoints
+│       └── images/         # Generated SVG visualizations
 ├── docs/
-│   ├── architecture.md    # This document
-│   ├── PRD.md            # Product requirements
-│   ├── plan.md           # Implementation plan
-│   └── learnings.md      # Decisions and lessons learned
-└── samples/               # Training/test data
-    ├── Xapp.txt
-    ├── TA.txt
-    ├── Xtest.txt
-    └── TT.txt
+│   ├── architecture.md     # This document
+│   ├── PRD.md             # Product requirements
+│   ├── plan.md            # Implementation plan
+│   └── learnings.md       # Decisions and lessons learned
+├── samples/                # Training/test data
+└── Cargo.toml             # Workspace configuration
 ```
+
+**Crate Responsibilities:**
+
+1. **neural-net-types** (Foundation)
+   - Data structures: `Layer`, `FeedForwardNetwork`
+   - Serialization: `NetworkMetadata`, `NetworkCheckpoint`
+   - Errors: `NeuralNetError`, `Result<T>`
+   - **No algorithms** - pure data structures
+   - Used by: neural-net-core, neural-net-viz
+
+2. **neural-net-core** (Algorithms)
+   - Forward propagation implementation
+   - Backpropagation implementation (Phase 3)
+   - Activation functions (Sigmoid, Linear, etc.)
+   - Training algorithms (Phase 3)
+   - File I/O utilities
+   - Depends on: neural-net-types
+
+3. **neural-net-viz** (Visualization)
+   - SVG generation for network diagrams
+   - Weight visualization (color, thickness)
+   - Metadata overlays
+   - Future: training curves, activation heatmaps
+   - Depends on: neural-net-types
+
+**Dependency Graph:**
+```
+neural-net-types (no dependencies)
+       ↑            ↑
+       │            │
+neural-net-core  neural-net-viz
+       ↑            ↑
+       │            │
+       └─────┬──────┘
+             │
+       examples/forward-propagation
+```
+
+**Benefits of This Structure:**
+- **No circular dependencies:** Types crate is foundation
+- **Small, focused crates:** Each <500 LOC
+- **Clear responsibilities:** Data, algorithms, visualization
+- **Easy to test:** Each crate independently testable
+- **Maintainable:** Changes localized to appropriate crate
 
 #### Future Structure (v0.2+)
 

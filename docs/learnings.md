@@ -2,6 +2,52 @@
 
 This document captures key decisions, lessons learned, and development practices for the neural network project.
 
+## Core Principles
+
+### Architecture Over Features
+
+**Priority:** Clean, maintainable architecture comes before feature velocity.
+
+**Philosophy:**
+- **Small, focused crates:** Each crate should have a single, clear responsibility
+- **Short, documented functions:** Functions should be concise, well-named, and thoroughly documented
+- **Comprehensive testing:** Every function should have tests that validate behavior
+- **Examples are secondary:** Core library quality takes precedence over example code
+
+**Rationale:**
+- **Maintainability:** Smaller modules are easier to understand and modify
+- **Testability:** Short functions with clear inputs/outputs are easier to test
+- **Onboarding:** New contributors can understand the codebase faster
+- **Long-term velocity:** Technical debt slows development over time
+- **Teaching:** Clean code teaches better patterns to learners
+
+**Guidelines:**
+1. **Crate Size:** A crate should contain related modules, not become a monolith
+   - If a crate has >10 modules, consider splitting
+   - Each crate should have a clear, single-sentence purpose
+2. **Function Length:** Aim for <50 lines per function
+   - Extract complex logic into helper functions
+   - Use descriptive names that explain intent
+3. **Documentation:** Every public item needs docs
+   - Explain "why" not just "what"
+   - Include examples for non-trivial APIs
+4. **Testing:** Test coverage should be comprehensive
+   - Unit tests for individual functions
+   - Integration tests for workflows
+   - Edge cases and error conditions
+
+**Decision Making:**
+When choosing between "ship feature fast" vs "improve architecture":
+- **Choose architecture** if the change affects core abstractions
+- **Choose architecture** if technical debt will compound
+- **Choose architecture** if it improves clarity for learners
+- **Ship feature** only if architecture is already sound
+
+**Example - Types Crate Refactor:**
+Current state: neural-net-core contains both data structures AND algorithms
+Better state: neural-net-types (data structures) + neural-net-core (algorithms)
+Decision: Pause features, refactor architecture first ✓
+
 ## Development Approach
 
 ### Test-Driven Development (TDD / Red-Green-Refactor)
