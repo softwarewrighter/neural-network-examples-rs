@@ -896,5 +896,172 @@ After training with backpropagation:
 
 ---
 
-**Last Updated:** Post-Phase 3 documentation improvements (2025-10-14)
-**Next Update:** After completing example-3 implementations
+## Neural Network Animator Tool (2025-10-15)
+
+### What Was Built
+
+**Phase 1 Complete: Backend Infrastructure & CLI**
+
+**✅ Completed Components:**
+
+1. **Animation Script Format** (`src/script.rs`)
+   - JSON-based with scenes, annotations, highlights, transitions
+   - Supports network metadata, truth tables, test results
+   - Scene-based timeline with duration control
+   - Annotation system for titles, labels, metrics
+   - Highlight system for weight changes, neurons, data flow
+
+2. **Timeline Engine** (`src/timeline.rs`)
+   - Playback states: Playing, Paused, Stopped
+   - Speed control: 0.25×, 0.5×, 1×, 2×, 4×
+   - Seeking: Jump to time, skip to start/end, step forward/back
+   - Progress tracking and time formatting
+   - Looping support
+   - 10 comprehensive tests
+
+3. **Auto-Generation** (`src/generator.rs`)
+   - Generates animation scripts from checkpoint files
+   - Extracts network architecture automatically
+   - Creates scenes with annotations and highlights
+   - Configurable scene durations
+   - Optional test result integration
+
+4. **CLI Tool** (`src/bin/main.rs`)
+   - `generate`: Create animation scripts from checkpoints
+   - `validate`: Check script validity and checkpoint existence
+   - `serve`: Start web server (placeholder, pending Leptos frontend)
+   - Comprehensive clap-based CLI with help text
+
+5. **Test Animation**
+   - XOR animation script with 2 scenes (before/after training)
+   - Successfully validated and ready for visualization
+   - Located at `crates/neural-net-animator/scripts/xor_animation.json`
+
+6. **Documentation**
+   - Comprehensive README with CLI usage examples
+   - Script format documentation with JSON examples
+   - Keyboard shortcuts and control descriptions
+   - Workflow examples for creating animations
+
+**Architecture Decisions:**
+
+1. **All-Rust Frontend**: Decided to use Leptos WASM (not JavaScript)
+   - Domain logic in Rust
+   - Presentation logic in Rust
+   - JavaScript only for minimal bootstrap/glue
+   - Rationale: This is an educational ML tool - keep it consistent with Rust ecosystem
+
+2. **SVG Rendering**: Reuse existing `neural-net-viz` crate
+   - Generate SVG server-side from checkpoints
+   - Inject into DOM via Leptos components
+   - No need to reimplement visualization logic
+
+3. **Pluggable Scripts**: JSON format allows full control
+   - Can be manually edited for fine-tuning
+   - Auto-generation provides good defaults
+   - Supports complex annotations and highlights
+
+### What's Pending
+
+**Phase 2: Leptos WASM Frontend** (Next Session)
+
+**Required Components:**
+
+1. **Leptos Components** (all Rust):
+   ```rust
+   - AnimationPlayer      // Main app component
+   - NetworkCanvas        // SVG rendering area
+   - Timeline             // Scrubbing bar with progress
+   - DvrControls          // Play/pause/speed buttons
+   - MetricsPanel         // Iteration, accuracy, error display
+   - InfoPanel            // Architecture, activation info
+   ```
+
+2. **State Management** (Leptos Signals):
+   ```rust
+   - animation_script: Signal<AnimationScript>
+   - current_time: Signal<f64>
+   - playback_state: Signal<PlaybackState>
+   - playback_speed: Signal<PlaybackSpeed>
+   ```
+
+3. **SVG Rendering**:
+   - Load checkpoint from server via API
+   - Generate SVG using `neural-net-viz`
+   - Inject into DOM via Leptos `InnerHtml`
+   - Update on scene changes
+
+4. **Build Setup**:
+   - Trunk for WASM building/bundling
+   - `trunk.toml` configuration
+   - Minimal `index.html` bootstrap
+   - Server endpoint to serve WASM bundle
+
+5. **Server Updates** (`src/server/mod.rs`):
+   - Remove embedded HTML (JavaScript solution)
+   - Add endpoint for SVG generation
+   - Serve static WASM/JS files
+   - API for loading checkpoints
+
+### Why This Approach
+
+**Two-Phase Strategy:**
+
+**Phase 1** (Completed):
+- Build solid foundation with data structures
+- Implement timeline logic and CLI
+- Create test animations
+- Document usage patterns
+- **Result**: Fully functional backend and CLI tool
+
+**Phase 2** (Next):
+- Focus entirely on Leptos frontend
+- Clean session with fresh context
+- Proper Rust/WASM architecture
+- **Benefit**: Avoid rushing the frontend, do it right
+
+### Usage (Current)
+
+**Generate Animation:**
+```bash
+./target/release/neural-net-animator generate \
+  --output xor_animation.json \
+  --title "XOR Learning" \
+  checkpoints/xor_initial.json \
+  checkpoints/xor_trained.json
+```
+
+**Validate Animation:**
+```bash
+./target/release/neural-net-animator validate xor_animation.json
+```
+
+**Serve (Pending Frontend):**
+```bash
+# Will work after Leptos implementation
+./target/release/neural-net-animator serve xor_animation.json
+```
+
+### Key Lessons
+
+1. **Architecture First**: Built solid data structures before rushing to UI
+2. **Testability**: Timeline has 10 tests, all passing
+3. **Documentation**: Comprehensive README makes tool approachable
+4. **Clean Separation**: Backend logic independent of frontend choice
+5. **CLI First**: Tool is immediately useful even without web UI
+
+### Next Steps
+
+1. **Create Leptos project** in `web/` directory
+2. **Implement components** (NetworkCanvas, DvrControls, Timeline)
+3. **Wire up state management** with Leptos signals
+4. **Build with Trunk** and test in browser
+5. **Update server** to serve WASM bundle
+6. **Test end-to-end** with Playwright
+
+**Estimated Effort**: 50-70k tokens for complete Leptos implementation
+
+---
+
+**Last Updated:** Post-Animation Tool Phase 1 (2025-10-15)
+**Next Update:** After completing Leptos frontend (Phase 2)

@@ -4,6 +4,7 @@ members = [
     "crates/neural-net-types",
     "crates/neural-net-core",
     "crates/neural-net-viz",
+    "crates/neural-net-animator",
     "examples/example-1-forward-propagation",
     "examples/example-2-backward-propagation-and",
     "examples/example-2-backward-propagation-or",
