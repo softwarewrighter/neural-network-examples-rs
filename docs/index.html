@@ -6,8 +6,8 @@
     <title>Neural Network Animator</title>
     
 <script type="module">
-import init, * as bindings from '/neural-net-animator-web-8e3aacc9f7cbe292.js';
-const wasm = await init({ module_or_path: '/neural-net-animator-web-8e3aacc9f7cbe292_bg.wasm' });
+import init, * as bindings from '/neural-network-examples-rs/neural-net-animator-web-bacd6898b43c28f7.js';
+const wasm = await init({ module_or_path: '/neural-network-examples-rs/neural-net-animator-web-bacd6898b43c28f7_bg.wasm' });
 
 
 window.wasmBindings = bindings;
@@ -16,8 +16,8 @@ window.wasmBindings = bindings;
 dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
 
 </script>
-    <link rel="stylesheet" href="/styles-e393f0bd87b8234a.css" integrity="sha384-aFSszTp4b/ZnyOfL9rNM6ti/lJ1Zo8iiDTQ5W/RtbXcRH/ItuHKMZWnpD7nvk/Vm"/>
-<link rel="modulepreload" href="/neural-net-animator-web-8e3aacc9f7cbe292.js" crossorigin="anonymous" integrity="sha384-jRnmfoS6j2mzODn06OaEsVjnAJ7gtTPopa/kUMk0JPTrH/eFqcY0jTQlpxw//07u"><link rel="preload" href="/neural-net-animator-web-8e3aacc9f7cbe292_bg.wasm" crossorigin="anonymous" integrity="sha384-PYXk72GqAN1tXnxx/IJUJeE/ZtdoEY+bY6yCbagFxns0ApkOGpbPuSKzpNk72H4L" as="fetch" type="application/wasm"></head>
+    <link rel="stylesheet" href="/neural-network-examples-rs/styles-e393f0bd87b8234a.css" integrity="sha384-aFSszTp4b/ZnyOfL9rNM6ti/lJ1Zo8iiDTQ5W/RtbXcRH/ItuHKMZWnpD7nvk/Vm"/>
+<link rel="modulepreload" href="/neural-network-examples-rs/neural-net-animator-web-bacd6898b43c28f7.js" crossorigin="anonymous" integrity="sha384-exiMofg1jDhK9nlr0xwqAnbhT6vE7xJ92FvSDVHK6eQhXidgiwT6xpsmQA9V4eqL"><link rel="preload" href="/neural-network-examples-rs/neural-net-animator-web-bacd6898b43c28f7_bg.wasm" crossorigin="anonymous" integrity="sha384-K/bgZiHpdBIaLGojM+pCln1B5Y7kpwHnwczT63GL6mHa7DgdJq7kpAcpbwlXE05c" as="fetch" type="application/wasm"></head>
 <body>
 </body>
 </html>
