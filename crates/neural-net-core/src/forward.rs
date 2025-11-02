@@ -13,11 +13,19 @@ pub trait LayerForward {
     ///
     /// * `prev_outputs` - Outputs from previous layer (None for input layer)
     /// * `is_output_layer` - Whether this is the output layer (affects activation function)
-    fn forward_propagate(&mut self, prev_outputs: Option<&[f32]>, is_output_layer: bool) -> Result<()>;
+    fn forward_propagate(
+        &mut self,
+        prev_outputs: Option<&[f32]>,
+        is_output_layer: bool,
+    ) -> Result<()>;
 }
 
 impl LayerForward for Layer {
-    fn forward_propagate(&mut self, prev_outputs: Option<&[f32]>, is_output_layer: bool) -> Result<()> {
+    fn forward_propagate(
+        &mut self,
+        prev_outputs: Option<&[f32]>,
+        is_output_layer: bool,
+    ) -> Result<()> {
         calc_inputs(self, prev_outputs)?;
         calc_outputs(self, is_output_layer);
         Ok(())
@@ -89,7 +97,10 @@ fn calc_outputs(layer: &mut Layer, is_output_layer: bool) {
         } else {
             // Sigmoid activation for hidden layers
             let sigmoid = Sigmoid;
-            inputs.iter().map(|&input| sigmoid.activate(input)).collect()
+            inputs
+                .iter()
+                .map(|&input| sigmoid.activate(input))
+                .collect()
         }
     }; // immutable borrows end here
 
@@ -142,13 +153,17 @@ impl ForwardPropagation for FeedForwardNetwork {
         // Propagate through hidden layer(s)
         for i in 1..self.layer_count() - 1 {
             let prev_outputs = self.layer(i - 1).unwrap().outputs().to_vec();
-            self.layer_mut(i).unwrap().forward_propagate(Some(&prev_outputs), false)?;
+            self.layer_mut(i)
+                .unwrap()
+                .forward_propagate(Some(&prev_outputs), false)?;
         }
 
         // Propagate through output layer
         let output_idx = self.layer_count() - 1;
         let prev_outputs = self.layer(output_idx - 1).unwrap().outputs().to_vec();
-        self.layer_mut(output_idx).unwrap().forward_propagate(Some(&prev_outputs), true)?;
+        self.layer_mut(output_idx)
+            .unwrap()
+            .forward_propagate(Some(&prev_outputs), true)?;
 
         // Return output layer's outputs
         Ok(self.layer(output_idx).unwrap().outputs().to_vec())
@@ -176,14 +191,19 @@ mod tests {
         let mut layer = Layer::new(1, 2, Some(3));
 
         // Set known weights for deterministic testing
-        layer.set_weights(Array2::from_shape_vec(
-            (3, 2),
-            vec![
-                0.5, 0.2,  // weights from prev neuron 0 to current neurons [0, 1]
-                0.3, 0.4,  // weights from prev neuron 1 to current neurons [0, 1]
-                0.1, 0.6,  // weights from prev neuron 2 to current neurons [0, 1]
-            ],
-        ).unwrap()).unwrap();
+        layer
+            .set_weights(
+                Array2::from_shape_vec(
+                    (3, 2),
+                    vec![
+                        0.5, 0.2, // weights from prev neuron 0 to current neurons [0, 1]
+                        0.3, 0.4, // weights from prev neuron 1 to current neurons [0, 1]
+                        0.1, 0.6, // weights from prev neuron 2 to current neurons [0, 1]
+                    ],
+                )
+                .unwrap(),
+            )
+            .unwrap();
 
         let prev_outputs = vec![1.0, 0.5, 0.2];
 
@@ -208,10 +228,11 @@ mod tests {
     fn test_forward_propagate_output_layer() {
         let mut layer = Layer::new(2, 2, Some(3));
 
-        layer.set_weights(Array2::from_shape_vec(
-            (3, 2),
-            vec![0.5, 0.3, 0.2, 0.4, 0.1, 0.6],
-        ).unwrap()).unwrap();
+        layer
+            .set_weights(
+                Array2::from_shape_vec((3, 2), vec![0.5, 0.3, 0.2, 0.4, 0.1, 0.6]).unwrap(),
+            )
+            .unwrap();
 
         let prev_outputs = vec![0.8, 0.6, 0.4];
 

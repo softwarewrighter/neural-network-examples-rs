@@ -40,12 +40,7 @@ impl LayerBackward for Layer {
             return Ok(()); // Input layer has no deltas
         }
 
-        calc_deltas_impl(
-            self,
-            targets,
-            next_layer_deltas,
-            next_layer_weights,
-        )
+        calc_deltas_impl(self, targets, next_layer_deltas, next_layer_weights)
     }
 
     fn update_weights(&mut self, prev_outputs: &[f32], learning_rate: f32) -> Result<()> {
@@ -83,7 +78,8 @@ fn calc_deltas_impl(
             .zip(outputs.iter())
             .map(|(&target, &output)| target - output)
             .collect()
-    } else if let (Some(next_deltas), Some(next_weights)) = (next_layer_deltas, next_layer_weights) {
+    } else if let (Some(next_deltas), Some(next_weights)) = (next_layer_deltas, next_layer_weights)
+    {
         // Hidden layer: δ = Σ(next_weights[i][j] * next_deltas[j]) * output[i] * (1 - output[i])
         let outputs = layer.outputs();
         let num_neurons = layer.num_neurons();
@@ -122,11 +118,7 @@ fn calc_deltas_impl(
 /// Update weights using gradient descent
 ///
 /// For each weight: weights[i][j] += learning_rate * deltas[j] * prev_outputs[i]
-fn update_weights_impl(
-    layer: &mut Layer,
-    prev_outputs: &[f32],
-    learning_rate: f32,
-) -> Result<()> {
+fn update_weights_impl(layer: &mut Layer, prev_outputs: &[f32], learning_rate: f32) -> Result<()> {
     // Cache deltas before taking mutable borrow of weights
     let deltas = layer.deltas().to_vec();
 
@@ -298,9 +290,15 @@ fn train_single_example(
                 let next_layer = network.layer(i + 1).ok_or_else(|| {
                     NeuralNetError::InvalidConfig("Next layer not found".to_string())
                 })?;
-                (next_layer.deltas().to_vec(), next_layer.weights().ok_or_else(|| {
-                    NeuralNetError::InvalidConfig("Next layer has no weights".to_string())
-                })?.clone())
+                (
+                    next_layer.deltas().to_vec(),
+                    next_layer
+                        .weights()
+                        .ok_or_else(|| {
+                            NeuralNetError::InvalidConfig("Next layer has no weights".to_string())
+                        })?
+                        .clone(),
+                )
             };
 
             network
@@ -337,10 +335,12 @@ mod tests {
         let mut network = neural_net_types::FeedForwardNetwork::new(2, 4, 1);
 
         // XOR inputs and targets
-        let inputs = [vec![0.0, 0.0],
+        let inputs = [
+            vec![0.0, 0.0],
             vec![0.0, 1.0],
             vec![1.0, 0.0],
-            vec![1.0, 1.0]];
+            vec![1.0, 1.0],
+        ];
         let targets = vec![vec![0.0], vec![1.0], vec![1.0], vec![0.0]];
 
         // Calculate error before training
@@ -503,9 +503,7 @@ mod tests {
         layer.set_outputs(vec![0.8, 0.3]);
 
         let targets = vec![1.0, 0.0];
-        layer
-            .calc_deltas(Some(&targets), None, None)
-            .unwrap();
+        layer.calc_deltas(Some(&targets), None, None).unwrap();
 
         // δ = target - output
         assert_eq!(layer.deltas().len(), 2);
@@ -560,9 +558,7 @@ mod tests {
 
         let initial_weights = layer.weights().unwrap().clone();
 
-        layer
-            .update_weights(&prev_outputs, learning_rate)
-            .unwrap();
+        layer.update_weights(&prev_outputs, learning_rate).unwrap();
 
         let updated_weights = layer.weights().unwrap();
 

@@ -2,18 +2,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
 <rect width="100%" height="100%" fill="#f9f9f9"/>
 <g id="connections">
-<line x1="100" y1="100" x2="600" y2="100" stroke="#F44336" stroke-width="0.71810913" opacity="0.13739014"/>
-<line x1="100" y1="100" x2="600" y2="300" stroke="#F44336" stroke-width="1.8698127" opacity="0.33482504"/>
-<line x1="100" y1="100" x2="600" y2="500" stroke="#4CAF50" stroke-width="0.5266987" opacity="0.10457692"/>
-<line x1="100" y1="100" x2="600" y2="700" stroke="#4CAF50" stroke-width="2.2676563" opacity="0.40302682"/>
-<line x1="100" y1="700" x2="600" y2="100" stroke="#4CAF50" stroke-width="1.3590692" opacity="0.247269"/>
-<line x1="100" y1="700" x2="600" y2="300" stroke="#F44336" stroke-width="2.0823984" opacity="0.37126833"/>
-<line x1="100" y1="700" x2="600" y2="500" stroke="#F44336" stroke-width="2.565643" opacity="0.45411023"/>
-<line x1="100" y1="700" x2="600" y2="700" stroke="#F44336" stroke-width="2.2916248" opacity="0.4071357"/>
-<line x1="600" y1="100" x2="1100" y2="400" stroke="#4CAF50" stroke-width="0.87304425" opacity="0.16395044"/>
-<line x1="600" y1="300" x2="1100" y2="400" stroke="#F44336" stroke-width="1.7604736" opacity="0.3160812"/>
-<line x1="600" y1="500" x2="1100" y2="400" stroke="#F44336" stroke-width="0.7112882" opacity="0.13622084"/>
-<line x1="600" y1="700" x2="1100" y2="400" stroke="#4CAF50" stroke-width="2.0948162" opacity="0.37339708"/>
+<line x1="100" y1="100" x2="600" y2="100" stroke="#4CAF50" stroke-width="1.6618916" opacity="0.29918143"/>
+<line x1="100" y1="100" x2="600" y2="300" stroke="#4CAF50" stroke-width="2.3683538" opacity="0.42028925"/>
+<line x1="100" y1="100" x2="600" y2="500" stroke="#4CAF50" stroke-width="2.463632" opacity="0.43662268"/>
+<line x1="100" y1="100" x2="600" y2="700" stroke="#F44336" stroke-width="3.3433177" opacity="0.58742595"/>
+<line x1="100" y1="700" x2="600" y2="100" stroke="#4CAF50" stroke-width="1.0200603" opacity="0.1891532"/>
+<line x1="100" y1="700" x2="600" y2="300" stroke="#F44336" stroke-width="0.93684995" opacity="0.17488857"/>
+<line x1="100" y1="700" x2="600" y2="500" stroke="#4CAF50" stroke-width="3.5609288" opacity="0.6247307"/>
+<line x1="100" y1="700" x2="600" y2="700" stroke="#4CAF50" stroke-width="3.374566" opacity="0.59278274"/>
+<line x1="600" y1="100" x2="1100" y2="400" stroke="#F44336" stroke-width="1.0400816" opacity="0.19258542"/>
+<line x1="600" y1="300" x2="1100" y2="400" stroke="#4CAF50" stroke-width="2.564096" opacity="0.45384502"/>
+<line x1="600" y1="500" x2="1100" y2="400" stroke="#4CAF50" stroke-width="2.6288862" opacity="0.46495196"/>
+<line x1="600" y1="700" x2="1100" y2="400" stroke="#F44336" stroke-width="2.2298076" opacity="0.39653847"/>
 </g>
 <g id="neurons">
 <circle cx="100" cy="100" r="20" fill="#2196F3" stroke="#333" stroke-width="2"/>

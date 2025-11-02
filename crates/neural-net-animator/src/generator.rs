@@ -100,9 +100,7 @@ impl ScriptGenerator {
             };
 
             let network_state = NetworkState {
-                checkpoint_path: checkpoint_path
-                    .to_string_lossy()
-                    .to_string(),
+                checkpoint_path: checkpoint_path.to_string_lossy().to_string(),
                 iteration: idx * 100, // Placeholder, would be extracted from checkpoint metadata
                 test_results,
                 weight_data: None,

@@ -1,0 +1,87 @@
+{
+  "metadata": {
+    "name": "XOR Network",
+    "description": "Initial network with random weights",
+    "timestamp": "2025-10-15T01:09:09.411942+00:00",
+    "epochs": 0,
+    "accuracy": null,
+    "custom": {}
+  },
+  "network": {
+    "layers": [
+      {
+        "index": 0,
+        "num_neurons": 2,
+        "weights": null,
+        "inputs": [
+          1.0,
+          1.0
+        ],
+        "outputs": [
+          1.0,
+          1.0
+        ],
+        "deltas": []
+      },
+      {
+        "index": 1,
+        "num_neurons": 4,
+        "weights": {
+          "v": 1,
+          "dim": [
+            2,
+            4
+          ],
+          "data": [
+            -0.39422727,
+            -0.57171464,
+            -0.195853,
+            0.0028235912,
+            -0.108072996,
+            0.7488563,
+            -0.72072625,
+            -0.6609392
+          ]
+        },
+        "inputs": [
+          -0.50230026,
+          0.17714167,
+          -0.91657925,
+          -0.6581156
+        ],
+        "outputs": [
+          0.37700024,
+          0.54417,
+          0.2856554,
+          0.34116304
+        ],
+        "deltas": []
+      },
+      {
+        "index": 2,
+        "num_neurons": 1,
+        "weights": {
+          "v": 1,
+          "dim": [
+            4,
+            1
+          ],
+          "data": [
+            -0.023535013,
+            -0.49706197,
+            0.6031625,
+            -0.9862404
+          ]
+        },
+        "inputs": [
+          -0.44353107
+        ],
+        "outputs": [
+          -0.44353107
+        ],
+        "deltas": []
+      }
+    ],
+    "targets": null
+  }
+}

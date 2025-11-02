@@ -106,11 +106,7 @@ impl NetworkMetadata {
     /// * `network_name` - Base name for the network
     /// * `epochs` - Total number of epochs trained
     /// * `accuracy` - Final accuracy achieved
-    pub fn final_trained(
-        network_name: impl Into<String>,
-        epochs: usize,
-        accuracy: f32,
-    ) -> Self {
+    pub fn final_trained(network_name: impl Into<String>, epochs: usize, accuracy: f32) -> Self {
         let mut meta = Self::new(
             format!("{} - Trained", network_name.into()),
             format!("Fully trained network after {} epochs", epochs),
@@ -207,11 +203,7 @@ impl FeedForwardNetwork {
     ///
     /// * `path` - File path to save to
     /// * `metadata` - Metadata describing this checkpoint
-    pub fn save_checkpoint(
-        &self,
-        path: impl AsRef<Path>,
-        metadata: NetworkMetadata,
-    ) -> Result<()> {
+    pub fn save_checkpoint(&self, path: impl AsRef<Path>, metadata: NetworkMetadata) -> Result<()> {
         let checkpoint = NetworkCheckpoint::new(self.clone(), metadata);
         checkpoint.save_to_file(path)
     }
@@ -332,7 +324,9 @@ mod tests {
         let temp_path = env::temp_dir().join("test_checkpoint_types.json");
 
         // Save
-        network.save_checkpoint(&temp_path, metadata.clone()).unwrap();
+        network
+            .save_checkpoint(&temp_path, metadata.clone())
+            .unwrap();
 
         // Load
         let (loaded_network, loaded_metadata) =

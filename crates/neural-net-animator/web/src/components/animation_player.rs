@@ -1,9 +1,10 @@
 //! Main animation player component
 
-use gloo_net::http::Request;
 use gloo_timers::callback::Interval;
 use neural_net_animator::{AnimationScript, Timeline};
-use wasm_bindgen_futures::spawn_local;
+use wasm_bindgen::JsCast;
+use wasm_bindgen_futures::{spawn_local, JsFuture};
+use web_sys::{Request, RequestInit, RequestMode, Response};
 use yew::prelude::*;
 
 use super::dvr_controls::DvrControls;
@@ -79,7 +80,10 @@ fn animation_player_inner(props: &AnimationPlayerInnerProps) -> Html {
     // Load initial checkpoint
     {
         let current_svg = current_svg.clone();
-        let initial_checkpoint = script.scenes.get(0).map(|s| s.network_state.checkpoint_path.clone());
+        let initial_checkpoint = script
+            .scenes
+            .first()
+            .map(|s| s.network_state.checkpoint_path.clone());
 
         use_effect_with((), move |_| {
             if let Some(checkpoint_path) = initial_checkpoint {
@@ -126,7 +130,9 @@ fn animation_player_inner(props: &AnimationPlayerInnerProps) -> Html {
     // Get current scene index
     let current_scene_idx = {
         let t = (*timeline).clone();
-        script.scene_at_time(t.current_time()).map(|(idx, _, _)| idx)
+        script
+            .scene_at_time(t.current_time())
+            .map(|(idx, _, _)| idx)
     };
 
     html! {
@@ -157,38 +163,72 @@ fn animation_player_inner(props: &AnimationPlayerInnerProps) -> Html {
 
 /// Load animation script from server
 async fn load_animation_script() -> Result<AnimationScript, String> {
-    let response = Request::get("/api/script")
-        .send()
-        .await
-        .map_err(|e| format!("Request failed: {}", e))?;
+    let window = web_sys::window().ok_or("No window object")?;
 
-    if !response.ok() {
-        return Err(format!("Server error: {}", response.status()));
+    let opts = RequestInit::new();
+    opts.set_method("GET");
+    opts.set_mode(RequestMode::Cors);
+
+    let request = Request::new_with_str_and_init("/scripts/xor_animation.json", &opts)
+        .map_err(|e| format!("Failed to create request: {:?}", e))?;
+
+    let resp_value = JsFuture::from(window.fetch_with_request(&request))
+        .await
+        .map_err(|e| format!("Request failed: {:?}", e))?;
+
+    let resp: Response = resp_value.dyn_into().map_err(|_| "Response cast failed")?;
+
+    if !resp.ok() {
+        return Err(format!("Server error: {}", resp.status()));
     }
 
-    let script: AnimationScript = response
-        .json()
-        .await
-        .map_err(|e| format!("Failed to parse JSON: {}", e))?;
+    let json = JsFuture::from(
+        resp.json()
+            .map_err(|e| format!("Failed to get JSON: {:?}", e))?,
+    )
+    .await
+    .map_err(|e| format!("JSON parse failed: {:?}", e))?;
+
+    let script: AnimationScript = serde_wasm_bindgen::from_value(json)
+        .map_err(|e| format!("Failed to deserialize: {:?}", e))?;
 
     Ok(script)
 }
 
 /// Load checkpoint and render as SVG
 async fn load_and_render_checkpoint(checkpoint_path: &str) -> Result<String, String> {
-    let url = format!("/api/checkpoint/{}", checkpoint_path);
-    let response = Request::get(&url)
-        .send()
-        .await
-        .map_err(|e| format!("Request failed: {}", e))?;
+    let window = web_sys::window().ok_or("No window object")?;
 
-    if !response.ok() {
-        return Err(format!("Server error: {}", response.status()));
+    let opts = RequestInit::new();
+    opts.set_method("GET");
+    opts.set_mode(RequestMode::Cors);
+
+    let url = format!("/{}", checkpoint_path);
+    let request = Request::new_with_str_and_init(&url, &opts)
+        .map_err(|e| format!("Failed to create request: {:?}", e))?;
+
+    let resp_value = JsFuture::from(window.fetch_with_request(&request))
+        .await
+        .map_err(|e| format!("Request failed: {:?}", e))?;
+
+    let resp: Response = resp_value.dyn_into().map_err(|_| "Response cast failed")?;
+
+    if !resp.ok() {
+        return Err(format!("Server error: {}", resp.status()));
     }
 
+    let text = JsFuture::from(
+        resp.text()
+            .map_err(|e| format!("Failed to get text: {:?}", e))?,
+    )
+    .await
+    .map_err(|e| format!("Text read failed: {:?}", e))?;
+
+    let json_str = text.as_string().ok_or("Failed to convert to string")?;
+
     // For now, return placeholder SVG
-    // TODO: Parse checkpoint and use neural-net-viz to generate real SVG
-    let svg = format!("<svg viewBox=\"0 0 800 600\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"800\" height=\"600\" fill=\"#f8f9fa\"/><text x=\"400\" y=\"300\" text-anchor=\"middle\" font-size=\"20\" fill=\"#333\">Checkpoint: {}</text></svg>", checkpoint_path);
+    // TODO: Parse checkpoint JSON and use neural-net-viz to generate real SVG
+    let svg = format!("<svg viewBox=\"0 0 800 600\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"800\" height=\"600\" fill=\"#f8f9fa\"/><text x=\"400\" y=\"300\" text-anchor=\"middle\" font-size=\"20\" fill=\"#333\">Checkpoint: {}</text><text x=\"400\" y=\"330\" text-anchor=\"middle\" font-size=\"14\" fill=\"#666\">Loaded {} bytes</text></svg>", checkpoint_path, json_str.len());
 
     Ok(svg)
 }

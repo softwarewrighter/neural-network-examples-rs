@@ -1,0 +1,76 @@
+{
+  "metadata": {
+    "title": "XOR Learning with Backpropagation",
+    "description": "Watch how a neural network learns the XOR function",
+    "author": "neural-net-animator",
+    "version": "0.1.0"
+  },
+  "network_info": {
+    "architecture": "2-4-1",
+    "activation": "Sigmoid",
+    "input_size": 2,
+    "hidden_size": 4,
+    "output_size": 1
+  },
+  "truth_table": null,
+  "scenes": [
+    {
+      "id": "intro",
+      "duration": 5.0,
+      "network_state": {
+        "checkpoint_path": "examples/example-2-backward-propagation-xor/checkpoints/xor_initial.json",
+        "iteration": 0,
+        "test_results": null,
+        "weight_data": null
+      },
+      "annotations": [
+        {
+          "annotation_type": "title",
+          "text": "Before Training",
+          "position": "top",
+          "style": {
+            "font_size": "32px",
+            "color": "#333",
+            "weight": "bold"
+          }
+        },
+        {
+          "annotation_type": "label",
+          "text": "Random weights",
+          "position": "center",
+          "style": {
+            "font_size": null,
+            "color": null,
+            "weight": null
+          }
+        }
+      ],
+      "highlights": [],
+      "transition": "morph"
+    },
+    {
+      "id": "final",
+      "duration": 3.0,
+      "network_state": {
+        "checkpoint_path": "examples/example-2-backward-propagation-xor/checkpoints/xor_trained.json",
+        "iteration": 100,
+        "test_results": null,
+        "weight_data": null
+      },
+      "annotations": [
+        {
+          "annotation_type": "title",
+          "text": "Training Complete!",
+          "position": "top",
+          "style": {
+            "font_size": "32px",
+            "color": "#27ae60",
+            "weight": "bold"
+          }
+        }
+      ],
+      "highlights": [],
+      "transition": "fade"
+    }
+  ]
+}

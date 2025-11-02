@@ -37,7 +37,9 @@
 //! - Learning rate: 0.5 (standard)
 //! - Target error: <0.1
 
-use neural_net_core::{FeedForwardNetwork, ForwardPropagation, NetworkTraining, NetworkMetadata, Result};
+use neural_net_core::{
+    FeedForwardNetwork, ForwardPropagation, NetworkMetadata, NetworkTraining, Result,
+};
 use neural_net_viz::{NetworkVisualization, VisualizationConfig};
 use std::fs;
 
@@ -78,9 +80,10 @@ fn main() -> Result<()> {
     println!("  A  B  Cin | Sum Cout");
     println!("  ----------|-----------");
     for (input, target) in adder_inputs.iter().zip(&adder_targets) {
-        println!("  {}  {}   {} |  {}   {}",
-            input[0] as u8, input[1] as u8, input[2] as u8,
-            target[0] as u8, target[1] as u8);
+        println!(
+            "  {}  {}   {} |  {}   {}",
+            input[0] as u8, input[1] as u8, input[2] as u8, target[0] as u8, target[1] as u8
+        );
     }
     println!();
     println!("Note: Sum = XOR(A,B,Cin), Cout = MAJ(A,B,Cin)\n");
@@ -105,7 +108,8 @@ fn main() -> Result<()> {
     println!("Target error: 0.1");
     println!("Max iterations: 10000\n");
 
-    let iterations = network.train_by_error(&adder_inputs, &adder_targets, 0.5, Some(0.1), Some(10000))?;
+    let iterations =
+        network.train_by_error(&adder_inputs, &adder_targets, 0.5, Some(0.1), Some(10000))?;
 
     println!("\nTraining completed in {} iterations", iterations);
 
@@ -159,9 +163,13 @@ fn test_network(
 
         println!(
             "  {} {} {}   ({:.1},{:.1})     ({:.4},{:.4})  {:.4}",
-            input[0] as u8, input[1] as u8, input[2] as u8,
-            target[0], target[1],
-            output[0], output[1],
+            input[0] as u8,
+            input[1] as u8,
+            input[2] as u8,
+            target[0],
+            target[1],
+            output[0],
+            output[1],
             error
         );
     }
@@ -200,14 +208,16 @@ mod tests {
         // Negative test: Untrained network should produce high error
         let mut network = FeedForwardNetwork::new(3, 6, 2);
 
-        let inputs = [vec![0.0, 0.0, 0.0],
+        let inputs = [
+            vec![0.0, 0.0, 0.0],
             vec![0.0, 0.0, 1.0],
             vec![0.0, 1.0, 0.0],
             vec![0.0, 1.0, 1.0],
             vec![1.0, 0.0, 0.0],
             vec![1.0, 0.0, 1.0],
             vec![1.0, 1.0, 0.0],
-            vec![1.0, 1.0, 1.0]];
+            vec![1.0, 1.0, 1.0],
+        ];
         let targets = vec![
             vec![0.0, 0.0],
             vec![1.0, 0.0],
@@ -237,14 +247,16 @@ mod tests {
     #[test]
     fn test_full_adder_truth_table() {
         // Verify our truth table is correct
-        let inputs = [vec![0.0, 0.0, 0.0],
+        let inputs = [
+            vec![0.0, 0.0, 0.0],
             vec![0.0, 0.0, 1.0],
             vec![0.0, 1.0, 0.0],
             vec![0.0, 1.0, 1.0],
             vec![1.0, 0.0, 0.0],
             vec![1.0, 0.0, 1.0],
             vec![1.0, 1.0, 0.0],
-            vec![1.0, 1.0, 1.0]];
+            vec![1.0, 1.0, 1.0],
+        ];
         let expected = vec![
             vec![0.0, 0.0],
             vec![1.0, 0.0],
@@ -269,9 +281,11 @@ mod tests {
             let cout = if ones_count >= 2 { 1.0 } else { 0.0 };
 
             assert_eq!(
-                vec![sum, cout], *expected_output,
+                vec![sum, cout],
+                *expected_output,
                 "Full adder of {:?} should be {:?}",
-                input, expected_output
+                input,
+                expected_output
             );
         }
     }
@@ -315,7 +329,10 @@ mod tests {
             assert!(
                 error_sum < 0.5 && error_carry < 0.5,
                 "Outputs ({:.4}, {:.4}) should be close to targets ({}, {})",
-                output[0], output[1], target[0], target[1]
+                output[0],
+                output[1],
+                target[0],
+                target[1]
             );
         }
     }

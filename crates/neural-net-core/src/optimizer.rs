@@ -192,12 +192,7 @@ impl Adam {
     }
 
     /// Create Adam optimizer with custom hyperparameters
-    pub fn with_params(
-        learning_rate: f32,
-        beta1: f32,
-        beta2: f32,
-        epsilon: f32,
-    ) -> Self {
+    pub fn with_params(learning_rate: f32, beta1: f32, beta2: f32, epsilon: f32) -> Self {
         Self {
             learning_rate,
             beta1,
@@ -436,7 +431,8 @@ impl Optimizer for AdamW {
 
                 // AdamW: Apply weight decay separately from gradient update
                 // θ = θ - η * (m̂ / (√v̂ + ε) + λ * θ)
-                let update = m_hat / (v_hat.sqrt() + self.epsilon) + self.weight_decay * weights[[i, j]];
+                let update =
+                    m_hat / (v_hat.sqrt() + self.epsilon) + self.weight_decay * weights[[i, j]];
                 weights[[i, j]] -= self.learning_rate * update;
             }
         }

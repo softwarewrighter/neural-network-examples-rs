@@ -1,7 +1,7 @@
 //! Main application component
 
-use yew::prelude::*;
 use super::animation_player::AnimationPlayer;
+use yew::prelude::*;
 
 #[function_component(App)]
 pub fn app() -> Html {

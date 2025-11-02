@@ -2,7 +2,7 @@
 
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
-use neural_net_animator::{GeneratorConfig, ScriptGenerator, server::ServerConfig};
+use neural_net_animator::{server::ServerConfig, GeneratorConfig, ScriptGenerator};
 use std::path::PathBuf;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
@@ -145,8 +145,8 @@ fn validate_script(path: &PathBuf) -> Result<()> {
     let content = std::fs::read_to_string(path)
         .with_context(|| format!("Failed to read script: {}", path.display()))?;
 
-    let script: neural_net_animator::AnimationScript = serde_json::from_str(&content)
-        .with_context(|| "Failed to parse script as JSON")?;
+    let script: neural_net_animator::AnimationScript =
+        serde_json::from_str(&content).with_context(|| "Failed to parse script as JSON")?;
 
     tracing::info!("✓ Script is valid JSON");
     tracing::info!("  Title: {}", script.metadata.title);
@@ -186,11 +186,18 @@ struct GenerateConfig {
 
 /// Generate animation script from checkpoints
 fn generate_script(config: GenerateConfig) -> Result<()> {
-    tracing::info!("Generating animation script from {} checkpoints", config.checkpoints.len());
+    tracing::info!(
+        "Generating animation script from {} checkpoints",
+        config.checkpoints.len()
+    );
 
     let gen_config = GeneratorConfig {
-        title: config.title.unwrap_or_else(|| "Neural Network Training".to_string()),
-        description: config.description.unwrap_or_else(|| "Watch the network learn".to_string()),
+        title: config
+            .title
+            .unwrap_or_else(|| "Neural Network Training".to_string()),
+        description: config
+            .description
+            .unwrap_or_else(|| "Watch the network learn".to_string()),
         scene_duration: config.scene_duration,
         intro_duration: config.intro_duration,
         include_tests: false, // TODO: Add CLI option

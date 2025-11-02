@@ -31,16 +31,20 @@
 
 pub mod generator;
 pub mod script;
+#[cfg(feature = "server")]
 pub mod server;
 pub mod timeline;
 
 pub use generator::{GeneratorConfig, ScriptGenerator};
 pub use script::{
-    AnimationScript, AnimationMetadata, Annotation, AnnotationPosition, AnnotationStyle,
+    AnimationMetadata, AnimationScript, Annotation, AnnotationPosition, AnnotationStyle,
     AnnotationType, ExampleResult, Highlight, HighlightType, NetworkInfo, NetworkState, Scene,
     TestResults, TransitionType, TruthTable, TruthTableRow,
 };
 pub use timeline::{PlaybackSpeed, PlaybackState, Timeline};
+
+#[cfg(feature = "server")]
+pub use server::ServerConfig;
 
 /// Result type for this crate
 pub type Result<T> = anyhow::Result<T>;

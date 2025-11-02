@@ -10,10 +10,10 @@
 <line x1="100" y1="700" x2="600" y2="300" stroke="#F44336" stroke-width="2.6000001" opacity="0.46"/>
 <line x1="100" y1="700" x2="600" y2="500" stroke="#4CAF50" stroke-width="2.25" opacity="0.4"/>
 <line x1="100" y1="700" x2="600" y2="700" stroke="#F44336" stroke-width="1.9" opacity="0.34"/>
-<line x1="600" y1="100" x2="1100" y2="400" stroke="#F44336" stroke-width="2.823915" opacity="0.49838543"/>
-<line x1="600" y1="300" x2="1100" y2="400" stroke="#F44336" stroke-width="1.114591" opacity="0.20535846"/>
-<line x1="600" y1="500" x2="1100" y2="400" stroke="#4CAF50" stroke-width="0.9585619" opacity="0.17861062"/>
-<line x1="600" y1="700" x2="1100" y2="400" stroke="#F44336" stroke-width="1.9538375" opacity="0.3492293"/>
+<line x1="600" y1="100" x2="1100" y2="400" stroke="#4CAF50" stroke-width="1.9629457" opacity="0.3507907"/>
+<line x1="600" y1="300" x2="1100" y2="400" stroke="#4CAF50" stroke-width="1.0385245" opacity="0.1923185"/>
+<line x1="600" y1="500" x2="1100" y2="400" stroke="#F44336" stroke-width="3.6322012" opacity="0.6369488"/>
+<line x1="600" y1="700" x2="1100" y2="400" stroke="#F44336" stroke-width="2.661327" opacity="0.4705132"/>
 </g>
 <g id="neurons">
 <circle cx="100" cy="100" r="20" fill="#2196F3" stroke="#333" stroke-width="2"/>

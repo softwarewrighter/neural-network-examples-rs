@@ -44,4 +44,4 @@ pub use backward::{LayerBackward, NetworkTraining};
 pub use forward::ForwardPropagation;
 
 // Export optimizers
-pub use optimizer::{Adam, AdamW, Optimizer, RMSprop, SGDMomentum, SGD};
+pub use optimizer::{Adam, AdamW, Optimizer, RMSprop, SGD, SGDMomentum};

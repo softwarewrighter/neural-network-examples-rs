@@ -2,18 +2,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
 <rect width="100%" height="100%" fill="#f9f9f9"/>
 <g id="connections">
-<line x1="100" y1="100" x2="600" y2="100" stroke="#F44336" stroke-width="2.5660982" opacity="0.4541883"/>
-<line x1="100" y1="100" x2="600" y2="300" stroke="#4CAF50" stroke-width="4" opacity="0.70000005"/>
-<line x1="100" y1="100" x2="600" y2="500" stroke="#4CAF50" stroke-width="4" opacity="0.70000005"/>
-<line x1="100" y1="100" x2="600" y2="700" stroke="#4CAF50" stroke-width="4" opacity="0.70000005"/>
-<line x1="100" y1="700" x2="600" y2="100" stroke="#4CAF50" stroke-width="2.0257688" opacity="0.36156037"/>
-<line x1="100" y1="700" x2="600" y2="300" stroke="#F44336" stroke-width="2.2983887" opacity="0.4082952"/>
-<line x1="100" y1="700" x2="600" y2="500" stroke="#F44336" stroke-width="4" opacity="0.70000005"/>
-<line x1="100" y1="700" x2="600" y2="700" stroke="#F44336" stroke-width="4" opacity="0.70000005"/>
-<line x1="600" y1="100" x2="1100" y2="400" stroke="#4CAF50" stroke-width="3.3016198" opacity="0.5802777"/>
-<line x1="600" y1="300" x2="1100" y2="400" stroke="#F44336" stroke-width="4" opacity="0.70000005"/>
-<line x1="600" y1="500" x2="1100" y2="400" stroke="#F44336" stroke-width="4" opacity="0.70000005"/>
-<line x1="600" y1="700" x2="1100" y2="400" stroke="#4CAF50" stroke-width="4" opacity="0.70000005"/>
+<line x1="100" y1="100" x2="600" y2="100" stroke="#4CAF50" stroke-width="3.3898296" opacity="0.5953994"/>
+<line x1="100" y1="100" x2="600" y2="300" stroke="#4CAF50" stroke-width="2.0961084" opacity="0.3736186"/>
+<line x1="100" y1="100" x2="600" y2="500" stroke="#F44336" stroke-width="4" opacity="0.70000005"/>
+<line x1="100" y1="100" x2="600" y2="700" stroke="#F44336" stroke-width="4" opacity="0.70000005"/>
+<line x1="100" y1="700" x2="600" y2="100" stroke="#4CAF50" stroke-width="1.0169349" opacity="0.18861741"/>
+<line x1="100" y1="700" x2="600" y2="300" stroke="#F44336" stroke-width="1.5878125" opacity="0.28648216"/>
+<line x1="100" y1="700" x2="600" y2="500" stroke="#4CAF50" stroke-width="4" opacity="0.70000005"/>
+<line x1="100" y1="700" x2="600" y2="700" stroke="#4CAF50" stroke-width="4" opacity="0.70000005"/>
+<line x1="600" y1="100" x2="1100" y2="400" stroke="#F44336" stroke-width="2.5500948" opacity="0.45144483"/>
+<line x1="600" y1="300" x2="1100" y2="400" stroke="#4CAF50" stroke-width="1.7716366" opacity="0.31799486"/>
+<line x1="600" y1="500" x2="1100" y2="400" stroke="#4CAF50" stroke-width="4" opacity="0.70000005"/>
+<line x1="600" y1="700" x2="1100" y2="400" stroke="#F44336" stroke-width="4" opacity="0.70000005"/>
 </g>
 <g id="neurons">
 <circle cx="100" cy="100" r="20" fill="#2196F3" stroke="#333" stroke-width="2"/>
@@ -41,8 +41,8 @@
 </g>
 <g id="metadata">
 <rect x="890" y="670" width="300" height="120" fill="white" stroke="#333" stroke-width="2" rx="5"/>
-<text x="900" y="685" font-size="16" font-weight="bold" fill="#333">AND Network - Epoch 1905</text>
-<text x="900" y="710" font-size="12" fill="#666">Epochs: 1905</text>
-<text x="900" y="730" font-size="10" fill="#999">Training checkpoint after 1905 epochs</text>
+<text x="900" y="685" font-size="16" font-weight="bold" fill="#333">AND Network - Epoch 2014</text>
+<text x="900" y="710" font-size="12" fill="#666">Epochs: 2014</text>
+<text x="900" y="730" font-size="10" fill="#999">Training checkpoint after 2014 epochs</text>
 </g>
 </svg>

@@ -118,7 +118,11 @@ impl NetworkVisualization for FeedForwardNetwork {
         ).unwrap();
 
         // Background
-        writeln!(&mut svg, "<rect width=\"100%\" height=\"100%\" fill=\"#f9f9f9\"/>").unwrap();
+        writeln!(
+            &mut svg,
+            "<rect width=\"100%\" height=\"100%\" fill=\"#f9f9f9\"/>"
+        )
+        .unwrap();
 
         // Calculate layer positions
         let layer_positions = calculate_layer_positions(self, config);
@@ -174,7 +178,10 @@ impl NetworkVisualization for FeedForwardNetwork {
 }
 
 /// Calculate (x, y) positions for all neurons in all layers
-fn calculate_layer_positions(network: &FeedForwardNetwork, config: &VisualizationConfig) -> Vec<Vec<(f32, f32)>> {
+fn calculate_layer_positions(
+    network: &FeedForwardNetwork,
+    config: &VisualizationConfig,
+) -> Vec<Vec<(f32, f32)>> {
     let num_layers = network.layer_count();
     let margin_x = 100.0;
     let margin_y = 100.0;
@@ -257,9 +264,9 @@ fn draw_neurons(
 
     for (layer_idx, layer_positions) in positions.iter().enumerate() {
         let fill = match layer_idx {
-            0 => "#2196F3",      // Input: blue
+            0 => "#2196F3",                                       // Input: blue
             idx if idx == network.layer_count() - 1 => "#FF9800", // Output: orange
-            _ => "#9C27B0",      // Hidden: purple
+            _ => "#9C27B0",                                       // Hidden: purple
         };
 
         for (neuron_idx, (x, y)) in layer_positions.iter().enumerate() {
@@ -316,10 +323,7 @@ fn draw_labels(
 }
 
 /// Generate metadata overlay
-fn generate_metadata_overlay(
-    metadata: &NetworkMetadata,
-    config: &VisualizationConfig,
-) -> String {
+fn generate_metadata_overlay(metadata: &NetworkMetadata, config: &VisualizationConfig) -> String {
     let mut svg = String::new();
     writeln!(svg, "<g id=\"metadata\">").unwrap();
 
@@ -346,7 +350,8 @@ fn generate_metadata_overlay(
         text_x,
         base_y + y_offset,
         metadata.name
-    ).unwrap();
+    )
+    .unwrap();
     y_offset += 25;
 
     writeln!(
@@ -355,7 +360,8 @@ fn generate_metadata_overlay(
         text_x,
         base_y + y_offset,
         metadata.epochs
-    ).unwrap();
+    )
+    .unwrap();
     y_offset += 20;
 
     if let Some(accuracy) = metadata.accuracy {
@@ -365,7 +371,8 @@ fn generate_metadata_overlay(
             text_x,
             base_y + y_offset,
             accuracy
-        ).unwrap();
+        )
+        .unwrap();
         y_offset += 20;
     }
 
@@ -375,7 +382,8 @@ fn generate_metadata_overlay(
         text_x,
         base_y + y_offset,
         metadata.description
-    ).unwrap();
+    )
+    .unwrap();
 
     writeln!(svg, "</g>").unwrap();
     svg

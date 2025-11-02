@@ -35,9 +35,9 @@
 //! - `images/xor_manual_attempt1.svg` - After first manual adjustment
 //! - `images/xor_manual_attempt2.svg` - After second manual adjustment
 
+use ndarray::Array2;
 use neural_net_core::{FeedForwardNetwork, ForwardPropagation, NetworkMetadata, Result};
 use neural_net_viz::{NetworkVisualization, VisualizationConfig};
-use ndarray::Array2;
 use std::fs;
 
 fn main() -> Result<()> {
@@ -86,13 +86,16 @@ fn main() -> Result<()> {
 
     // Access layer 1 (hidden) and manually set some weights
     // This is a crude attempt to show manual tuning is impractical
-    network.layer_mut(1).unwrap().set_weights(Array2::from_shape_vec(
-        (2, 4),
-        vec![
-            0.8, -0.5, 0.6, -0.3,   // weights from input 0
-            0.7, -0.6, 0.5, -0.4,   // weights from input 1
-        ],
-    ).unwrap())?;
+    network.layer_mut(1).unwrap().set_weights(
+        Array2::from_shape_vec(
+            (2, 4),
+            vec![
+                0.8, -0.5, 0.6, -0.3, // weights from input 0
+                0.7, -0.6, 0.5, -0.4, // weights from input 1
+            ],
+        )
+        .unwrap(),
+    )?;
 
     test_network(&mut network, &xor_inputs, &xor_targets, "Manual Attempt 1")?;
 
@@ -108,10 +111,10 @@ fn main() -> Result<()> {
     println!("Trying different manual adjustments...");
 
     // Adjust output layer weights
-    network.layer_mut(2).unwrap().set_weights(Array2::from_shape_vec(
-        (4, 1),
-        vec![1.5, -1.2, 1.3, -1.1],
-    ).unwrap())?;
+    network
+        .layer_mut(2)
+        .unwrap()
+        .set_weights(Array2::from_shape_vec((4, 1), vec![1.5, -1.2, 1.3, -1.1]).unwrap())?;
 
     test_network(&mut network, &xor_inputs, &xor_targets, "Manual Attempt 2")?;
 
@@ -202,11 +205,7 @@ mod tests {
             let a = input[0] as u8;
             let b = input[1] as u8;
             let result = (a ^ b) as f32;
-            assert_eq!(
-                result, expected,
-                "XOR({}, {}) should be {}",
-                a, b, expected
-            );
+            assert_eq!(result, expected, "XOR({}, {}) should be {}", a, b, expected);
         }
     }
 
@@ -215,13 +214,13 @@ mod tests {
         // Negative test: Untrained network with random weights should produce high error
         let mut network = FeedForwardNetwork::new(2, 4, 1);
 
-        let xor_inputs = [vec![0.0, 0.0],
+        let xor_inputs = [
+            vec![0.0, 0.0],
             vec![0.0, 1.0],
             vec![1.0, 0.0],
-            vec![1.0, 1.0]];
-        let xor_targets = vec![
-            vec![0.0], vec![1.0], vec![1.0], vec![0.0]
+            vec![1.0, 1.0],
         ];
+        let xor_targets = vec![vec![0.0], vec![1.0], vec![1.0], vec![0.0]];
 
         let mut total_error = 0.0;
         for (input, target) in xor_inputs.iter().zip(&xor_targets) {
@@ -266,7 +265,9 @@ mod tests {
         let temp_path = env::temp_dir().join("test_checkpoint.json");
 
         // Save checkpoint
-        network.save_checkpoint(&temp_path, metadata.clone()).unwrap();
+        network
+            .save_checkpoint(&temp_path, metadata.clone())
+            .unwrap();
 
         // Load checkpoint
         let (loaded_network, loaded_metadata) =

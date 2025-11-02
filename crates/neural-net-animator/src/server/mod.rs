@@ -50,7 +50,7 @@ impl Default for ServerConfig {
 #[derive(Clone)]
 struct AppState {
     script: Arc<AnimationScript>,
-    #[allow(dead_code)]  // TODO: Use for resolving relative checkpoint paths
+    #[allow(dead_code)] // TODO: Use for resolving relative checkpoint paths
     checkpoint_dir: PathBuf,
 }
 
@@ -101,10 +101,7 @@ pub async fn start_server(config: ServerConfig) -> anyhow::Result<()> {
         app = app.route("/", get(placeholder_handler));
     }
 
-    let addr = SocketAddr::from((
-        config.host.parse::<std::net::IpAddr>()?,
-        config.port,
-    ));
+    let addr = SocketAddr::from((config.host.parse::<std::net::IpAddr>()?, config.port));
 
     tracing::info!("Starting server on http://{}", addr);
     tracing::info!("Press Ctrl+C to stop");
@@ -644,11 +641,7 @@ async fn get_checkpoint(
     }
 
     match std::fs::read(&full_path) {
-        Ok(content) => Ok((
-            [(header::CONTENT_TYPE, "application/json")],
-            content,
-        )
-            .into_response()),
+        Ok(content) => Ok(([(header::CONTENT_TYPE, "application/json")], content).into_response()),
         Err(e) => {
             tracing::error!("Failed to read checkpoint: {}", e);
             Err(StatusCode::INTERNAL_SERVER_ERROR)

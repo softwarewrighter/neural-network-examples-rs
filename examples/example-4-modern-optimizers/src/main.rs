@@ -44,8 +44,8 @@
 //! ```
 
 use neural_net_core::{
-    Adam, AdamW, FeedForwardNetwork, ForwardPropagation, LayerBackward, NetworkMetadata, Optimizer, RMSprop,
-    Result, SGDMomentum, SGD,
+    Adam, AdamW, FeedForwardNetwork, ForwardPropagation, LayerBackward, NetworkMetadata, Optimizer,
+    RMSprop, Result, SGDMomentum, SGD,
 };
 use neural_net_viz::{NetworkVisualization, VisualizationConfig};
 use std::fs;
@@ -87,11 +87,7 @@ fn main() -> Result<()> {
     // Compare different optimizers
     let optimizers: Vec<(Box<dyn Optimizer>, &str, f32)> = vec![
         (Box::new(SGD::new(0.5)), "SGD", 0.5),
-        (
-            Box::new(SGDMomentum::new(0.3, 0.9)),
-            "SGD+Momentum",
-            0.3,
-        ),
+        (Box::new(SGDMomentum::new(0.3, 0.9)), "SGD+Momentum", 0.3),
         (Box::new(Adam::new(0.01)), "Adam", 0.01),
         (Box::new(RMSprop::new(0.01)), "RMSprop", 0.01),
         (Box::new(AdamW::new(0.01, 0.001)), "AdamW", 0.01),
@@ -132,8 +128,14 @@ fn main() -> Result<()> {
 
         let start = Instant::now();
 
-        let iterations =
-            train_with_optimizer(&mut network, &inputs, &targets, &mut *optimizer, 20000, 0.01);
+        let iterations = train_with_optimizer(
+            &mut network,
+            &inputs,
+            &targets,
+            &mut *optimizer,
+            20000,
+            0.01,
+        );
 
         let duration = start.elapsed();
 
@@ -157,7 +159,12 @@ fn main() -> Result<()> {
         println!("Results:");
         println!("  Iterations:  {}", iterations);
         println!("  Time:        {:.2}s", duration.as_secs_f32());
-        println!("  Accuracy:    {}/{} ({:.1}%)", correct, inputs.len(), accuracy);
+        println!(
+            "  Accuracy:    {}/{} ({:.1}%)",
+            correct,
+            inputs.len(),
+            accuracy
+        );
         println!("  Final MSE:   {:.6}", mean_squared_error);
 
         if iterations < 20000 {
@@ -169,7 +176,8 @@ fn main() -> Result<()> {
         // Save trained state for Adam
         if name == "Adam" {
             println!("  Saving trained network state...");
-            let metadata = NetworkMetadata::checkpoint("Parity3 (Adam)", iterations, Some(accuracy));
+            let metadata =
+                NetworkMetadata::checkpoint("Parity3 (Adam)", iterations, Some(accuracy));
 
             let checkpoint_path = format!("{}/parity3_adam_trained.json", checkpoints_dir);
             network.save_checkpoint(&checkpoint_path, metadata.clone())?;
@@ -332,7 +340,11 @@ mod tests {
     use super::*;
 
     /// Helper function to compute mean absolute error
-    fn compute_mean_error(network: &mut FeedForwardNetwork, inputs: &[Vec<f32>], targets: &[Vec<f32>]) -> f32 {
+    fn compute_mean_error(
+        network: &mut FeedForwardNetwork,
+        inputs: &[Vec<f32>],
+        targets: &[Vec<f32>],
+    ) -> f32 {
         let mut total_error = 0.0;
         for (input, target) in inputs.iter().zip(targets) {
             let output = network.forward(input).unwrap();
@@ -401,7 +413,8 @@ mod tests {
         ];
 
         let mut optimizer = Adam::new(0.01);
-        let iterations = train_with_optimizer(&mut network, &inputs, &targets, &mut optimizer, 5000, 0.01);
+        let iterations =
+            train_with_optimizer(&mut network, &inputs, &targets, &mut optimizer, 5000, 0.01);
 
         // Adam should converge in < 5000 iterations
         assert!(
@@ -452,12 +465,14 @@ mod tests {
         // Train with SGD
         let mut network_sgd = FeedForwardNetwork::new(3, 6, 1);
         let mut sgd = SGD::new(0.5);
-        let sgd_iterations = train_with_optimizer(&mut network_sgd, &inputs, &targets, &mut sgd, 10000, 0.01);
+        let sgd_iterations =
+            train_with_optimizer(&mut network_sgd, &inputs, &targets, &mut sgd, 10000, 0.01);
 
         // Train with Adam
         let mut network_adam = FeedForwardNetwork::new(3, 6, 1);
         let mut adam = Adam::new(0.01);
-        let adam_iterations = train_with_optimizer(&mut network_adam, &inputs, &targets, &mut adam, 10000, 0.01);
+        let adam_iterations =
+            train_with_optimizer(&mut network_adam, &inputs, &targets, &mut adam, 10000, 0.01);
 
         // Adam should be significantly faster
         println!(
@@ -490,7 +505,8 @@ mod tests {
 
         for (mut optimizer, name) in optimizers {
             let mut network = FeedForwardNetwork::new(2, 4, 1);
-            let iterations = train_with_optimizer(&mut network, &inputs, &targets, &mut *optimizer, 15000, 0.5);
+            let iterations =
+                train_with_optimizer(&mut network, &inputs, &targets, &mut *optimizer, 15000, 0.5);
 
             // All optimizers should eventually converge (maybe not perfectly)
             assert!(

@@ -1,2 +1,6 @@
 /target
 /research
+
+# docs/ directory is intentionally committed (GitHub Pages build output)
+# Uncomment the line below if you want to ignore docs/ during development:
+# /docs

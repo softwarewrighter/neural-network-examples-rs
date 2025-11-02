@@ -22,18 +22,22 @@ web-sys = { version = "0.3", features = [
     "Window",
     "Event",
     "EventTarget",
+    "Request",
+    "RequestInit",
+    "RequestMode",
+    "Response",
+    "Headers",
 ] }
 
-# Utilities
-gloo-timers = "0.3"
-gloo-net = "0.6"
+#Utilities
+gloo-timers = { version = "0.3", features = ["futures"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 serde-wasm-bindgen = "0.6"
 console_error_panic_hook = "0.1"
 
 # Local dependencies
-neural-net-animator = { path = ".." }
+neural-net-animator = { path = "..", default-features = false }
 neural-net-core = { path = "../../neural-net-core" }
 neural-net-types = { path = "../../neural-net-types" }
 neural-net-viz = { path = "../../neural-net-viz" }

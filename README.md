@@ -2,6 +2,14 @@
 
 A comprehensive machine learning demonstration platform built in Rust, showcasing neural network architectures and techniques through incremental, educational examples.
 
+## Live Demo
+
+**[View Live Demo](https://softwarewrighter.github.io/neural-network-examples-rs/)** - Interactive neural network animation built with Yew/WASM
+
+![Neural Network Animator Demo](images/demo-screenshot.png)
+
+The demo runs entirely in your browser (no backend required) and shows an animated XOR training visualization.
+
 ## Vision
 
 This project aims to create an **educational ML platform** with:
@@ -41,10 +49,15 @@ This project aims to create an **educational ML platform** with:
 
 ## Quick Start
 
+### Try the Live Demo
+
+Visit **[https://softwarewrighter.github.io/neural-network-examples-rs/](https://softwarewrighter.github.io/neural-network-examples-rs/)** to see the interactive neural network animator in action.
+
 ### Prerequisites
 
 - Rust 1.70+ ([Install Rust](https://www.rust-lang.org/tools/install))
 - Cargo (included with Rust)
+- Trunk (for building the demo): `cargo install trunk`
 
 ### Build & Test
 
@@ -64,6 +77,16 @@ cargo clippy -- -D warnings
 
 # Generate documentation
 cargo doc --open
+```
+
+### Build and Serve the Demo Locally
+
+```bash
+# Build the WASM demo
+bash scripts/build-demo.sh
+
+# Serve locally at http://127.0.0.1:8080
+bash scripts/serve-demo.sh
 ```
 
 ### Try the XOR Example
@@ -140,7 +163,8 @@ neural-network-examples-rs/
 │           ├── xor_initial.svg
 │           ├── xor_manual_attempt1.svg
 │           └── xor_manual_attempt2.svg
-├── docs/                  # Documentation (see below)
+├── documentation/         # Project documentation (process, architecture, planning)
+├── docs/                  # GitHub Pages build output (static site)
 ├── research/              # C++ reference code (gitignored artifacts)
 ├── samples/               # Training/test data
 └── Cargo.toml            # Workspace configuration
@@ -148,14 +172,15 @@ neural-network-examples-rs/
 
 ## Documentation
 
-Comprehensive documentation is available in the `docs/` directory:
+Comprehensive documentation is available in the `documentation/` directory:
 
-- **[docs/architecture.md](docs/architecture.md)** - Technical architecture, design decisions, and patterns
-- **[docs/PRD.md](docs/PRD.md)** - Product requirements, goals, success metrics, and roadmap
-- **[docs/plan.md](docs/plan.md)** - Detailed 6-phase implementation plan with tasks and timelines
-- **[docs/learnings.md](docs/learnings.md)** - Key decisions, rationale, and lessons learned
+- **[documentation/process.md](documentation/process.md)** - **READ FIRST** - MANDATORY development process and requirements
+- **[documentation/architecture.md](documentation/architecture.md)** - Technical architecture, design decisions, and patterns
+- **[documentation/PRD.md](documentation/PRD.md)** - Product requirements, goals, success metrics, and roadmap
+- **[documentation/plan.md](documentation/plan.md)** - Detailed 6-phase implementation plan with tasks and timelines
+- **[documentation/learnings.md](documentation/learnings.md)** - Key decisions, rationale, and lessons learned
 
-**Start here:** Read `docs/PRD.md` for project goals, then `docs/architecture.md` for technical details.
+**Start here:** Read `documentation/process.md` for development requirements, then `documentation/PRD.md` for project goals, then `documentation/architecture.md` for technical details.
 
 ## Roadmap
 

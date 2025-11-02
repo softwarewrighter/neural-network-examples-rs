@@ -45,10 +45,7 @@ impl AnimationScript {
 
     /// Get cumulative time at start of scene
     pub fn scene_start_time(&self, scene_idx: usize) -> f64 {
-        self.scenes.iter()
-            .take(scene_idx)
-            .map(|s| s.duration)
-            .sum()
+        self.scenes.iter().take(scene_idx).map(|s| s.duration).sum()
     }
 }
 
@@ -225,7 +222,7 @@ pub enum AnnotationType {
 #[serde(untagged)]
 pub enum AnnotationPosition {
     /// Fixed position name
-    Named(String),  // "top", "bottom-left", etc.
+    Named(String), // "top", "bottom-left", etc.
 
     /// Exact coordinates
     Coords { x: f32, y: f32 },
@@ -309,21 +306,19 @@ mod tests {
                 output_size: 1,
             },
             truth_table: None,
-            scenes: vec![
-                Scene {
-                    id: "test".to_string(),
-                    duration: 5.0,
-                    network_state: NetworkState {
-                        checkpoint_path: "test.json".to_string(),
-                        iteration: 0,
-                        test_results: None,
-                        weight_data: None,
-                    },
-                    annotations: vec![],
-                    highlights: vec![],
-                    transition: TransitionType::Fade,
+            scenes: vec![Scene {
+                id: "test".to_string(),
+                duration: 5.0,
+                network_state: NetworkState {
+                    checkpoint_path: "test.json".to_string(),
+                    iteration: 0,
+                    test_results: None,
+                    weight_data: None,
                 },
-            ],
+                annotations: vec![],
+                highlights: vec![],
+                transition: TransitionType::Fade,
+            }],
         };
 
         let json = serde_json::to_string_pretty(&script).unwrap();

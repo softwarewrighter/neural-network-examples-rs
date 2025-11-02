@@ -209,7 +209,8 @@ mod tests {
         let mut layer = Layer::new(1, 2, Some(3));
 
         // Valid weights
-        let valid_weights = Array2::from_shape_vec((3, 2), vec![0.1, 0.2, 0.3, 0.4, 0.5, 0.6]).unwrap();
+        let valid_weights =
+            Array2::from_shape_vec((3, 2), vec![0.1, 0.2, 0.3, 0.4, 0.5, 0.6]).unwrap();
         assert!(layer.set_weights(valid_weights).is_ok());
 
         // Invalid dimension

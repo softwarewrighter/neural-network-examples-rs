@@ -37,7 +37,9 @@
 //! - Learning rate: 0.5 (standard)
 //! - Target error: <0.1
 
-use neural_net_core::{FeedForwardNetwork, ForwardPropagation, NetworkTraining, NetworkMetadata, Result};
+use neural_net_core::{
+    FeedForwardNetwork, ForwardPropagation, NetworkMetadata, NetworkTraining, Result,
+};
 use neural_net_viz::{NetworkVisualization, VisualizationConfig};
 use std::fs;
 
@@ -63,16 +65,24 @@ fn main() -> Result<()> {
         vec![1.0, 1.0, 1.0], // 3 ones -> majority 1
     ];
     let majority_targets = vec![
-        vec![0.0], vec![0.0], vec![0.0], vec![1.0],
-        vec![0.0], vec![1.0], vec![1.0], vec![1.0]
+        vec![0.0],
+        vec![0.0],
+        vec![0.0],
+        vec![1.0],
+        vec![0.0],
+        vec![1.0],
+        vec![1.0],
+        vec![1.0],
     ];
 
     println!("3-Input Majority Truth Table:");
     println!("  A  B  C | Majority");
     println!("  --------|----------");
     for (input, target) in majority_inputs.iter().zip(&majority_targets) {
-        println!("  {}  {}  {} |    {}",
-            input[0] as u8, input[1] as u8, input[2] as u8, target[0] as u8);
+        println!(
+            "  {}  {}  {} |    {}",
+            input[0] as u8, input[1] as u8, input[2] as u8, target[0] as u8
+        );
     }
     println!();
 
@@ -96,7 +106,13 @@ fn main() -> Result<()> {
     println!("Target error: 0.1");
     println!("Max iterations: 5000\n");
 
-    let iterations = network.train_by_error(&majority_inputs, &majority_targets, 0.5, Some(0.1), Some(5000))?;
+    let iterations = network.train_by_error(
+        &majority_inputs,
+        &majority_targets,
+        0.5,
+        Some(0.1),
+        Some(5000),
+    )?;
 
     println!("\nTraining completed in {} iterations", iterations);
 
@@ -144,8 +160,7 @@ fn test_network(
 
         println!(
             "  {} {} {}    {:.1}     {:.4}   {:.4}",
-            input[0] as u8, input[1] as u8, input[2] as u8,
-            target[0], output[0], error
+            input[0] as u8, input[1] as u8, input[2] as u8, target[0], output[0], error
         );
     }
 
@@ -181,14 +196,16 @@ mod tests {
     #[test]
     fn test_majority3_truth_table() {
         // Verify our truth table is correct
-        let inputs = [vec![0.0, 0.0, 0.0],
+        let inputs = [
+            vec![0.0, 0.0, 0.0],
             vec![0.0, 0.0, 1.0],
             vec![0.0, 1.0, 0.0],
             vec![0.0, 1.0, 1.0],
             vec![1.0, 0.0, 0.0],
             vec![1.0, 0.0, 1.0],
             vec![1.0, 1.0, 0.0],
-            vec![1.0, 1.0, 1.0]];
+            vec![1.0, 1.0, 1.0],
+        ];
         let expected = vec![0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0];
 
         for (input, &expected_output) in inputs.iter().zip(&expected) {
@@ -207,17 +224,25 @@ mod tests {
         // Negative test: Untrained network should produce high error
         let mut network = FeedForwardNetwork::new(3, 4, 1);
 
-        let inputs = [vec![0.0, 0.0, 0.0],
+        let inputs = [
+            vec![0.0, 0.0, 0.0],
             vec![0.0, 0.0, 1.0],
             vec![0.0, 1.0, 0.0],
             vec![0.0, 1.0, 1.0],
             vec![1.0, 0.0, 0.0],
             vec![1.0, 0.0, 1.0],
             vec![1.0, 1.0, 0.0],
-            vec![1.0, 1.0, 1.0]];
+            vec![1.0, 1.0, 1.0],
+        ];
         let targets = vec![
-            vec![0.0], vec![0.0], vec![0.0], vec![1.0],
-            vec![0.0], vec![1.0], vec![1.0], vec![1.0]
+            vec![0.0],
+            vec![0.0],
+            vec![0.0],
+            vec![1.0],
+            vec![0.0],
+            vec![1.0],
+            vec![1.0],
+            vec![1.0],
         ];
 
         let mut total_error = 0.0;
@@ -247,8 +272,14 @@ mod tests {
             vec![1.0, 1.0, 1.0],
         ];
         let targets = vec![
-            vec![0.0], vec![0.0], vec![0.0], vec![1.0],
-            vec![0.0], vec![1.0], vec![1.0], vec![1.0]
+            vec![0.0],
+            vec![0.0],
+            vec![0.0],
+            vec![1.0],
+            vec![0.0],
+            vec![1.0],
+            vec![1.0],
+            vec![1.0],
         ];
 
         let mut network = FeedForwardNetwork::new(3, 4, 1);

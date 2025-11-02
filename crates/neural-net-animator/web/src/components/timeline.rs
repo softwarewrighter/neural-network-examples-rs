@@ -2,7 +2,7 @@
 
 use neural_net_animator::Timeline;
 use wasm_bindgen::JsCast;
-use web_sys::{InputEvent, HtmlInputElement};
+use web_sys::{HtmlInputElement, InputEvent};
 use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -17,7 +17,10 @@ pub fn timeline_component(props: &TimelineComponentProps) -> Html {
     let on_seek = {
         let timeline = timeline.clone();
         Callback::from(move |e: InputEvent| {
-            if let Some(input) = e.target().and_then(|t| t.dyn_into::<HtmlInputElement>().ok()) {
+            if let Some(input) = e
+                .target()
+                .and_then(|t| t.dyn_into::<HtmlInputElement>().ok())
+            {
                 if let Ok(progress) = input.value().parse::<f64>() {
                     let mut t = (*timeline).clone();
                     t.seek_to_progress(progress / 100.0);

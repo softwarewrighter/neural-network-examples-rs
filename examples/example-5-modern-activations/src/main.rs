@@ -20,8 +20,8 @@
 //! - When to use each activation function
 
 use neural_net_core::{
-    FeedForwardNetwork, ForwardPropagation, NetworkTraining, NetworkMetadata, Result,
-    Activation, Sigmoid, ReLU, LeakyReLU, GELU, Swish, Tanh,
+    Activation, FeedForwardNetwork, ForwardPropagation, LeakyReLU, NetworkMetadata,
+    NetworkTraining, ReLU, Result, Sigmoid, Swish, Tanh, GELU,
 };
 use neural_net_viz::{NetworkVisualization, VisualizationConfig};
 use std::fs;
@@ -251,7 +251,10 @@ fn train_with_different_activations(checkpoints_dir: &str, images_dir: &str) -> 
         let mean_error = total_error / inputs.len() as f32;
         println!(
             "  Mean error: {:.6}  |  Accuracy: {}/{} ({:.1}%)",
-            mean_error, correct, inputs.len(), accuracy
+            mean_error,
+            correct,
+            inputs.len(),
+            accuracy
         );
 
         if accuracy == 100.0 {
@@ -262,7 +265,8 @@ fn train_with_different_activations(checkpoints_dir: &str, images_dir: &str) -> 
 
         // Save trained state
         println!("  Saving trained network state...");
-        let metadata_trained = NetworkMetadata::checkpoint("XOR (Sigmoid)", iterations, Some(accuracy));
+        let metadata_trained =
+            NetworkMetadata::checkpoint("XOR (Sigmoid)", iterations, Some(accuracy));
         let checkpoint_path = format!("{}/xor_sigmoid_trained.json", checkpoints_dir);
         network.save_checkpoint(&checkpoint_path, metadata_trained.clone())?;
 
@@ -294,7 +298,11 @@ mod tests {
     use super::*;
 
     /// Helper function to compute mean absolute error
-    fn compute_mean_error(network: &mut FeedForwardNetwork, inputs: &[Vec<f32>], targets: &[Vec<f32>]) -> f32 {
+    fn compute_mean_error(
+        network: &mut FeedForwardNetwork,
+        inputs: &[Vec<f32>],
+        targets: &[Vec<f32>],
+    ) -> f32 {
         let mut total_error = 0.0;
         for (input, target) in inputs.iter().zip(targets) {
             let output = network.forward(input).unwrap();
@@ -344,10 +352,7 @@ mod tests {
             .unwrap();
 
         assert!(iterations > 0, "Should train for at least 1 iteration");
-        assert!(
-            iterations <= 10000,
-            "Should complete within max iterations"
-        );
+        assert!(iterations <= 10000, "Should complete within max iterations");
 
         let mean_error = compute_mean_error(&mut network, &inputs, &targets);
 

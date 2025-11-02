@@ -1,3 +1,12 @@
+[package]
+name = "neural-network-examples-rs"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
 [workspace]
 resolver = "2"
 members = [
@@ -37,3 +46,7 @@ chrono = { version = "0.4", features = ["serde"] }
 # Development dependencies
 approx = "0.5"
 criterion = "0.5"
+walkdir = "2.4"
+
+[dev-dependencies]
+walkdir = { workspace = true }

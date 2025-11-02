@@ -1,7 +1,6 @@
 //! Neural Network Animator - Yew WASM Frontend
 
 use wasm_bindgen::prelude::*;
-use yew::prelude::*;
 
 mod components;
 use components::app::App;
