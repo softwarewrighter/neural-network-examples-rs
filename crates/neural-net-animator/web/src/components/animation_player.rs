@@ -169,7 +169,7 @@ async fn load_animation_script() -> Result<AnimationScript, String> {
     opts.set_method("GET");
     opts.set_mode(RequestMode::Cors);
 
-    let request = Request::new_with_str_and_init("/scripts/xor_animation.json", &opts)
+    let request = Request::new_with_str_and_init("scripts/xor_animation.json", &opts)
         .map_err(|e| format!("Failed to create request: {:?}", e))?;
 
     let resp_value = JsFuture::from(window.fetch_with_request(&request))
@@ -203,8 +203,7 @@ async fn load_and_render_checkpoint(checkpoint_path: &str) -> Result<String, Str
     opts.set_method("GET");
     opts.set_mode(RequestMode::Cors);
 
-    let url = format!("/{}", checkpoint_path);
-    let request = Request::new_with_str_and_init(&url, &opts)
+    let request = Request::new_with_str_and_init(checkpoint_path, &opts)
         .map_err(|e| format!("Failed to create request: {:?}", e))?;
 
     let resp_value = JsFuture::from(window.fetch_with_request(&request))
